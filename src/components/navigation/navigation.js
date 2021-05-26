@@ -1,3 +1,5 @@
+import Rate from '../rate/rate';
+
 export default function Navigation(props) {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Navigation(props) {
           onClick={() => props.onRestaurantClick(restaurant.id)}
         >
           {restaurant.name}
+          <Rate />
         </button>
       ))}
     </div>
