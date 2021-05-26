@@ -4,7 +4,6 @@ import style from './reviews.module.css';
 function Reviews(props) {
   const [sumRate, setSumRate] = useState(0);
 
-  // Вычисляем среднюю арифметическую по рейтингу
   useEffect(() => {
     setSumRate(
       (
@@ -14,7 +13,6 @@ function Reviews(props) {
     );
   }, [props.reviews]);
 
-  // Мапим все отзывы
   const reviewsList = props.reviews.map((review) => {
     return (
       <div className={style.card} key={review.id}>
