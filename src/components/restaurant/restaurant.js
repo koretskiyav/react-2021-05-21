@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Menu from '../menu';
 import Reviews from '../reviews';
+import Rate from '../rate';
 
 import style from './restaurant.module.css';
 
@@ -9,7 +10,7 @@ const Tabs = {
   REVIEWS: 'REVIEWS',
 };
 
-function Restaurant({ restaurant: { menu, reviews } }) {
+function Restaurant({ restaurant: { name, menu, reviews } }) {
   const [activeTab, setActiveTab] = useState(Tabs.MENU);
 
   useEffect(() => {
@@ -27,8 +28,17 @@ function Restaurant({ restaurant: { menu, reviews } }) {
     }
   };
 
+  const averageRating = () => {
+    const totalStars = reviews.reduce((acc, review) => acc += review.rating, 0);
+    return Math.floor(totalStars / reviews.length);
+  };
+
   return (
     <>
+      <div>
+        <h2>{ name }</h2>
+        <Rate rate={averageRating()} />
+      </div>
       <div className={style['buttons-group']}>
         <button
           data-id={Tabs.MENU}
