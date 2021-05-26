@@ -1,0 +1,14 @@
+.starGold {
+  width: 20px;
+  height: 20px;
+}
+.starGray {
+  width: 20px;
+  height: 20px;
+}
+.starGold path {
+  fill: gold;
+}
+.starGray path {
+  fill:gray;
+}
