@@ -1,0 +1,12 @@
+.card {
+  margin: 12px;
+  padding: 12px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+.user {
+  font-weight: 500;
+  border-bottom: 1px solid gray;
+  padding-bottom: 10px;
+}
