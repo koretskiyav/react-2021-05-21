@@ -1,0 +1,9 @@
+.star {
+  width: 20px;
+  height: 20px;
+  vertical-align: bottom;
+}
+
+.star path {
+  fill: blueviolet;
+}

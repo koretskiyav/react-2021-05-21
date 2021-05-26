@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
-import Menu from './menu';
+import { useState, useMemo, Fragment } from 'react';
 import Navigation from './navigation';
+import Restaurant from './Restaurant';
 
 export default function Restaurants(props) {
   const [activeId, setActiveId] = useState(props.restaurants[0].id);
@@ -11,12 +11,12 @@ export default function Restaurants(props) {
   );
 
   return (
-    <div>
+    <Fragment>
       <Navigation
         restaurants={props.restaurants}
         onRestaurantClick={setActiveId}
       />
-      <Menu menu={activeRestaurant.menu} />
-    </div>
+      <Restaurant restaurant={activeRestaurant} />
+    </Fragment>
   );
 }
