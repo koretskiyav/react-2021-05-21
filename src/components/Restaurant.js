@@ -26,7 +26,7 @@ export default function Restaurant({ restaurant }) {
       <Menu menu={restaurant.menu} />
 
       <h1>Average rating:</h1>
-      <Rate value={averageRating} />
+      <Rate rating={averageRating} />
 
       <h1>Reviews:</h1>
       <Reviews reviews={restaurant.reviews} />

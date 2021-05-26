@@ -7,7 +7,7 @@ export default function Reviews({ reviews }) {
       <div>Author: {review.user}</div>
       <div>Text: {review.text}</div>
       <div>
-        Rating: <Rate value={review.rating} />
+        Rating: <Rate rating={review.rating} />
       </div>
     </div>
   ));
