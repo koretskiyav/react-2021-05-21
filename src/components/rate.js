@@ -1,15 +1,16 @@
 import { ReactComponent as Star } from '../icons/star.svg';
+import style from './rate.module.css';
 
 export default function Rate(props) {
+  let starItems = [];
 
-  const StarItems = () => {
-    for (let index = 0; index < props.value; index++) {
-    return <Star key={index} width={30} height={30}/>
-  }}
+  for (let index = 0; index < props.value; index++) {
+    starItems.push(<Star key={index} className={style.star}/>)
+  }
 
   return (
     <span>
-      {StarItems}
+      {starItems}
     </span>
   );
 }
