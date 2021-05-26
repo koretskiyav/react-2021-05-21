@@ -1,0 +1,11 @@
+.icon {
+  height: inherit;
+  width: inherit;
+}
+
+.iconContrainer {
+  height: 12px;
+  width: 12px;
+  float: left;
+  margin-right: 4px;
+}
