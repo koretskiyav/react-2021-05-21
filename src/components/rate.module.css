@@ -1,0 +1,13 @@
+.icon {
+    height: 32px;
+    width: 32px;
+}
+
+.icon path {
+    fill: transparent;
+    stroke: black;
+}
+
+.icon_active path {
+    fill: gold;
+}
