@@ -1,0 +1,27 @@
+.card {
+    margin: 12px;
+    padding: 12px;
+    background-color: #cdf5ec;
+    border: 1px solid #131212;
+    border-radius: 12px;
+}
+
+.color1 {
+    color: #00000b;
+}
+
+.color2 {
+    color: #a56ccf;
+}
+
+.color3 {
+    color: #ff0048;
+}
+
+.color4 {
+    color: #0670da;
+}
+
+.color5 {
+    color: #088a03;
+}
