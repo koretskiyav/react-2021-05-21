@@ -4,7 +4,7 @@ export default function Navigation(props) {
       {props.restaurants.map((restaurant) => (
         <button
           key={restaurant.id}
-          onClick={() => props.onRestaurantClick(restaurant.id)}
+          onClick={() => props.onRestaurantClick(restaurant.id)} 
         >
           {restaurant.name}
         </button>
