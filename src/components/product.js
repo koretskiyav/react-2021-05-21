@@ -4,10 +4,10 @@ import style from './product.module.css';
 
 import { ReactComponent as Minus } from '../icons/minus.svg';
 import { ReactComponent as Plus } from '../icons/plus.svg';
+import Rate from './rate';
 
 function Product(props) {
   const { amount, decrement, increment } = props;
-
   return (
     <div className={style.card}>
       <p>{props.product.name}</p>
