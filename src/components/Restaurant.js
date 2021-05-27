@@ -16,6 +16,8 @@ export default function Restaurant({ restaurant }) {
     return <Fragment>No data</Fragment>;
   }
 
+  // useMemo will not faster: on each render it will compare each rating value with each stored rating value
+  // calculate average on each render looks faster
   const averageRating = calculateAverage(
     restaurant.reviews?.map((review) => review.rating)
   );
