@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   xmlns="http://www.w3.org/2000/svg"
+   fill="none"
+>
+
+    <linearGradient id="grad" x1="0" x2="0" y1="0" y2="100%">
+        <stop offset="50%" stop-color="grey"/>
+        <stop offset="50%" stop-color="white"/>
+    </linearGradient>
+
+   <path
+      id="path31"
+      d="m 211.15358,160.74917 -39.54015,-20.8385 -39.58218,20.75856 7.60002,-44.04437 -31.97414,-31.230142 44.23723,-6.382414 19.82107,-40.059854 19.74009,40.099825 44.22424,6.471789 -32.03718,31.165466 z"
+      transform="matrix(0.25050625,0,0,0.25050625,-26.238142,-8.8230223)"
+   />
+</svg>
