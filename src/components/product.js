@@ -1,3 +1,4 @@
+import React from 'react';
 import counter from '../hocs/counter';
 
 import style from './product.module.css';
