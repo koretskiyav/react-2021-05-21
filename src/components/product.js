@@ -7,6 +7,7 @@ import { ReactComponent as Plus } from '../icons/plus.svg';
 
 function Product(props) {
   const { amount, decrement, increment } = props;
+  console.log(props);
 
   return (
     <div className={style.card}>

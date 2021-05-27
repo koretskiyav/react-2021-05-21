@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import Menu from './menu';
 import Navigation from './navigation';
+
+import Restaurant from './restaurant';
 
 export default function Restaurants(props) {
   const [activeId, setActiveId] = useState(props.restaurants[0].id);
@@ -16,7 +17,18 @@ export default function Restaurants(props) {
         restaurants={props.restaurants}
         onRestaurantClick={setActiveId}
       />
-      <Menu menu={activeRestaurant.menu} />
+      <Restaurant activeRestaurant = {activeRestaurant} />
     </div>
   );
+
+  /*return (
+    <div>
+      <Navigation
+        restaurants={props.restaurants}
+        onRestaurantClick={setActiveId}
+      />
+      <Reviews reviews = {activeRestaurant.reviews} />
+      <Menu menu={activeRestaurant.menu} />
+    </div>
+  );*/
 }
