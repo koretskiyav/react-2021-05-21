@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.start {
+  margin-right: 10px;
+}
