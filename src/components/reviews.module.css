@@ -1,0 +1,14 @@
+.card {
+  margin: 12px;
+  padding: 12px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.comment {
+  border: gray solid 1px;
+  padding: 10px;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+}
