@@ -1,0 +1,12 @@
+.active path {
+    fill: #ffc107;
+}
+
+.inactive path {
+    fill: #b8b8b8;
+}
+
+.active,
+.inactive {
+    margin-right: 5px;
+}
