@@ -3,16 +3,17 @@ import Reviews from './reviews';
 import Rate from './rate';
 
 export default function Restaurant(props) {
-  const restaurantRatingsSum = props.restaurant.reviews.reduce((accumulator, review) => {
-    return accumulator + review.rating
-  }, 0);
-  const restaurantAverageRating = Math.round(restaurantRatingsSum / props.restaurant.reviews.length);
+
+  const { name, menu, reviews } = props.restaurant
+
+  const restaurantRatingsSum = reviews.reduce((accumulator, { rating }) => accumulator + rating, 0);
+  const restaurantAverageRating = Math.round(restaurantRatingsSum / reviews.length);
 
   return (
     <div>
-      <center><h2>{props.restaurant.name} <Rate value={restaurantAverageRating} /></h2></center>
-      <Menu menu={props.restaurant.menu} />
-      <Reviews reviews={props.restaurant.reviews} />
+      <center><h2>{name} <Rate value={restaurantAverageRating} /></h2></center>
+      <Menu menu={menu} />
+      <Reviews reviews={reviews} />
     </div>
   );
 }
