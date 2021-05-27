@@ -9,3 +9,14 @@
 .icon path {
   fill: blueviolet;
 }
+
+.star {
+  fill: blueviolet;
+  width: 20px;
+  height: 20px;
+}
+
+.emptyStar {
+  width: 20px;
+  height: 20px;
+}
