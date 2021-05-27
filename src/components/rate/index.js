@@ -6,7 +6,7 @@ import './style.css'
 export default class Rate extends PureComponent {
 
   render() {
-    const starCnt = clump(this.props.rating, 0, 5)
+    const starCnt = Math.round(clump(this.props.rating, 0, 5))
     return (
       <div>
         {[...Array(starCnt).keys()].map((r, i) => 
