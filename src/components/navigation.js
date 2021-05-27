@@ -6,7 +6,6 @@ export default function Navigation(props) {
           key={restaurant.id}
           onClick={() => props.onRestaurantClick(restaurant.id)}
         >
-          asdasdasdasdads
           {restaurant.name}
         </button>
       ))}
