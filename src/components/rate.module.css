@@ -1,0 +1,17 @@
+.rateBar {
+  margin: 0 10px;  
+}
+
+.star,
+.star--active {
+  width: 1em;
+  height: 1em;
+}
+
+.star polygon {
+  fill: #ccc;
+}
+
+.star--active polygon {
+  fill: #FAC917;
+}
