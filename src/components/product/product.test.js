@@ -26,6 +26,13 @@ describe('Product', () => {
     expect(wrapper.find('[data-id="product-amount"]').text()).toBe('1');
   });
 
+  it('should decrement amount 0 will stay 0', () => {
+    const wrapper = mount(<Product product={product} />);
+
+    wrapper.find('[data-id="product-decrement"]').simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('0');
+  });
+
   it('should decrement amount #1', () => {
     const wrapper = mount(<Product product={product} />);
 
@@ -41,7 +48,8 @@ describe('Product', () => {
     const wrapper = mount(<Product product={product} amount={3} />);
     expect(wrapper.find('[data-id="product-amount"]').text()).toBe('3');
 
-    // Has no affect - it doesn't change props in this component
+    // ???
+    // This approach has no affect - it doesn't change props in Product component
     // const newProps = { ...product };
     // newProps.amount = 5;
     // wrapper.setProps(newProps);
