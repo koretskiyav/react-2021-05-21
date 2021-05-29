@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 
 import { ReactComponent as Star } from '../../icons/star.svg';
 
@@ -16,3 +17,7 @@ const Rate = ({ value }) => (
 );
 
 export default Rate;
+
+Rate.propTypes = {
+  value: PropTypes.number.isRequired
+};
