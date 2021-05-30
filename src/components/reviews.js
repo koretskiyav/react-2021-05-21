@@ -1,21 +1,27 @@
 import s from './reviews.module.css';
+import { useMemo } from 'react';
 import Rate from './rate';
 
 export default function Reviews(props) {
   const { reviews } = props;
-  let result = 0;
 
-  reviews.forEach(item => result += item.rating);
-
-  const avgRating = Math.floor(result / reviews.length);
+  const avgRating = useMemo(() => {
+    const sum = reviews.reduce((acc, { rating }) => acc + rating, 0);
+    return Math.floor(sum / reviews.length);
+  }, [reviews]);
 
   return (
     <>
       {
         reviews.map(item =>
           <div className={s.card} key={item.id}>
-            <p>{item?.user}</p>
-            <p>{item?.text}</p>
+            <div className='user__container'>
+              <p>{item?.user}</p>
+              <p>{item?.text}</p>
+            </div>
+            <div className='rate__container'>
+              <Rate value={item.rating} />
+            </div>
           </div>
         )
       }
