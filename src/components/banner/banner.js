@@ -1,4 +1,5 @@
 import styles from './banner.module.css';
+import PropTypes from 'prop-types';
 
 import banner from './banner.jpg';
 
@@ -14,3 +15,8 @@ const Banner = ({ heading, description, children }) => (
 );
 
 export default Banner;
+
+Banner.propTypes = {
+  heading: PropTypes.string.isRequired,
+  description: PropTypes.string,
+};
