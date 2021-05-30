@@ -1,4 +1,5 @@
 export default function Navigation(props) {
+  console.log(props);
   return (
     <div>
       {props.restaurants.map((restaurant) => (
@@ -7,7 +8,7 @@ export default function Navigation(props) {
           onClick={() => props.onRestaurantClick(restaurant.id)}
         >
           {restaurant.name}
-        </button>
+        </button>        
       ))}
     </div>
   );

@@ -20,6 +20,8 @@ export const restaurants = [
         name: 'Samosa',
         price: 8,
         ingredients: ['chicken', 'bread'],
+
+        
       },
     ],
     reviews: [
