@@ -12,3 +12,7 @@ export default class App extends PureComponent {
     );
   }
 }
+
+// Restaurant.propTypes = {
+//   restaurants - not used, passed Restaurants
+// };

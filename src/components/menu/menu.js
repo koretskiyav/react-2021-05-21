@@ -8,9 +8,12 @@ class Menu extends Component {
   static propTypes = {
     menu: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired
-    ).isRequired,
+        id: PropTypes.string.isRequired, // for "key={product.id}"
+      })
+      // .isRequired - "filter((i) => i)" will skip null/undefined
+    ),
+    // menu.ArrayIsNotEmpty - empty array markup will confuse clients, support this value in markup
+    // menu.isRequired - null/undefined can be handled as ArrayIsNotEmpty
   };
 
   state = { error: null };
@@ -29,9 +32,13 @@ class Menu extends Component {
     return (
       <div className={styles.menu}>
         <div>
-          {menu.map((product) => (
-            <Product key={product.id} product={product} />
-          ))}
+          {!menu || !menu.length
+            ? 'Menu is not available'
+            : menu
+                .filter((i) => i)
+                .map((product) => (
+                  <Product key={product.id} product={product} />
+                ))}
         </div>
       </div>
     );
