@@ -5,14 +5,6 @@ import Product from '../product';
 import styles from './menu.module.css';
 
 class Menu extends Component {
-  static propTypes = {
-    menu: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired
-    ).isRequired,
-  };
-
   state = { error: null };
 
   componentDidCatch(error) {
@@ -38,12 +30,12 @@ class Menu extends Component {
   }
 }
 
-// Menu.propTypes = {
-//   menu: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//     }).isRequired
-//   ).isRequired,
-// };
+Menu.propTypes = {
+  menu: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+};
 
 export default Menu;

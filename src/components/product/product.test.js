@@ -30,4 +30,25 @@ describe('Product', () => {
     mount(<Product product={product} fetchData={fn} />);
     expect(fn).toBeCalledWith(product.id);
   });
+
+  it('should increment product twice', () => {
+    const wrapper = mount(<Product product={product} />);
+    wrapper
+      .find('[data-id="product-increment"]')
+      .simulate('click')
+      .simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('2');
+  });
+
+  it('should be zero during decrement from the begining', () => {
+    const wrapper = mount(<Product product={product} />);
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper
+      .find('[data-id="product-decrement"]')
+      .simulate('click')
+      .simulate('click')
+      .simulate('click');
+
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('0');
+  });
 });
