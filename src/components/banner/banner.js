@@ -1,5 +1,5 @@
 import styles from './banner.module.css';
-
+import PropTypes from 'prop-types';
 import banner from './banner.jpg';
 
 const Banner = ({ heading, description, children }) => (
@@ -12,5 +12,10 @@ const Banner = ({ heading, description, children }) => (
     </div>
   </div>
 );
+
+Banner.propTypes = {
+  heading: PropTypes.string,
+}
+// не понятно откуда приходят и что за пропы desription и children
 
 export default Banner;
