@@ -3,11 +3,9 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Product from './product';
 import { DataIds } from './product.dataids';
 
-import { restaurants } from '../../fixtures';
-
 Enzyme.configure({ adapter: new Adapter() });
 
-const product = restaurants[0].menu[0];
+// https://blog.sapegin.me/all/react-testing-3-jest-and-react-testing-library/
 
 describe('Product', () => {
   it('<Product />', () => {

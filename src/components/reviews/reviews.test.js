@@ -5,6 +5,8 @@ import { DataIds } from './reviews.dataids';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+// https://blog.sapegin.me/all/react-testing-3-jest-and-react-testing-library/
+
 describe('Reviews', () => {
   it('<Reviews />', () => {
     const wrapper = shallow(<Reviews />);
