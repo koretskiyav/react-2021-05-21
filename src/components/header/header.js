@@ -7,4 +7,8 @@ const Header = () => (
   </header>
 );
 
+// Header.propTypes = {
+//   // no input props
+// };
+
 export default Header;
