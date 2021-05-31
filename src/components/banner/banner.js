@@ -1,5 +1,5 @@
 import styles from './banner.module.css';
-
+import propTypes from 'prop-types';
 import banner from './banner.jpg';
 
 const Banner = ({ heading, description, children }) => (
@@ -12,5 +12,11 @@ const Banner = ({ heading, description, children }) => (
     </div>
   </div>
 );
+
+Banner.propTypes = {
+  heading: propTypes.string,
+  description: propTypes.string,
+  children: propTypes.object,
+}
 
 export default Banner;

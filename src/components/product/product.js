@@ -24,8 +24,12 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
             <div className={styles.count} data-id="product-amount">
               {amount}
             </div>
-            <div className={styles.buttons}>
-              <button className={styles.button} onClick={decrement}>
+            <div className={styles.buttons} data-id="buttons-wrapper">
+              <button
+                className={styles.button}
+                onClick={decrement}
+                data-id="product-decrement"
+              >
                 <Minus />
               </button>
               <button
@@ -45,13 +49,13 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
 
 Product.propTypes = {
   product: PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }).isRequired,
-  amount: PropTypes.number,
-  increment: PropTypes.func,
-  decrement: PropTypes.func,
+  amount: PropTypes.number.isRequired,
+  increment: PropTypes.func.isRequired,
+  decrement: PropTypes.func.isRequired,
 };
 
 export default counter(Product);
