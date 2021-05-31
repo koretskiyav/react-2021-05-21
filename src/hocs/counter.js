@@ -1,6 +1,7 @@
 import useAmount from '../hooks/use-amount';
 
 export default (WrappedComponent) => (props) => {
-  const amountProps = useAmount(0);
+  const { initCounter = 0 } = props;
+  const amountProps = useAmount(initCounter);
   return <WrappedComponent {...props} {...amountProps} />;
 };

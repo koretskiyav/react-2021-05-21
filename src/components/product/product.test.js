@@ -25,6 +25,15 @@ describe('Product', () => {
     expect(wrapper.find('[data-id="product-amount"]').text()).toBe('1');
   });
 
+  it('should decrement amount', () => {
+    const component = mount(<Product product={product} initCounter={4} />);
+    const button = component.find('[data-id="product-decrement"]');
+
+    button.simulate('click');
+
+    expect(component.find('[data-id="product-amount"]').text()).toBe('3');
+  });
+
   it('should fetch data', () => {
     const fn = jest.fn();
     mount(<Product product={product} fetchData={fn} />);
