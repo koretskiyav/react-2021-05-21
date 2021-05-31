@@ -1,5 +1,6 @@
 import Review from './review';
 import styles from './reviews.module.css';
+import PropTypes from 'prop-types';
 
 const Reviews = ({ reviews }) => {
   return (
@@ -9,6 +10,14 @@ const Reviews = ({ reviews }) => {
       ))}
     </div>
   );
+};
+
+Reviews.prototype = {
+  reviews: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    rating: PropTypes.number.isRequired,
+  }),
 };
 
 export default Reviews;
