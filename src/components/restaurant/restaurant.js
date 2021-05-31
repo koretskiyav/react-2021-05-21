@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import Menu from '../menu';
 import Reviews from '../reviews';
@@ -24,6 +25,17 @@ const Restaurant = ({ restaurant }) => {
       </div>
     </div>
   );
+};
+
+Restaurant.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  menu: PropTypes.arrayOf(PropTypes.object),
+  reviews: PropTypes.arrayOf(PropTypes.object),
+};
+
+Restaurant.defaultProps = {
+  id: '00000000-0000-0000-0000-000000000000',
 };
 
 export default Restaurant;
