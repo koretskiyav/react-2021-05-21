@@ -1,4 +1,4 @@
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, { mount /* TODO: change to shallow??? */ } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Product from './product';
 import { DataIds } from './product.dataids';
@@ -88,17 +88,5 @@ describe('Product', () => {
 
     wrapper.find(`[data-id="${DataIds.decrement}"]`).simulate('click');
     expect(wrapper.find(`[data-id="${DataIds.amount}"]`).text()).toBe('0');
-  });
-
-  it('Shallow <Product product={id}/> -> click Decrement', () => {
-    // Shallow doesn't create inner components and test will fail
-    // when I split large Product component into several little parts
-    // I used 'mount' every where
-    //
-    // const wrapper = shallow(<Product product={{ id: '0' }} />);
-    // wrapper.find(`[data-id="${DataIds.decrement}"]`).simulate('click');
-    // expect(wrapper.find(`[data-id="${DataIds.amount}"]`).text()).toBe('0');
-    // wrapper.find(`[data-id="${DataIds.decrement}"]`).simulate('click');
-    // expect(wrapper.find(`[data-id="${DataIds.amount}"]`).text()).toBe('0');
   });
 });
