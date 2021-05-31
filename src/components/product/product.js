@@ -49,13 +49,13 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
 
 Product.propTypes = {
   product: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    price: PropTypes.number,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }).isRequired,
-  amount: PropTypes.number.isRequired,
-  increment: PropTypes.func.isRequired,
-  decrement: PropTypes.func.isRequired,
+  amount: PropTypes.number,
+  increment: PropTypes.func,
+  decrement: PropTypes.func,
 };
 
 export default counter(Product);
