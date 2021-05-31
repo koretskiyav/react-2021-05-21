@@ -30,4 +30,19 @@ describe('Product', () => {
     mount(<Product product={product} fetchData={fn} />);
     expect(fn).toBeCalledWith(product.id);
   });
+
+  it('should decrement amount', () => {
+    const wrapper = mount(<Product product={product} />);
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper.find('[data-id="product-decrement"]').simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('1');
+  });
+
+  it('buttons markup correct', () => {
+    const wrapper = mount(<Product product={product} />);
+    expect(wrapper.find('[data-id="buttons-wrapper"]').html()).toEqual(
+      '<div class="buttons" data-id="buttons-wrapper"><button class="button" data-id="product-decrement"><svg>minus.svg</svg></button><button class="button" data-id="product-increment"><svg>plus.svg</svg></button></div>'
+    );
+  });
 });
