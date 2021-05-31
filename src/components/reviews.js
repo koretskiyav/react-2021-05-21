@@ -11,7 +11,7 @@ export default function Reviews(props) {
             {props.reviews.map((review) => (
                 <li key={review.id} className={style.card}>
                     <strong>{review.user}:</strong> {review.text} 
-                    <Rate key={review.id} review={review.rating}/>
+                    <Rate review={review.rating}/>
                  
                 </li>
             ))}

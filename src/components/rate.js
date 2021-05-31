@@ -3,14 +3,12 @@ import { ReactComponent as Star } from '../icons/star.svg';
 
 
 export default function Rate(props) {
-   const arr =[];
-   arr.length = props.review;
+
     return(
         <div>
-            {[...arr].map((star)=>{
-                 return <Star/>
+            {[props.review.length].map((star)=>{
+                 return <Star key={star}/>
             })}
-            <p>{props.review} </p> 
         </div>     
     )
 
