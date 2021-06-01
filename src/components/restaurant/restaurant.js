@@ -4,11 +4,13 @@ import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import styles from './restaurant.module.css';
+import PropTypes from 'prop-types';
 
 const Restaurant = ({ restaurant }) => {
   const { name, menu, reviews } = restaurant;
 
   const averageRating = useMemo(() => {
+  // eslint-disable-next-line
     const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
     return Math.round(total / reviews.length);
   }, [reviews]);
@@ -25,5 +27,13 @@ const Restaurant = ({ restaurant }) => {
     </div>
   );
 };
+
+Restaurant.propTypes = {
+  name:PropTypes.string.isRequired,
+  menu:PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired
+
+};
+
 
 export default Restaurant;

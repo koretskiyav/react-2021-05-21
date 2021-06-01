@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-//import styles from './product.module.css'; 
-import styles from './review.module.css';
+import styles from './product.module.css'; 
 
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../icons/plus.svg';
