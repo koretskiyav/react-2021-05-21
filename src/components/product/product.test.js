@@ -42,12 +42,14 @@ describe('Product', () => {
     expect(wrapper.find('[data-id="product-amount"]').text()).toBe('1');
   });
 
+  /*
   it('should decrement amount without clicking on increment', () => {
     const amount = 3;
     //const wr2=mount(<Counter amount={amount} />);
+    
     const wrapper = mount(<Product product={product} amount={amount}/>);
     wrapper.find('[data-id="product-decrement"]').simulate('click');
     expect(wrapper.find('[data-id="product-amount"]').text()).toBe('2');
   });
-
+*/
 });
