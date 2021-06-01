@@ -1,8 +1,8 @@
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Product from './product';
-
 import { restaurants } from '../../fixtures';
+import { counter } from '../../hocs/counter';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -29,5 +29,17 @@ describe('Product', () => {
     const fn = jest.fn();
     mount(<Product product={product} fetchData={fn} />);
     expect(fn).toBeCalledWith(product.id);
+  });
+
+  it('should decrement amount with simulate CLICK', () => {
+    const wrapper = mount(<Product product={product} />);
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper.find('[data-id="product-decrement"]').simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('0');
+  });
+
+  it('should decrement amount with NO simulate CLICK', () => {
+    const wrapper = mount(<Product product={product} />);
+    console.log(wrapper.debug());
   });
 });
