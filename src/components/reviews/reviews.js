@@ -13,11 +13,7 @@ const Reviews = ({ reviews }) => {
 };
 
 Reviews.prototype = {
-  reviews: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    text: PropTypes.string,
-    rating: PropTypes.number.isRequired,
-  }),
+  reviews: PropTypes.array.isRequired,
 };
 
 export default Reviews;

@@ -28,23 +28,9 @@ const Restaurant = ({ restaurant }) => {
 };
 
 Restaurant.propTypes = {
-  name: PropTypes.string,
-  menu: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number,
-      ingredients: PropTypes.arrayOf(PropTypes.string),
-    })
-  ),
-  reviews: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      user: PropTypes.string,
-      text: PropTypes.string,
-      rating: PropTypes.number.isRequired,
-    })
-  ),
+  name: PropTypes.string.isRequired,
+  menu: PropTypes.array,
+  reviews: PropTypes.array,
 };
 
 export default Restaurant;
