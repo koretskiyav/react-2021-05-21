@@ -25,7 +25,11 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
               {amount}
             </div>
             <div className={styles.buttons}>
-              <button className={styles.button} onClick={decrement}>
+              <button
+                className={styles.button}
+                onClick={decrement}
+                data-id="product-decrement"
+              >
                 <Minus />
               </button>
               <button
@@ -49,6 +53,8 @@ Product.propTypes = {
     price: PropTypes.number,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }).isRequired,
+  fetchData: PropTypes.func,
+  // from HOC counter
   amount: PropTypes.number,
   increment: PropTypes.func,
   decrement: PropTypes.func,
