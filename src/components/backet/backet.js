@@ -1,67 +1,57 @@
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import styles from './backet.module.css';
+import BacketItem from './backetitem';
 
-function getNonEmptyProductOrders(order, findProductById) {
+function getBacketItems(order, findProductInfoById) {
   return !order
     ? []
     : Object.keys(order)
         .filter((key) => order[key] > 0)
         .map((key) => {
-          const product = findProductById(key);
+          const product = findProductInfoById(key);
 
           return {
             productId: key,
             productName: product.name,
+            restaurantName: product.restaurantName,
             productPrice: product.price,
-            cost: product.price * order[key],
-            amount: order[key],
+            itemCost: product.price * order[key],
+            productAmount: order[key],
           };
         });
 }
 
-const Backet = ({ order, findProductById }) => {
+const Backet = ({ order, findProductInfoById }) => {
   // TODO: useMemo(.., [order])
   // TODO: pass via props
   // HOC?
-  const nonEmptyProductOrders = getNonEmptyProductOrders(
-    order,
-    findProductById
-  );
+  const backetItems = getBacketItems(order, findProductInfoById);
 
   // TODO: useMemo(.., [order])
   // TODO: pass via props
   // HOC?
-  const backetTotal = nonEmptyProductOrders.reduce(
-    (acc, item) => acc + item.amount * item.productPrice,
-    0
-  );
+  const backetTotal = backetItems.reduce((acc, item) => acc + item.productAmount * item.productPrice, 0);
 
   return (
     <div className={styles.backet}>
       <div>
         Ваша корзина:
         <span className={styles.content}>
-          {nonEmptyProductOrders.length === 0 ? (
+          {!backetItems || backetItems.length === 0 ? (
             <span key="empty">нет товаров</span>
           ) : (
-            <div>
-              {nonEmptyProductOrders.map((productOrder) => (
-                // TODO: extract to <ProductOrder>
-                <span
-                  key={productOrder.productId}
-                  className={styles.productOrder}
-                >
-                  <span>
-                    <span className={styles.productOrder_productName}>
-                      {productOrder.productName}
+            <Fragment>
+              {backetItems.map(
+                (item) =>
+                  item && (
+                    <span key={item.productId} className={styles.backetItem}>
+                      <BacketItem {...item}></BacketItem>
                     </span>
-                    -{productOrder.amount}шт,${productOrder.cost}
-                  </span>
-                </span>
-              ))}
-              (<span className={styles.total}>Общая стоимость:</span>$
-              {backetTotal})
-            </div>
+                  )
+              )}
+              (<span className={styles.total}>Общая стоимость:</span>${backetTotal})
+            </Fragment>
           )}
         </span>
       </div>

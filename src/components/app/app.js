@@ -9,7 +9,9 @@ export default class App extends PureComponent {
     return (
       <div>
         <Header />
-        <Backet findProductById={this.props.restaurants.findProductById} />
+        <Backet
+          findProductInfoById={this.props.restaurants.findProductInfoById}
+        />
         <Restaurants restaurants={this.props.restaurants} />
       </div>
     );
