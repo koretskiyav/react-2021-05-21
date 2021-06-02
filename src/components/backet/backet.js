@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import styles from './backet.module.css';
@@ -5,6 +6,7 @@ import BacketItem from './backetitem';
 import { restaurants } from '../../fixtures';
 
 function getBacketData(order) {
+  console.log('getBacketData');
   const data = {};
   const productInfos = restaurants.findProductInfosById(Object.keys(order || {}).filter((key) => order[key] > 0));
 
@@ -27,13 +29,15 @@ function getBacketData(order) {
 }
 
 const Backet = ({ order }) => {
-  // TODO: useMemo(.., [order])
-  // TODO: pass via props
-  // HOC?
-  const data = getBacketData(order);
+  console.log('Backet');
+  const [checkUseMemo, setCheckUseMemo] = useState(1);
+
+  // TODO: expand properties and pass via props ?
+  const data = useMemo(() => getBacketData(order), [order]);
 
   return (
     <div className={styles.backet}>
+      <button onClick={() => setCheckUseMemo(checkUseMemo + 1)}>check useMemo</button>
       <div>
         Ваша корзина:
         <span>
