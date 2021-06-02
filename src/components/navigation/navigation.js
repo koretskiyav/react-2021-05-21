@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import styles from './navigation.module.css';
+;
 
-const Navigation = ({ restaurants, onRestaurantClick }) => (
+const Navigation = ({ restaurants, onRestaurantClick, onBasketClick }) => (
   <div className={styles.list}>
     {restaurants.map(({ id, name }) => (
       <span
@@ -12,6 +13,7 @@ const Navigation = ({ restaurants, onRestaurantClick }) => (
         {name}
       </span>
     ))}
+      <span  className={styles.basket}  onClick={onBasketClick}>Корзина</span>
   </div>
 );
 

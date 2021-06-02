@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../icons/plus.svg';
-import { decrement, increment } from '../../redux/actions';
+import { ReactComponent as Delete } from '../../icons/delete.svg';
+import { decrement, increment, deleteProduct } from '../../redux/actions';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
+const Product = ({ product, amount, increment, decrement,  fetchData, sumPrice, deleteEnabled, deleteProduct }) => {
   useEffect(() => {
     fetchData && fetchData(product.id);
   }, []); // eslint-disable-line
@@ -18,6 +19,7 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
           <h4 className={styles.title}>{product.name}</h4>
           <p className={styles.description}>{product.ingredients.join(', ')}</p>
           <div className={styles.price}>{product.price} $</div>
+          {sumPrice &&  <div className={styles.price}>Cумма по продукту {sumPrice} $</div>}
         </div>
         <div>
           <div className={styles.counter}>
@@ -39,6 +41,16 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
               >
                 <Plus />
               </button>
+              {
+                deleteEnabled &&
+                <button
+                    className={styles.button}
+                    onClick={deleteProduct}
+                    data-id="product-delete"
+                >
+                  <Delete />
+                </button>
+              }
             </div>
           </div>
         </div>
@@ -58,6 +70,9 @@ Product.propTypes = {
   amount: PropTypes.number,
   increment: PropTypes.func,
   decrement: PropTypes.func,
+  deleteProduct: PropTypes.func,
+  sumPrice: PropTypes.number,
+  deleteEnabled: PropTypes.bool
 };
 
 const mapStateToProps = (state, props) => ({
@@ -72,6 +87,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.product.id)),
   decrement: () => dispatch(decrement(props.product.id)),
+  deleteProduct: () => dispatch(deleteProduct(props.product.id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
