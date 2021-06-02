@@ -1,18 +1,48 @@
 import { DECREMENT, INCREMENT } from '../constants';
 
+const initialState = { basket: [] };
+
 // { [productId]: amount }
-export default (state = 0, action) => {
-  const { type, id } = action;
+export default (state = initialState, action) => {
+  const { type, id, name, price } = action;
+
   switch (type) {
     case INCREMENT:
-      return {
-        ...state,
-        [id]: (state[id] || 0) + 1,
-      };
+      const indexOfExistProductBasketInc = state.basket.findIndex(
+        (el) => el.id === id
+      );
+      const newBasketInc = [...state.basket];
+      if (indexOfExistProductBasketInc > -1) {
+        return {
+          basket: newBasketInc.map((el, ind) => {
+            return ind === indexOfExistProductBasketInc
+              ? ((el.count += 1), (el.price += price))
+              : el;
+          }),
+          ...state,
+        };
+      } else {
+        return {
+          ...state,
+          basket: [
+            ...state.basket,
+            { id: id, name: name, count: 1, price: price },
+          ],
+        };
+      }
+
     case DECREMENT:
+      const indexOfExistProductBasketDec = state.basket.findIndex(
+        (el) => el.id === id
+      );
+      const newBasketDec = [...state.basket];
       return {
+        basket: newBasketDec.map((el, ind) => {
+          return ind === indexOfExistProductBasketDec && el.count > 0
+            ? ((el.count -= 1), (el.price -= price))
+            : el;
+        }),
         ...state,
-        [id]: state[id] > 0 ? state[id] - 1 : (state[id] = 0),
       };
     default:
       return state;

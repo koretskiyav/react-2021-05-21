@@ -22,6 +22,7 @@ class Menu extends Component {
   render() {
     const { menu } = this.props;
 
+    // debugger;
     if (this.state.error) {
       return <p>Сейчас меню этого ресторана недоступно :(</p>;
     }

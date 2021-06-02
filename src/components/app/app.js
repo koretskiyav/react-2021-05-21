@@ -2,14 +2,13 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Restaurants from '../restaurants';
 import Header from '../header';
-import Basket from '../Basket';
 
 export default class App extends PureComponent {
   render() {
+    // debugger;
     return (
       <div>
         <Header />
-        <Basket />
         <Restaurants restaurants={this.props.restaurants} />
       </div>
     );
