@@ -9,7 +9,7 @@ const Backet = ({ order }) => {
   console.log('Backet');
   const [checkUseMemo, setCheckUseMemo] = useState(1);
 
-  // TODO: expand properties and pass via props ?
+  // TODO: move to mapStateToProps and pass 'data' via props ?
   const data = useMemo(
     () => restaurants.getBacketData(order),
     [order /* one and the same instance is passed at each render if it was not modified */]
