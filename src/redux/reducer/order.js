@@ -1,4 +1,4 @@
-import { DECREMENT, INCREMENT } from '../constants';
+import { DECREMENT, INCREMENT, REMOVE } from '../constants';
 
 function increment(value) {
   return (value || 0) + 1;
@@ -11,6 +11,10 @@ export default (state = 0, action) => {
       return { ...state, [id]: (state[id] || 0) + 1, version: increment(state.version) };
     case DECREMENT:
       return { ...state, [id]: (state[id] || 0) - 1, version: increment(state.version) };
+    case REMOVE:
+      const stateCopy = { ...state };
+      delete stateCopy[id];
+      return { ...stateCopy, version: increment(state.version) };
     default:
       return state;
   }

@@ -2,9 +2,9 @@ import styles from './backetitem.module.css';
 import { ReactComponent as Minus } from '../../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../../icons/plus.svg';
 import { connect } from 'react-redux';
-import { decrement, increment } from '../../../redux/actions';
+import { decrement, increment, remove } from '../../../redux/actions';
 
-const BacketItem = ({ productName, restaurantName, productAmount, itemCost, increment, decrement }) => {
+const BacketItem = ({ productName, restaurantName, productAmount, itemCost, increment, decrement, remove }) => {
   return (
     <span>
       <div>
@@ -19,6 +19,9 @@ const BacketItem = ({ productName, restaurantName, productAmount, itemCost, incr
         <button className={styles.button} onClick={increment} data-id="product-increment">
           <Plus />
         </button>
+        <button className={styles.button} onClick={remove} data-id="product-increment">
+          x
+        </button>
       </span>
     </span>
   );
@@ -29,6 +32,7 @@ const BacketItem = ({ productName, restaurantName, productAmount, itemCost, incr
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.productId)),
   decrement: () => dispatch(decrement(props.productId)),
+  remove: () => dispatch(remove(props.productId)),
 });
 
 const mapStateToProps = (state, props) => {
@@ -39,5 +43,4 @@ const mapStateToProps = (state, props) => {
   return {};
 };
 
-console.log('connect(mapStateToProps, mapDispatchToProps)(BacketItem)');
 export default connect(mapStateToProps, mapDispatchToProps)(BacketItem);
