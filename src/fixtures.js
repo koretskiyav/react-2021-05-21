@@ -141,15 +141,22 @@ export const restaurants = [
   },
 ];
 
-restaurants.findProductInfoById = (productId) => {
-  // flatMap will create a new copy of array at each call
+// API to access remote store?
+restaurants.findProductInfosById = (productIds) => {
+  // flatMap will create a new copy of flat array, use 'for' instead
+  const result = [];
   for (let i = 0; i < restaurants.length; i++) {
-    const product = restaurants[i].menu.find(
-      (product) => product.id === productId
+    const products = restaurants[i].menu.filter((product) => productIds.includes(product.id));
+    products.forEach((product) =>
+      result.push({
+        id: product.id,
+        name: product.name || 'Incorrect product info',
+        price: product.price || 0,
+        restaurantName: restaurants[i].name || 'Incorrect restaurant info',
+      })
     );
-    if (product) return { ...product, restaurantName: restaurants[i].name };
   }
-  return null;
+  return result;
 };
 
 export default restaurants;

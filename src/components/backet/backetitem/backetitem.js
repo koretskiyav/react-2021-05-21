@@ -4,16 +4,12 @@ import { ReactComponent as Plus } from '../../../icons/plus.svg';
 import { connect } from 'react-redux';
 import { decrement, increment } from '../../../redux/actions';
 
-const BacketItem = ({ productId, productName, restaurantName, productAmount, itemCost, increment, decrement }) => {
-  console.log('BacketItem');
-
-  // findProductInfoById(key) can be used here and create the 'getBacketItems' objects
-
+const BacketItem = ({ productName, restaurantName, productAmount, itemCost, increment, decrement }) => {
   return (
     <span>
       <div>
-        <span className={styles.productName}>{productName || 'Incorrect product info'}</span>
-        {' from ' + (restaurantName || 'Incorrect restaurant info')} - {productAmount || 0}шт,$
+        <span className={styles.productName}>{productName}</span>
+        {' from ' + restaurantName} - {productAmount || 0}шт,$
         {itemCost || 0}
       </div>
       <span className={styles.buttons}>
@@ -30,18 +26,15 @@ const BacketItem = ({ productId, productName, restaurantName, productAmount, ite
 
 // TODO: BacketItem.propTypes = {};
 
-const mapDispatchToProps = (dispatch, props) => {
-  console.log('mapDispatchToProps');
-  return {
-    increment: () => {
-      console.log('increment');
-      dispatch(increment(props.productId));
-    },
-    decrement: () => dispatch(decrement(props.productId)),
-  };
-};
+const mapDispatchToProps = (dispatch, props) => ({
+  increment: () => dispatch(increment(props.productId)),
+  decrement: () => dispatch(decrement(props.productId)),
+});
 
 const mapStateToProps = (state, props) => {
+  // findProductInfoById(key) can be used here and create the 'getBacketItems' objects
+  // See https://github.com/IgnatovDan/react-2021-05-21/blob/HT3_2021_06_01_ReadReduxFromBucketItem/src/components/backet/backetitem/backetitem.js
+  // But findProductInfoById should be called in Backet component to calculate 'total' and I keep props
   console.log('mapStateToProps');
   return {};
 };
