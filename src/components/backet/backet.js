@@ -7,10 +7,10 @@ import { restaurants } from '../../fixtures';
 
 function getBacketData(order) {
   console.log('getBacketData');
-  const data = {};
+  const result = {};
   const productInfos = restaurants.findProductInfosById(Object.keys(order || {}).filter((key) => order[key] > 0));
 
-  data.items = productInfos.map((productInfo) => {
+  result.items = productInfos.map((productInfo) => {
     const amount = order[productInfo.id] || 0;
 
     return {
@@ -23,9 +23,9 @@ function getBacketData(order) {
     };
   });
 
-  data.totalCost = data.items.reduce((acc, item) => acc + item.itemCost, 0);
+  result.totalCost = result.items.reduce((acc, item) => acc + item.itemCost, 0);
 
-  return data;
+  return result;
 }
 
 const Backet = ({ order }) => {
