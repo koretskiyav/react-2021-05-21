@@ -140,3 +140,16 @@ export const restaurants = [
     ],
   },
 ];
+
+restaurants.findProductById = (productId) => {
+  // flatMap will create a new copy of array at each call
+  for (let i = 0; i < restaurants.length; i++) {
+    const product = restaurants[i].menu.find(
+      (product) => product.id === productId
+    );
+    if (product) return product;
+  }
+  return null;
+};
+
+export default restaurants;

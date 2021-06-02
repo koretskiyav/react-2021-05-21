@@ -1,0 +1,20 @@
+.backet {
+  padding: 12px;
+  width: 100%;
+}
+
+.content {
+  padding-left: 12px;
+}
+
+.productOrder {
+  padding: 4px;
+}
+
+.productOrder_productName {
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+}
