@@ -44,22 +44,25 @@ const Backet = ({ order, findProductById }) => {
           {nonEmptyProductOrders.length === 0 ? (
             <span key="empty">нет товаров</span>
           ) : (
-            nonEmptyProductOrders.map((productOrder) => (
-              // TODO: extract to <ProductOrder>
-              <span
-                key={productOrder.productId}
-                className={styles.productOrder}
-              >
-                <span>
-                  <span className={styles.productOrder_productName}>
-                    {productOrder.productName}
+            <div>
+              {nonEmptyProductOrders.map((productOrder) => (
+                // TODO: extract to <ProductOrder>
+                <span
+                  key={productOrder.productId}
+                  className={styles.productOrder}
+                >
+                  <span>
+                    <span className={styles.productOrder_productName}>
+                      {productOrder.productName}
+                    </span>
+                    -{productOrder.amount}шт,${productOrder.cost}
                   </span>
-                  -{productOrder.amount}шт,${productOrder.cost}
                 </span>
-              </span>
-            ))
+              ))}
+              (<span className={styles.total}>Общая стоимость:</span>$
+              {backetTotal})
+            </div>
           )}
-          (<span className={styles.total}>Общая стоимость:</span>${backetTotal})
         </span>
       </div>
     </div>
@@ -69,7 +72,7 @@ const Backet = ({ order, findProductById }) => {
 //TODO: Backet.propTypes = {};
 
 const mapStateToProps = (state) => ({
-  order: state.order, // HOC ?
+  order: state.order, // TODO
 });
 
 export default connect(mapStateToProps)(Backet);
