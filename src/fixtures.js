@@ -142,6 +142,29 @@ export const restaurants = [
 ];
 
 // API to access remote store?
+restaurants.getBacketData = (order) => {
+  console.log('getBacketData');
+  const result = {};
+  const productInfos = restaurants.findProductInfosById(Object.keys(order || {}).filter((key) => order[key] > 0));
+
+  result.items = productInfos.map((productInfo) => {
+    const amount = order[productInfo.id] || 0;
+
+    return {
+      productId: productInfo.id,
+      productName: productInfo.name,
+      restaurantName: productInfo.restaurantName,
+      productPrice: productInfo.price,
+      itemCost: productInfo.price * amount,
+      productAmount: amount,
+    };
+  });
+
+  result.totalCost = result.items.reduce((acc, item) => acc + item.itemCost, 0);
+
+  return result;
+};
+
 restaurants.findProductInfosById = (productIds) => {
   // flatMap will create a new copy of flat array, use 'for' instead
   const result = [];
