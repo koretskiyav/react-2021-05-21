@@ -10,7 +10,10 @@ const Backet = ({ order }) => {
   const [checkUseMemo, setCheckUseMemo] = useState(1);
 
   // TODO: expand properties and pass via props ?
-  const data = useMemo(() => restaurants.getBacketData(order), [order]);
+  const data = useMemo(
+    () => restaurants.getBacketData(order),
+    [order /* one and the same instance is passed at each render if it was not modified */]
+  );
 
   return (
     <div className={styles.backet}>
