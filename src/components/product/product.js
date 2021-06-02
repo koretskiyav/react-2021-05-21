@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../icons/plus.svg';
-import { decrement, increment } from '../../redux/actions';
+import { ReactComponent as Remove } from '../../icons/close.svg';
+import { decrement, increment, remove_product } from '../../redux/actions';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
+const Product = ({ product, amount, increment, decrement, remove_product, fetchData }) => {
   useEffect(() => {
     fetchData && fetchData(product.id);
   }, []); // eslint-disable-line
@@ -39,6 +40,14 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
               >
                 <Plus />
               </button>
+              <button
+                className={styles.button}
+                onClick={remove_product}
+                data-id="product-remove"
+              >
+                <Remove />
+              </button>
+
             </div>
           </div>
         </div>
@@ -51,27 +60,25 @@ Product.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string,
     price: PropTypes.number,
-    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   }).isRequired,
   fetchData: PropTypes.func,
   // from connect
   amount: PropTypes.number,
   increment: PropTypes.func,
   decrement: PropTypes.func,
+  remove_product: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
-  amount: state.order[props.product.id] || 0,
+  amount: state.order[props.product.id] || 0
 });
 
-// const mapDispatchToProps = {
-//   increment,
-//   decrement,
-// };
 
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.product.id)),
   decrement: () => dispatch(decrement(props.product.id)),
+  remove_product: () => dispatch(remove_product(props.product.id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
