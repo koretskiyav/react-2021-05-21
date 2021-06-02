@@ -1,0 +1,7 @@
+.basket {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 60px;
+  padding-top: 12px;
+  padding-left: 20px;
+}
