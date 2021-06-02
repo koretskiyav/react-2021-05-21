@@ -2,6 +2,9 @@
   height: auto;
   text-align: center;
   padding: 6px;
+  display: flex;
+  justify-content: space-between;
+
 }
 
 .list span {
@@ -10,4 +13,7 @@
 
 .restaurant {
   padding: 6px 12px;
+}
+.basket {
+  border: 1px solid white;
 }
