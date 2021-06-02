@@ -37,7 +37,7 @@ const Backet = ({ order, findProductInfoById }) => {
     <div className={styles.backet}>
       <div>
         Ваша корзина:
-        <span className={styles.content}>
+        <span>
           {!backetItems || backetItems.length === 0 ? (
             <span key="empty">нет товаров</span>
           ) : (
@@ -45,12 +45,12 @@ const Backet = ({ order, findProductInfoById }) => {
               {backetItems.map(
                 (item) =>
                   item && (
-                    <span key={item.productId} className={styles.backetItem}>
+                    <span key={item.productId}>
                       <BacketItem {...item}></BacketItem>
                     </span>
                   )
               )}
-              (<span className={styles.total}>Общая стоимость:</span>${backetTotal})
+              <span className={styles.total}>Общая стоимость: ${backetTotal}</span>
             </Fragment>
           )}
         </span>
