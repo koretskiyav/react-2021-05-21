@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './navigation.module.css';
 import PropTypes from 'prop-types';
 
@@ -22,7 +23,7 @@ Navigation.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
-  onRestaurantClick: PropTypes.func,
+  onRestaurantClick: PropTypes.func.isRequired,
 };
 
 export default Navigation;

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import Restaurant from '../restaurant';
 import Navigation from '../navigation';
 import PropTypes from 'prop-types';
