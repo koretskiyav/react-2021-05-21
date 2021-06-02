@@ -41,7 +41,7 @@ const Backet = ({ order }) => {
       <div>
         Ваша корзина:
         <span>
-          {data.length === 0 ? (
+          {data.items.length === 0 ? (
             <span key="empty">нет товаров</span>
           ) : (
             <Fragment>
