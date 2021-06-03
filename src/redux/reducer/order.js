@@ -1,4 +1,4 @@
-import { DECREMENT, INCREMENT } from '../constants';
+import { DECREMENT, INCREMENT, REMOVE_PRODUCT } from '../constants';
 
 const initialState = { basket: [] };
 
@@ -11,7 +11,9 @@ export default (state = initialState, action) => {
       const indexOfExistProductBasketInc = state.basket.findIndex(
         (el) => el.id === id
       );
+
       const newBasketInc = [...state.basket];
+
       if (indexOfExistProductBasketInc > -1) {
         return {
           basket: newBasketInc.map((el, ind) => {
@@ -44,6 +46,12 @@ export default (state = initialState, action) => {
         }),
         ...state,
       };
+    case REMOVE_PRODUCT:
+      return {
+        ...state,
+        basket: [...state.basket.filter((el) => el.id !== id)],
+      };
+
     default:
       return state;
   }

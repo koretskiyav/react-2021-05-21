@@ -1,34 +1,32 @@
-import { decrement, increment } from '../../redux/actions';
-import { connect, useSelector } from 'react-redux';
-import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useLayoutEffect, useMemo } from 'react';
+import BasketProduct from './basketProduct/basketProduct';
 
-const Basket = ({ restaurant, product, amount, increment, decrement }) => {
-  const productCounter = useSelector((state) => state.order);
-  console.log(productCounter);
-  // const productList = useMemo(
-  //   () =>
-  //     productCounter.map((el, ind) => {
-  //       return <div key={ind}>{el[ind]}</div>;
-  //     }),
-  //   [productCounter]
-  // );
+const Basket = (props) => {
+  const productCounter = useSelector((state) => state.order.basket);
+
+  const productList =
+    // debugger;
+    productCounter.map((el, ind) => {
+      return (
+        <div key={ind}>
+          <BasketProduct
+            id={el.id}
+            name={el.name}
+            count={el.count}
+            price={el.price}
+          />
+        </div>
+      );
+    });
 
   return (
     <div>
-      {/* {productList} */}
-      <button onClick={decrement}> - </button>
-      {amount}
-      <button onClick={increment}> + </button>
+      <div>{productList}</div>
     </div>
   );
 };
-const mapStateToProps = (state, props) => ({
-  amount: state.order[0] || 0,
-});
 
-const mapDispatchToProps = (dispatch, props) => ({
-  increment: () => dispatch(increment(props.product.id)),
-  decrement: () => dispatch(decrement(props.product.id)),
-});
+// debugger;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Basket);
+export default Basket;
