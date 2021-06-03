@@ -1,0 +1,19 @@
+.basket {
+  border: 1px solid rgb(216, 216, 216);
+  margin: 10px 20px;
+}
+
+.head {
+  margin: 10px;
+}
+
+.message {
+  margin: 10px 20px;
+}
+
+.inc,
+.dec,
+.remove {
+  margin-right: 30px;
+  cursor: pointer;
+}

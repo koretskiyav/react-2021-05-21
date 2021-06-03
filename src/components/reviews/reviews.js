@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import Review from './review';
 import styles from './reviews.module.css';
 import PropTypes from 'prop-types';

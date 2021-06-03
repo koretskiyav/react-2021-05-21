@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Rate from '../../rate';
 import styles from './review.module.css';
 import PropTypes from 'prop-types';
