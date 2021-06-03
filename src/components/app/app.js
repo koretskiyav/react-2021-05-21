@@ -5,6 +5,7 @@ import Header from '../header';
 
 export default class App extends PureComponent {
   render() {
+    // debugger;
     return (
       <div>
         <Header />
