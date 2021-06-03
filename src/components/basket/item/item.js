@@ -38,6 +38,20 @@ const Item = ({ order, id, name, price, decrement, increment, remove }) => {
   );
 }
 
+Item.propTypes = {
+  restaurants: PropTypes.arrayOf(
+    PropTypes.shape({
+      menu: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired
+        }).isRequired
+      ).isRequired,
+      price: PropTypes.number.isRequired,
+    }).isRequired
+  ).isRequired,
+  order: PropTypes.object.isRequired
+};
+
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch, props) => ({
