@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../icons/plus.svg';
-import { decrement, increment } from '../../redux/actions';
+import {ReactComponent as Reset} from '../../icons/minus.svg';
+import { decrement, increment, reset } from '../../redux/actions';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
+const Product = ({ product, amount, increment, decrement, reset, fetchData, enableReset }) => {
   useEffect(() => {
     fetchData && fetchData(product.id);
   }, []); // eslint-disable-line
@@ -39,6 +40,14 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
               >
                 <Plus />
               </button>
+              {enableReset &&
+                <button
+                  className={styles.button}
+                  onClick={reset}
+                  data-id="product-reset">
+                    <Reset />
+                </button>
+              }
             </div>
           </div>
         </div>
@@ -58,6 +67,7 @@ Product.propTypes = {
   amount: PropTypes.number,
   increment: PropTypes.func,
   decrement: PropTypes.func,
+  reset: PropTypes.func,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -72,6 +82,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.product.id)),
   decrement: () => dispatch(decrement(props.product.id)),
+  reset: () => dispatch(reset(props.product.id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
