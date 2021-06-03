@@ -4,9 +4,16 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 import { ReactComponent as Minus } from '../../icons/minus.svg';
 import { ReactComponent as Plus } from '../../icons/plus.svg';
-import { decrement, increment } from '../../redux/actions';
+import { decrement, increment, remove } from '../../redux/actions';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
+const Product = ({
+  product,
+  amount,
+  increment,
+  decrement,
+  remove,
+  fetchData,
+}) => {
   useEffect(() => {
     fetchData && fetchData(product.id);
   }, []); // eslint-disable-line
@@ -38,6 +45,9 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
                 data-id="product-increment"
               >
                 <Plus />
+              </button>
+              <button className={styles.button} onClick={remove}>
+                X
               </button>
             </div>
           </div>
@@ -72,6 +82,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.product.id)),
   decrement: () => dispatch(decrement(props.product.id)),
+  remove: () => dispatch(remove(props.product.id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
