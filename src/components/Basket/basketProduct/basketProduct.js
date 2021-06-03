@@ -13,7 +13,7 @@ const BasketProduct = ({
   return (
     <div>
       <div>
-        {id}+++{name} <button onClick={decrement}>-</button>
+        {name} <button onClick={decrement}>-</button>
         {count}
         <button onClick={increment}>+</button>
         {price}$<button onClick={removeProduct}>Х</button>

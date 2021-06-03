@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useLayoutEffect, useMemo } from 'react';
 import BasketProduct from './basketProduct/basketProduct';
+import store from '../../redux/store';
 
 const Basket = (props) => {
   const productCounter = useSelector((state) => state.order.basket);
+
+  const productBasketSum = useSelector((state) => state.order.total);
 
   const productList =
     // debugger;
@@ -22,6 +25,7 @@ const Basket = (props) => {
 
   return (
     <div>
+      <div>Global_price: {productBasketSum}</div>
       <div>{productList}</div>
     </div>
   );

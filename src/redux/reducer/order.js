@@ -1,6 +1,6 @@
 import { DECREMENT, INCREMENT, REMOVE_PRODUCT } from '../constants';
 
-const initialState = { basket: [] };
+const initialState = { basket: [], total: 0 };
 
 // { [productId]: amount }
 export default (state = initialState, action) => {
@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
               : el;
           }),
           ...state,
+          total: state.total + price,
         };
       } else {
         return {
@@ -30,6 +31,7 @@ export default (state = initialState, action) => {
             ...state.basket,
             { id: id, name: name, count: 1, price: price },
           ],
+          total: state.total + price,
         };
       }
 
@@ -45,10 +47,12 @@ export default (state = initialState, action) => {
             : el;
         }),
         ...state,
+        total: state.total > 0 ? state.total - price : state.total,
       };
     case REMOVE_PRODUCT:
       return {
         ...state,
+        total: state.total - state.basket.find((el) => el.id === id).price,
         basket: [...state.basket.filter((el) => el.id !== id)],
       };
 
