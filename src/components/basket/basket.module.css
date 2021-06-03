@@ -1,0 +1,9 @@
+.basket {
+  width: 20%;
+}
+
+.basketItem {
+  background-color: beige;
+  border: 1px solid gray;
+  margin-bottom: 20px;
+}
