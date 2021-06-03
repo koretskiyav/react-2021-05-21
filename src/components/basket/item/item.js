@@ -38,10 +38,12 @@ const Item = ({ order, id, name, price, decrement, increment, remove }) => {
   );
 }
 
+const mapStateToProps = (state) => ({});
+
 const mapDispatchToProps = (dispatch, props) => ({
-  increment: () => dispatch(increment(props.product.id)),
-  decrement: () => dispatch(decrement(props.product.id)),
-  remove: () => dispatch(remove(props.product.id)),
+  increment: () => dispatch(increment(props.id)),
+  decrement: () => dispatch(decrement(props.id)),
+  remove: () => dispatch(remove(props.id)),
 });
 
-export default connect(mapDispatchToProps)(Item);
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

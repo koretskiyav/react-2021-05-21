@@ -16,7 +16,7 @@ const Basket = ({ restaurants, order }) => {
     <div>
       <h4 className={styles.header}>Basket content</h4>
       <ul className={styles.itemlist}>
-        {orderedProducts.map(product => (<Item order={order} product={product} />))}
+        {orderedProducts.map(product => (<Item order={order} {...product} />))}
       </ul>
       <div>Total: {orderedProducts.reduce((acc, { id, price }) => acc + order[id] * price, 0)}</div>
 
