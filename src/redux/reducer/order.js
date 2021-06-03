@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
         return {
           basket: newBasketInc.map((el, ind) => {
             return ind === indexOfExistProductBasketInc
-              ? ((el.count += 1), (el.price += price))
+              ? ((el.count += 1), (el.localPrice += price))
               : el;
           }),
           ...state,
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
           ...state,
           basket: [
             ...state.basket,
-            { id: id, name: name, count: 1, price: price },
+            { id: id, name: name, count: 1, price: price, localPrice: price },
           ],
           total: state.total + price,
         };
@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
       return {
         basket: newBasketDec.map((el, ind) => {
           return ind === indexOfExistProductBasketDec && el.count > 0
-            ? ((el.count -= 1), (el.price -= price))
+            ? ((el.count -= 1), (el.localPrice -= price))
             : el;
         }),
         ...state,

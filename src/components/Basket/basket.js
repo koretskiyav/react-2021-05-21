@@ -18,6 +18,7 @@ const Basket = (props) => {
             name={el.name}
             count={el.count}
             price={el.price}
+            localPrice={el.localPrice}
           />
         </div>
       );
