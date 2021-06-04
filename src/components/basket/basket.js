@@ -1,10 +1,11 @@
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { remove } from '../../redux/actions';
 import Product from '../product';
 import { ReactComponent as BasketIcon } from '../../icons/basket.svg';
 import { restaurants } from '../../fixtures';
-import { remove } from '../../redux/actions';
 
 import style from './basket.module.css';
 
@@ -13,6 +14,11 @@ const products = restaurants
   .reduce((accum, menu) => [...accum, ...menu], []);
 
 class Basket extends Component {
+  static propTypes = {
+    basket: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    remove: PropTypes.func.isRequired,
+  };
+
   state = {
     basketIsOpen: false,
   };

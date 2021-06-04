@@ -17,8 +17,9 @@ export default (state = {}, action) => {
       return newState;
     }
     case REMOVE: {
-      const newState = { ...state, [id]: 0 };
+      const newState = { ...state };
       delete newState[id];
+
       return newState;
     }
     default:
