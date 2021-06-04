@@ -1,7 +1,7 @@
 import { DECREMENT, INCREMENT, REMOVE } from '../constants';
 
 // { [productId]: amount }
-export default (state = 0, action) => {
+export default (state = {}, action) => {
   const { type, id } = action;
   switch (type) {
     case INCREMENT:
