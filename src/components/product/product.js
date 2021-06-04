@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './product.module.css';
-import { ReactComponent as Minus } from '../../icons/minus.svg';
-import { ReactComponent as Plus } from '../../icons/plus.svg';
+
+import Button from '../button';
+
 import { decrement, increment } from '../../redux/actions';
 
 const Product = ({ product, amount, increment, decrement, fetchData }) => {
@@ -25,20 +26,8 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
               {amount}
             </div>
             <div className={styles.buttons}>
-              <button
-                className={styles.button}
-                onClick={decrement}
-                data-id="product-decrement"
-              >
-                <Minus />
-              </button>
-              <button
-                className={styles.button}
-                onClick={increment}
-                data-id="product-increment"
-              >
-                <Plus />
-              </button>
+              <Button onClick={decrement} icon="minus" />
+              <Button onClick={increment} icon="plus" />
             </div>
           </div>
         </div>
