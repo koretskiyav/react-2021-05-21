@@ -6,9 +6,9 @@ import styles from './reviews.module.css';
 const Reviews = ({ reviews }) => {
   return (
     <div className={styles.reviews}>
-      {reviews.map((review) => (
-        <Review key={review.id} {...review} />
-      ))}
+      {Object.keys(reviews).map(
+        (reviewId) => (<Review key={reviewId} {...reviews[reviewId]} />)
+      )}
       <ReviewForm />
     </div>
   );

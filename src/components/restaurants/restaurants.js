@@ -3,16 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Restaurant from '../restaurant';
 import Tabs from '../tabs';
+import { restaurantsSelector } from '../../redux/selectors';
 
 const Restaurants = ({ restaurants }) => {
-  const [activeId, setActiveId] = useState(restaurants[0].id);
+  const defaultRestaurantId = Object.keys(restaurants)[0];
+  const [activeId, setActiveId] = useState(defaultRestaurantId);
 
   const activeRestaurant = useMemo(
-    () => restaurants.find(({ id }) => id === activeId),
+    () => restaurants[activeId],
     [activeId, restaurants]
   );
 
-  const tabs = restaurants.map(({ id, name }) => ({ id, title: name }));
+  const tabs = Object.keys(restaurants).map(
+    restaurantId => ({ id: restaurantId, title: restaurants[restaurantId].name })
+  );
 
   return (
     <div>
@@ -31,5 +35,5 @@ Restaurants.propTypes = {
 };
 
 export default connect((state) => ({
-  restaurants: state.restaurants,
+  restaurants: restaurantsSelector(state),
 }))(Restaurants);
