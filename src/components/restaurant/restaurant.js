@@ -9,7 +9,6 @@ import Tabs from '../tabs';
 const Restaurant = ({ restaurant }) => {
   const { name, menu, reviews } = restaurant;
   const [activeTab, setActiveTab] = useState('menu');
-
   const averageRating = useMemo(() => {
     const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
     return Math.round(total / reviews.length);
@@ -19,7 +18,7 @@ const Restaurant = ({ restaurant }) => {
     { id: 'menu', title: 'Menu' },
     { id: 'reviews', title: 'Reviews' },
   ];
-
+  // debugger;
   return (
     <div>
       <Banner heading={name}>
@@ -27,7 +26,9 @@ const Restaurant = ({ restaurant }) => {
       </Banner>
       <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
       {activeTab === 'menu' && <Menu menu={menu} key={restaurant.id} />}
-      {activeTab === 'reviews' && <Reviews reviews={reviews} />}
+      {activeTab === 'reviews' && (
+        <Reviews reviews={reviews} ReviewId={restaurant.reviews} />
+      )}
     </div>
   );
 };

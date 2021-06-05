@@ -4,17 +4,24 @@ import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({ reviews, ReviewId }) => {
+  const reviewList = Object.values(reviews).map((review) => {
+    return (
+      <div>
+        {ReviewId.some((el) => el === review.id) ? (
+          <Review
+            key={review.id}
+            userId={review.userId}
+            text={review.text}
+            rating={review.rating}
+          />
+        ) : null}
+      </div>
+    );
+  });
   return (
     <div className={styles.reviews}>
-      {Object.values(reviews).map((review) => (
-        <Review
-          key={review.id}
-          user={review.userId}
-          text={review.text}
-          rating={review.rating}
-        />
-      ))}
+      {reviewList}
       <ReviewForm />
     </div>
   );
