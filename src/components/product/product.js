@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { orderSelector, productsSelector } from '../../redux/selectors';
 import styles from './product.module.css';
 
 import Button from '../button';
@@ -50,8 +51,8 @@ Product.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  amount: state.order[props.id] || 0,
-  product: state.products[props.id],
+  amount: orderSelector(state)[props.id] || 0,
+  product: productsSelector(state)[props.id],
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

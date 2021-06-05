@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { reviewsSelector, usersSelector } from '../../../redux/selectors';
 import Rate from '../../rate';
 import styles from './review.module.css';
 
@@ -31,4 +32,13 @@ Review.defaultProps = {
   user: 'Anonymous',
 };
 
-export default Review;
+export default connect((state, props) => {
+  const review = reviewsSelector(state)[props.reviewId];
+  const user = usersSelector(state)[review.userId];
+
+  return {
+    user: user.name,
+    text: review.text,
+    rating: review.rating,
+  };
+})(Review);
