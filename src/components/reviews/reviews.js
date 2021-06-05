@@ -5,7 +5,6 @@ import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
 const Reviews = ({ reviews }) => {
-  debugger;
   return (
     <div className={styles.reviews}>
       {Object.values(reviews).map((review) => (
