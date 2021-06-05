@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Rate from '../../rate';
@@ -31,4 +32,8 @@ Review.defaultProps = {
   user: 'Anonymous',
 };
 
-export default Review;
+const mapStateToProps = (state, props) => ({
+  user: (state.users[props.userId] || {}).name,
+});
+
+export default connect(mapStateToProps)(Review);

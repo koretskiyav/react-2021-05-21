@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
@@ -6,9 +7,14 @@ import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
 
-const Restaurant = ({ restaurant }) => {
-  const { name, menu, reviews } = restaurant;
+const Restaurant = ({ restaurant, allReviews }) => {
+  const { name, menu, reviews: reviewIds } = restaurant;
   const [activeTab, setActiveTab] = useState('menu');
+
+  const reviews = useMemo(
+    () => Object.values(allReviews).filter((review) => reviewIds.includes(review.id)),
+    [allReviews, reviewIds]
+  );
 
   const averageRating = useMemo(() => {
     const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
@@ -45,4 +51,8 @@ Restaurant.propTypes = {
   }).isRequired,
 };
 
-export default Restaurant;
+const mapStateToProps = (state) => ({
+  allReviews: state.reviews,
+});
+
+export default connect(mapStateToProps)(Restaurant);
