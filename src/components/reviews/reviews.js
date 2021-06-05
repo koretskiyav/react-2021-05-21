@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
 const Reviews = ({ reviews }) => {
+  debugger;
   return (
     <div className={styles.reviews}>
-      {reviews.map((review) => (
-        <Review key={review.id} {...review} />
+      {Object.values(reviews).map((review) => (
+        <Review
+          key={review.id}
+          user={review.userId}
+          text={review.text}
+          rating={review.rating}
+        />
       ))}
       <ReviewForm />
     </div>
@@ -22,4 +29,6 @@ Reviews.propTypes = {
   ).isRequired,
 };
 
-export default Reviews;
+export default connect((state) => ({
+  reviews: state.reviews,
+}))(Reviews);
