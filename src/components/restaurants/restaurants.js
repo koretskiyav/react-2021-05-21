@@ -15,6 +15,7 @@ const Restaurants = ({ restaurants }) => {
   return (
     <div>
       <Tabs tabs={tabs} activeId={activeId} onChange={setActiveId} />
+      {/* TODO: Тут можно было бы поменять activeRestaurant на activeId как в Product, но по заданию это изменение не требуется. */}
       <Restaurant restaurant={activeRestaurant} />
     </div>
   );
