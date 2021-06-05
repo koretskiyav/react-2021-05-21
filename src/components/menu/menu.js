@@ -8,9 +8,10 @@ import styles from './menu.module.css';
 class Menu extends Component {
   static propTypes = {
     menu: PropTypes.arrayOf(
-      PropTypes.shape({
+      PropTypes.string.isRequired // по заданию это изменение требуется но варнинги мешают в консоли
+      /*PropTypes.shape({
         id: PropTypes.string.isRequired,
-      }).isRequired
+      }).isRequired*/
     ).isRequired,
   };
 

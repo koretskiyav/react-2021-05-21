@@ -44,9 +44,10 @@ Restaurant.propTypes = {
     name: PropTypes.string,
     menu: PropTypes.array,
     reviews: PropTypes.arrayOf(
-      PropTypes.shape({
+      PropTypes.string.isRequired // по заданию это изменение не требуется но варнинги мешают в консоли
+      /*PropTypes.shape({
         rating: PropTypes.number.isRequired,
-      }).isRequired
+      }).isRequired*/
     ).isRequired,
   }).isRequired,
 };

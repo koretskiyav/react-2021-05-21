@@ -21,11 +21,12 @@ const Restaurants = ({ restaurants }) => {
 };
 
 Restaurants.propTypes = {
-  restaurants: PropTypes.arrayOf(
+  restaurants: PropTypes.object.isRequired, // по заданию это изменение не требуется но варнинги мешают в консоли
+  /*restaurants: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired
-  ).isRequired,
+  ).isRequired,*/
 };
 
 export default connect((state) => ({
