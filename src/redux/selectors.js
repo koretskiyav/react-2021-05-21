@@ -8,6 +8,7 @@ const restaurantReviewsIdsSelector = (state, props) => props.restaurant.reviews;
 const reviewUserIdSelector = (state, props) => props.userId;
 export const productSelector = (state, props) => state.products[props.id];
 export const amountSelector = (state, props) => state.order[props.id] || 0;
+export const activeRestaurantIdSelector = (state) => state.activeRestaurantId;
 export const restaurantsSelector = (state) => state.restaurants;
 
 export const orderProductsSelector = createSelector(
