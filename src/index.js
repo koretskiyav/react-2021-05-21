@@ -8,7 +8,7 @@ import store from './redux/store';
 
 // DEV ONLY!!!
 window.store = store;
-
+// debugger;
 ReactDOM.render(
   <Provider store={store}>
     <App />

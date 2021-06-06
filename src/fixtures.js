@@ -272,7 +272,7 @@ export const normalizedReviews = [
     id: '53b642d7-5e86-4717-a466-0640a1dee076',
     userId: '20bed9b5-9c7b-4771-8221-75b74ed1904a',
     text: 'Perfect Margarita',
-    rating: 5,
+    rating: 3,
   },
   {
     id: 'c27ab88e-375c-4e98-aa94-8a180150a797',
