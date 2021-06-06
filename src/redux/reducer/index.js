@@ -16,8 +16,7 @@ const reducers = combineReducers({
 
 function updateUsers_createUser(state, name, userId) {
   state.users = { ...state.users };
-  //state.users[userId] = { name: (name !== '' && name !== null) ? name : undefined, userId };
-  state.users[userId] = { name, userId };
+  state.users[userId] = { name: (name !== '' && name !== null) ? name : undefined, userId };
 }
 
 function updateReviews_createReview(state, reviewData, reviewId, userId) {
