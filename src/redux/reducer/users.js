@@ -1,7 +1,7 @@
 import { normalizedUsers } from '../../fixtures';
 
 const defaultUsers = normalizedUsers.reduce(
-  (acc, user) => ({ ...acc, [user.id]: product }),
+  (acc, user) => ({ ...acc, [user.id]: user }),
   {}
 );
 
