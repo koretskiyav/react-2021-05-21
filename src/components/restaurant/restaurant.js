@@ -29,7 +29,7 @@ const Restaurant = ({ restaurant, allReviews }) => {
       </Banner>
       <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
       {activeTab === 'menu' && <Menu menu={menu} key={restaurant.id} />}
-      {activeTab === 'reviews' && <Reviews reviews={reviews} />}
+      {activeTab === 'reviews' && <Reviews restaurantId={restaurant.id} reviews={reviews} />}
     </div>
   );
 };
