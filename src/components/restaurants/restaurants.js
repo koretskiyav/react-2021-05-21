@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Restaurant from '../restaurant';
 import Tabs from '../tabs';
+import { restaurantSelector } from '../../redux/selectors';
 
 const Restaurants = ({ restaurants }) => {
   const [activeId, setActiveId] = useState(Object.keys(restaurants)[0]);
@@ -21,12 +21,12 @@ const Restaurants = ({ restaurants }) => {
   );
 };
 
-Restaurants.propTypes = {
-  restaurants: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-  }).isRequired,
-};
+// Restaurants.propTypes = {
+//   restaurants: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//   }).isRequired,
+// };
 
 export default connect((state) => ({
-  restaurants: state.restaurants,
+  restaurants: restaurantSelector(state),
 }))(Restaurants);
