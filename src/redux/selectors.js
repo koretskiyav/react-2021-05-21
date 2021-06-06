@@ -1,8 +1,24 @@
 import { createSelector } from 'reselect';
 
-// const restaurantsSelector = (state) => state.restaurants;
+export const restaurantsSelector = (state) => state.restaurants;
 const orderSelector = (state) => state.order;
 const productsSelector = (state) => state.products;
+const reviewsSelector = (state) => state.reviews;
+const usersSelector = (state) => state.users;
+
+export const reviewsUsersSelector = createSelector(
+  reviewsSelector,
+  usersSelector,
+  (reviews, users) =>
+    Object.values(reviews)
+      .map((review) => ({
+        user: users[review.userId].name,
+        text: review.text,
+        rating: review.rating,
+        id: review.id
+      }))
+      .reduce((acc, review) => ({ ...acc, [review.id]: review }), {})
+);
 
 export const orderProductsSelector = createSelector(
   productsSelector,
@@ -23,3 +39,12 @@ export const totalSelector = createSelector(
   (orderProducts) =>
     orderProducts.reduce((acc, { subtotal }) => acc + subtotal, 0)
 );
+
+export const tabsSelector = createSelector(
+  restaurantsSelector,
+  (restaurants) =>
+    Object.values(restaurants).map((restaurant) => ({
+      id: restaurant.id,
+      title: restaurant.name,
+    }))
+)
