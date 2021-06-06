@@ -13,7 +13,7 @@ const Restaurant = ({ restaurant, allReviews }) => {
   const [activeTab, setActiveTab] = useState('menu');
 
   const reviews = useMemo(
-    () => Object.values(allReviews).filter((review) => reviewIds.includes(review.id)), // TODO: change to "keys()" and remove "review.id"
+    () => Object.values(allReviews).filter((review) => reviewIds.includes(review.id)),
     [allReviews, reviewIds]
   );
 
