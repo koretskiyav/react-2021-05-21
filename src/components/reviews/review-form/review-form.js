@@ -4,6 +4,7 @@ import useForm from '../../../hooks/use-form';
 import Rate from '../../rate';
 import styles from './review-form.module.css';
 import { connect } from 'react-redux';
+import { addReview } from '../../../redux/actions';
 import Button from '../../button';
 
 const INITIAL_VALUES = { name: '', text: '', rating: 3 };
@@ -51,6 +52,12 @@ const ReviewForm = ({ onSubmit }) => {
   );
 };
 
-export default connect(null, () => ({
-  onSubmit: (values) => console.log(values), // TODO
-}))(ReviewForm);
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (reviewData) => {
+      dispatch(addReview(reviewData));
+      // TODO: get review.id and add it to product.reviews list
+      // https://redux.js.org/recipes/structuring-reducers/beyond-combinereducers#sharing-data-between-slice-reducers
+    }
+});
+
+export default connect(null, mapDispatchToProps)(ReviewForm);
