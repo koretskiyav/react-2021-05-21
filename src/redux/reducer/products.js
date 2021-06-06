@@ -1,9 +1,7 @@
 import { normalizedProducts } from '../../fixtures';
+import { objectFromInitialData } from '../../utils/utils';
 
-const defaultProducts = normalizedProducts.reduce(
-  (acc, product) => ({ ...acc, [product.id]: product }),
-  {}
-);
+const defaultProducts = objectFromInitialData(normalizedProducts);
 
 export default (products = defaultProducts, action) => {
   const { type } = action;
