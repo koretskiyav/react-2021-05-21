@@ -51,8 +51,8 @@ Product.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  amount: orderSelector(state)[props.id] || 0, // TODO: orderSelector(state) can return undefined - no product in order
-  product: productsSelector(state)[props.id], // TODO: "productsSelector(state)[props.id]" can return undefined
+  amount: orderSelector(state)[props.id] || 0,
+  product: productsSelector(state)[props.id],
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

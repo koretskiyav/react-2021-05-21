@@ -1,6 +1,6 @@
-import { DECREMENT, INCREMENT, REMOVE, ADD_REVIEW } from './constants';
+import { DECREMENT, INCREMENT, REMOVE, CREATE_PRODUCT_REVIEW } from './constants';
 
 export const increment = (id) => ({ type: INCREMENT, id });
 export const decrement = (id) => ({ type: DECREMENT, id });
 export const remove = (id) => ({ type: REMOVE, id });
-export const addReview = (reviewData) => ({ type: ADD_REVIEW, reviewData });
+export const createProductReview = (reviewData) => ({ type: CREATE_PRODUCT_REVIEW, reviewData });
