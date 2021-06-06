@@ -6,7 +6,7 @@ import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
-import { reviewsUsersSelector } from '../../redux/selectors';
+import { reviewsUsersSelector, restaurantsSelector } from '../../redux/selectors';
 
 const Restaurant = ({ restaurant, allReviews }) => {
   const { name, menu, reviews } = restaurant;
@@ -15,7 +15,7 @@ const Restaurant = ({ restaurant, allReviews }) => {
   const averageRating = useMemo(() => {
     const total = reviews.map((id) => allReviews[id].rating).reduce((acc, rating) => acc + rating, 0);
     return Math.round(total / reviews.length);
-  }, [reviews]);
+  }, [reviews, allReviews]);
 
   const tabs = [
     { id: 'menu', title: 'Menu' },
@@ -42,13 +42,10 @@ Restaurant.propTypes = {
     reviews: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   id: PropTypes.string.isRequired,
-  allReviews: PropTypes.shape({
-    rating: PropTypes.number.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
-  restaurant: state.restaurants[props.id] || 0,
+  restaurant: restaurantsSelector(state)[props.id] || 0,
   allReviews: reviewsUsersSelector(state)
 });
 

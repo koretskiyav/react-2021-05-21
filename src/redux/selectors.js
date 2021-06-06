@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
 export const restaurantsSelector = (state) => state.restaurants;
-const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
+export const orderSelector = (state) => state.order;
+export const productsSelector = (state) => state.products;
 const reviewsSelector = (state) => state.reviews;
 const usersSelector = (state) => state.users;
 
