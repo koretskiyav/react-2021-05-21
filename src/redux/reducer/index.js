@@ -14,20 +14,16 @@ const reducers = combineReducers({
   users,
 });
 
-function updateUsers_createUser(state, name) {
-  debugger;
+function updateUsers_createUser(state, name, userId) {
   state.users = { ...state.users };
-  const id = String(Object.keys(state.reviews).length + 1000); // TODO: change to uuid 
-  state.users[id] = { name, id };
-  return id;
+  //state.users[userId] = { name: (name !== '' && name !== null) ? name : undefined, userId };
+  state.users[userId] = { name, userId };
 }
 
-function updateReviews_createReview(state, reviewData) {
-  const userId = updateUsers_createUser(state, reviewData.name);
+function updateReviews_createReview(state, reviewData, reviewId, userId) {
+  updateUsers_createUser(state, reviewData.name, userId);
   state.reviews = { ...state.reviews };
-  const id = String(Object.keys(state.reviews).length + 1000); // TODO: change to uuid 
-  state.reviews[id] = { ...reviewData, id, userId };
-  return id;
+  state.reviews[reviewId] = { ...reviewData, id: reviewId, userId };
 }
 
 function updateRestaurants_linkReviewToRestaurant(state, reviewId, restaurantId) {
@@ -45,8 +41,8 @@ export default (state, action) => {
     case CREATE_PRODUCT_REVIEW:
       // https://redux.js.org/recipes/structuring-reducers/beyond-combinereducers#sharing-data-between-slice-reducers
       const newState = { ...state };
-      const reviewId = updateReviews_createReview(newState, action.reviewData);
-      updateRestaurants_linkReviewToRestaurant(newState, reviewId, action.reviewData.restaurantId);
+      updateReviews_createReview(newState, action.reviewData, action.reviewId, action.userId);
+      updateRestaurants_linkReviewToRestaurant(newState, action.reviewId, action.reviewData.restaurantId);
       return newState;
     default:
       return reducers(state, action);
