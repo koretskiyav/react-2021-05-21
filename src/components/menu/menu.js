@@ -26,7 +26,7 @@ class Menu extends Component {
     if (this.state.error) {
       return <p>Сейчас меню этого ресторана недоступно :(</p>;
     }
-
+    // debugger;
     return (
       <div className={styles.menu}>
         <div>

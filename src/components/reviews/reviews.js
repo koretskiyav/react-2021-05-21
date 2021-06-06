@@ -7,10 +7,9 @@ import styles from './reviews.module.css';
 const Reviews = ({ reviews, ReviewId }) => {
   const reviewList = Object.values(reviews).map((review) => {
     return (
-      <div>
+      <div key={review.id}>
         {ReviewId.some((el) => el === review.id) ? (
           <Review
-            key={review.id}
             userId={review.userId}
             text={review.text}
             rating={review.rating}
