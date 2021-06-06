@@ -1,4 +1,5 @@
 import { normalizedReviews } from '../../fixtures';
+import { POST_REVIEW } from '../constants';
 
 const defaultReviews = normalizedReviews.reduce(
   (acc, review) => ({
@@ -9,8 +10,18 @@ const defaultReviews = normalizedReviews.reduce(
 );
 
 export default (reviews = defaultReviews, action) => {
-  const { type } = action;
+  const { type, text, rating, userId, reviewId } = action;
   switch (type) {
+    case POST_REVIEW:
+      return {
+        ...reviews,
+        [reviewId]: {
+          id: reviewId,
+          userId: userId,
+          text: text,
+          rating: rating,
+        },
+      };
     default:
       return reviews;
   }

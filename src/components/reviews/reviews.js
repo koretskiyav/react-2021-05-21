@@ -4,7 +4,7 @@ import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
-const Reviews = ({ reviews, ReviewId }) => {
+const Reviews = ({ reviews, ReviewId, restId }) => {
   const reviewList = Object.values(reviews).map((review) => {
     return (
       <div key={review.id}>
@@ -21,7 +21,7 @@ const Reviews = ({ reviews, ReviewId }) => {
   return (
     <div className={styles.reviews}>
       {reviewList}
-      <ReviewForm />
+      <ReviewForm restId={restId} />
     </div>
   );
 };
