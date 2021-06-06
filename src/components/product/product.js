@@ -12,7 +12,6 @@ const Product = ({ product, amount, increment, decrement, fetchData, id }) => {
   useEffect(() => {
     fetchData && fetchData(product.id);
   }, []); // eslint-disable-line
-  // debugger;
   return (
     <div className={styles.product} data-id="product">
       <div className={styles.content}>
@@ -41,25 +40,27 @@ const Product = ({ product, amount, increment, decrement, fetchData, id }) => {
 
 Product.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.string,
     name: PropTypes.string,
     price: PropTypes.number,
-    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   fetchData: PropTypes.func,
   // from connect
-  amount: PropTypes.number,
+  amount: PropTypes.array,
   increment: PropTypes.func,
   decrement: PropTypes.func,
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-  increment: () => dispatch(increment(props.id)),
-  decrement: () => dispatch(decrement(props.id)),
-});
-
-export default connect((state) => {
-  return {
-    amount: orderSelector(state),
-    product: productsSelector(state),
-  };
-}, mapDispatchToProps)(Product);
+export default connect(
+  (state) => {
+    return {
+      amount: orderSelector(state),
+      product: productsSelector(state),
+    };
+  },
+  (dispatch, props) => ({
+    increment: () => dispatch(increment(props.id)),
+    decrement: () => dispatch(decrement(props.id)),
+  })
+)(Product);
