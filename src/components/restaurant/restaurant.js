@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { useMemo, useState } from 'react';
+import { reviewsSelector } from '../../redux/selectors';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import Reviews from '../reviews';
@@ -53,7 +54,7 @@ Restaurant.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  allReviews: state.reviews,
+  allReviews: reviewsSelector(state),
 });
 
 export default connect(mapStateToProps)(Restaurant);
