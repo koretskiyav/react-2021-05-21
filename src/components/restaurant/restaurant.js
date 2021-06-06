@@ -1,4 +1,6 @@
+import { connect } from 'react-redux';
 import { useMemo, useState } from 'react';
+import { reviewsSelector } from '../../redux/selectors';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import Reviews from '../reviews';
@@ -6,9 +8,14 @@ import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
 
-const Restaurant = ({ restaurant }) => {
-  const { name, menu, reviews } = restaurant;
+const Restaurant = ({ restaurant, allReviews }) => {
+  const { name, menu, reviews: reviewIds } = restaurant;
   const [activeTab, setActiveTab] = useState('menu');
+
+  const reviews = useMemo(
+    () => Object.values(allReviews).filter((review) => reviewIds.includes(review.id)),
+    [allReviews, reviewIds]
+  );
 
   const averageRating = useMemo(() => {
     const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
@@ -27,7 +34,7 @@ const Restaurant = ({ restaurant }) => {
       </Banner>
       <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
       {activeTab === 'menu' && <Menu menu={menu} key={restaurant.id} />}
-      {activeTab === 'reviews' && <Reviews reviews={reviews} />}
+      {activeTab === 'reviews' && <Reviews reviews={reviews} restaurantId={restaurant.id}/>}
     </div>
   );
 };
@@ -38,11 +45,16 @@ Restaurant.propTypes = {
     name: PropTypes.string,
     menu: PropTypes.array,
     reviews: PropTypes.arrayOf(
-      PropTypes.shape({
+      PropTypes.string.isRequired // по заданию это изменение не требуется но варнинги мешают в консоли
+      /*PropTypes.shape({
         rating: PropTypes.number.isRequired,
-      }).isRequired
+      }).isRequired*/
     ).isRequired,
   }).isRequired,
 };
 
-export default Restaurant;
+const mapStateToProps = (state) => ({
+  allReviews: reviewsSelector(state),
+});
+
+export default connect(mapStateToProps)(Restaurant);
