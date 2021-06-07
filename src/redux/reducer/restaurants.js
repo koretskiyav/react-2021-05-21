@@ -1,6 +1,6 @@
 import { normalizedRestaurants } from '../../fixtures';
 import {ADD_REVIEW} from "../constants";
-console.log('normalizedRestaurants', normalizedRestaurants)
+
 
 const defaultRestaurants = normalizedRestaurants.reduce(
     (acc, restaurant) => ({ ...acc, [restaurant.id]: restaurant }),
@@ -9,8 +9,6 @@ const defaultRestaurants = normalizedRestaurants.reduce(
 
 export default (restaurants = defaultRestaurants, action) => {
   const { type, payload } = action;
-
-
 
   switch (type) {
     case ADD_REVIEW: {
