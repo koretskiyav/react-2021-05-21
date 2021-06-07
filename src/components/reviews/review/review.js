@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
 import Rate from '../../rate';
 import styles from './review.module.css';
+import {reviewsSelector, usersSelector} from "../../../redux/selectors";
 
 const Review = ({ user, text, rating }) => (
   <div className={styles.review} data-id="review">
@@ -27,8 +28,13 @@ Review.propTypes = {
   rating: PropTypes.number.isRequired,
 };
 
-Review.defaultProps = {
-  user: 'Anonymous',
-};
+export default connect((state, props) => {
+    const review = reviewsSelector(state)[props.reviewId];
+    const user = usersSelector(state)[review?.userId];
 
-export default Review;
+    return {
+        user: user?.name,
+        text: review?.text,
+        rating: review?.rating,
+    };
+})(Review);
