@@ -5,14 +5,14 @@ import Restaurant from '../restaurant';
 import Tabs from '../tabs';
 
 const Restaurants = ({ restaurants }) => {
-  const [activeId, setActiveId] = useState(restaurants[0].id);
+  const [activeId, setActiveId] = useState(restaurants[Object.keys(restaurants)[0]].id);
 
   const activeRestaurant = useMemo(
-    () => restaurants.find(({ id }) => id === activeId),
+    () => restaurants[activeId],
     [activeId, restaurants]
   );
 
-  const tabs = restaurants.map(({ id, name }) => ({ id, title: name }));
+  const tabs = Object.keys(restaurants).map((id) => ({ id, title: restaurants[id].name }));
 
   return (
     <div>
@@ -23,11 +23,7 @@ const Restaurants = ({ restaurants }) => {
 };
 
 Restaurants.propTypes = {
-  restaurants: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+    restaurants: PropTypes.object.isRequired
 };
 
 export default connect((state) => ({
