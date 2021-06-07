@@ -1,3 +1,5 @@
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 export const REMOVE = 'REMOVE';
+export const REVIEW_FORM_SUBMIT = 'REVIEW_FORM_SUBMIT';
+export const REVIEW_FORM_SUBMIT_ID = 'REVIEW_FORM_SUBMIT_ID';
