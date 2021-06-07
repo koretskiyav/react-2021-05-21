@@ -57,6 +57,6 @@ export default connect(null, (dispatch) => ({
     console.log(values);
     dispatch(add_user(values.name))
     
-    dispatch(add_review('', values.name, values.text, values.rating))
+    dispatch(add_review(values.name, values.text, values.rating))
   }, // TODO
 }))(ReviewForm);
