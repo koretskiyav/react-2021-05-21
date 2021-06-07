@@ -1,27 +1,12 @@
 import {ADD_REVIEW} from "../constants";
+import { v4 as uuid } from 'uuid';
 
-export default (store) => (next) => (action) => {
+export default () => (next) => (action) => {
 
     const {type, payload} = action
-    const userId =  uuidv4();
-    const reviewId = uuidv4();
 
-
-    if (type === ADD_REVIEW){
-        store = {
-           user: {
-               ...store.user,
-               id: userId,
-               name: payload.name
-           },
-            reviews: {
-               ...store.reviews,
-                id:reviewId,
-                userId,
-                text: payload.text
-            },
-           ...store
+        if (type === ADD_REVIEW) {
+            action.payload = {...payload, userId: uuid(), id: uuid()}
         }
-    }
-    next(action);
+        next(action);
 }
