@@ -8,6 +8,8 @@ const defaultUsers = normalizedUsers.reduce(
 export default (users = defaultUsers, action) => {
     const { type } = action;
 
+
+
     switch (type) {
         default:
             return users;

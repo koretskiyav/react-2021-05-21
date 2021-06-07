@@ -7,7 +7,6 @@ const defaultReviews = normalizedReviews.reduce(
 
 export default (reviews = defaultReviews, action) => {
   const { type } = action;
-
   switch (type) {
     default:
       return reviews;
