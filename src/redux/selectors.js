@@ -1,8 +1,39 @@
 import { createSelector } from 'reselect';
 
-// const restaurantsSelector = (state) => state.restaurants;
-const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
+export const orderSelector = (state) => state.order;
+export const productsSelector = (state) => state.products;
+export const reviewsSelector = (state) => state.reviews;
+export const restaurantsSelector = (state) => state.restaurants;
+
+export const usersSelector = (state) => state.users;
+export const userIdSelector = (_, props) => props.userId;
+
+export const restaurantReviewsSelector = (_, props) =>
+  props.restaurant.reviews || [];
+
+export const currentUserSelector = createSelector(
+  usersSelector,
+  userIdSelector,
+  (users, userId) => users[userId].name || 'Anonymous'
+);
+
+export const currentRestaurantReviewsSelector = createSelector(
+  reviewsSelector,
+  restaurantReviewsSelector,
+  (reviews, restaurantReviews) =>
+    Object.values(reviews).filter((review) =>
+      restaurantReviews.includes(review.id)
+    )
+);
+
+export const averageRatingSelector = createSelector(
+  restaurantReviewsSelector,
+  (restaurantReviews) =>
+    Math.round(
+      restaurantReviews.reduce((acc, { rating }) => acc + rating, 0) /
+        restaurantReviews.length
+    )
+);
 
 export const orderProductsSelector = createSelector(
   productsSelector,

@@ -1,9 +1,6 @@
-import { applyMiddleware, createStore } from 'redux';
+import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import logger from './middleware/logger';
+import middleware from './middleware';
 import reducer from './reducer';
 
-export default createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(logger))
-);
+export default createStore(reducer, composeWithDevTools(middleware));
