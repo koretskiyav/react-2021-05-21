@@ -8,6 +8,7 @@ import Tabs from '../tabs';
 
 const Restaurant = ({ restaurant }) => {
   const { name, menu, reviews } = restaurant;
+  console.log(restaurant);
   const [activeTab, setActiveTab] = useState('menu');
 
   const averageRating = useMemo(() => {
@@ -27,22 +28,24 @@ const Restaurant = ({ restaurant }) => {
       </Banner>
       <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
       {activeTab === 'menu' && <Menu menu={menu} key={restaurant.id} />}
-      {activeTab === 'reviews' && <Reviews reviews={reviews} />}
+      {activeTab === 'reviews' && (
+        <Reviews reviews={reviews} restaurantId={restaurant.id} />
+      )}
     </div>
   );
 };
 
-Restaurant.propTypes = {
-  restaurant: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    menu: PropTypes.array,
-    reviews: PropTypes.arrayOf(
-      PropTypes.shape({
-        rating: PropTypes.number.isRequired,
-      }).isRequired
-    ).isRequired,
-  }).isRequired,
-};
+// Restaurant.propTypes = {
+//   restaurant: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: PropTypes.string,
+//     menu: PropTypes.array,
+//     reviews: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         rating: PropTypes.number.isRequired,
+//       }).isRequired
+//     ).isRequired,
+//   }).isRequired,
+// };
 
 export default Restaurant;

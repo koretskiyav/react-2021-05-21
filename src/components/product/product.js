@@ -6,6 +6,7 @@ import styles from './product.module.css';
 import Button from '../button';
 
 import { decrement, increment } from '../../redux/actions';
+import { orderSelector, productsSelector } from '../../redux/selectors';
 
 const Product = ({ product, amount, increment, decrement, fetchData }) => {
   useEffect(() => {
@@ -49,10 +50,12 @@ Product.propTypes = {
   decrement: PropTypes.func,
 };
 
-const mapStateToProps = (state, props) => ({
-  amount: state.order[props.id] || 0,
-  product: state.products[props.id],
-});
+const mapStateToProps = (state, props) => {
+  return {
+    amount: orderSelector(state)[props.id] || 0,
+    product: productsSelector(state)[props.id],
+  };
+};
 
 const mapDispatchToProps = (dispatch, props) => ({
   increment: () => dispatch(increment(props.id)),
