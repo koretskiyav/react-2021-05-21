@@ -1,10 +1,17 @@
 import { createSelector } from 'reselect';
+import { STATUS } from './constants';
 
-const restaurantsSelector = (state) => state.restaurants;
+const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
 const productsSelector = (state) => state.products;
 const reviewsSelector = (state) => state.reviews;
 const usersSelector = (state) => state.users;
+
+export const restaurantsLoadingSelector = (state) =>
+  state.restaurants.status === STATUS.pending;
+
+export const restaurantsLoadedSelector = (state) =>
+  state.restaurants.status === STATUS.fulfilled;
 
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
