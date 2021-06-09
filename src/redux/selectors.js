@@ -4,7 +4,8 @@ import { STATUS } from './constants';
 const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
 const productsSelector = (state) => state.products;
-const reviewsSelector = (state) => state.reviews;
+const reviewsSelector = (state) => state.reviews.entities;
+export const isLoadingReviewsSelector = (state) => state.reviews.status !== STATUS.fulfilled;
 const usersSelector = (state) => state.users;
 
 export const restaurantsLoadingSelector = (state) =>
@@ -47,17 +48,25 @@ export const totalSelector = createSelector(
 export const reviewWitUserSelector = createSelector(
   reviewSelector,
   usersSelector,
-  (review, users) => ({
-    ...review,
-    user: users[review.userId]?.name,
-  })
+  (review, users) => {
+    if (!review || !users || !review.userId || !users[review.userId]) {
+      return {};
+    }
+
+    return {
+      ...review,
+      user: users[review.userId]?.name,
+    };
+  }
 );
 
 export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
   (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
+    if (!reviews || !restaurant || !restaurant.reviews) return 0;
+
+    const ratings = restaurant.reviews.map((id) => { return reviews[id] ? reviews[id].rating : 0; });
     return Math.round(
       ratings.reduce((acc, rating) => acc + rating) / ratings.length
     );

@@ -5,21 +5,30 @@ import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
 import { loadReviews } from '../../redux/actions';
-import { useEffect } from 'react';
+import { Component } from 'react';
+import { isLoadingReviewsSelector } from '../../redux/selectors';
+import Loader from '../loader';
 
-const Reviews = ({ reviews, restaurantId, loadReviews }) => {
-  useEffect(() => {
-    loadReviews(restaurantId);
-  }, [loadReviews, restaurantId]);
+class Reviews extends Component {
+  state = { reviews: null, restaurantId: null, loadReviews: null, isLoading: true }; // TODO: ': null' is not a default value, it is required to compile code
+  componentDidMount() {
+    this.props.loadReviews && this.props.loadReviews({ restaurantId: this.props.restaurantId });
+  }
 
-  return (
-    <div className={styles.reviews}>
-      {reviews.map((id) => (
-        <Review key={id} id={id} />
-      ))}
-      <ReviewForm restaurantId={restaurantId} />
-    </div>
-  );
+  render() {
+    if (this.props.isLoading) {
+      return (<Loader />);
+    }
+
+    return (
+      <div className={styles.reviews}>
+        { this.props.reviews && this.props.reviews.map((id) => (
+          <Review key={id} id={id} />
+        ))}
+        { this.props.restaurantId && <ReviewForm restaurantId={this.props.restaurantId} />}
+      </div>
+    );
+  }
 };
 
 Reviews.propTypes = {
@@ -27,4 +36,8 @@ Reviews.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
-export default connect(null, { loadReviews })(Reviews);
+const mapStateToProps = (state) => ({
+  isLoading: isLoadingReviewsSelector(state)
+});
+
+export default connect(mapStateToProps, { loadReviews })(Reviews);

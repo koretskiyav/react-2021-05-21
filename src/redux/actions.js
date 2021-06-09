@@ -31,9 +31,9 @@ export const loadReviews = (restaurantId) => async (dispatch) => {
   dispatch({ type: LOAD_REVIEWS + REQUEST, restaurantId });
 
   try {
-    const data = await api.loadReviews(restaurantId);
-    dispatch({ type: LOAD_REVIEWS + SUCCESS, data, restaurantId });
+    const data = await api.loadReviews(/* TODO: restaurantId*/);
+    dispatch({ type: LOAD_REVIEWS + SUCCESS, data });
   } catch (error) {
-    dispatch({ type: LOAD_REVIEWS + FAILURE, error, restaurantId });
+    dispatch({ type: LOAD_REVIEWS + FAILURE, error });
   }
 };
