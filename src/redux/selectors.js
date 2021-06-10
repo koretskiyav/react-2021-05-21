@@ -3,15 +3,27 @@ import { STATUS } from './constants';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
-const reviewsSelector = (state) => state.reviews;
-const usersSelector = (state) => state.users;
+const productsSelector = (state) => state.products.entities;
+const reviewsSelector = (state) => state.reviews.entities;
+const usersSelector = (state) => state.users.entities;
 
 export const restaurantsLoadingSelector = (state) =>
   state.restaurants.status === STATUS.pending;
 
 export const restaurantsLoadedSelector = (state) =>
   state.restaurants.status === STATUS.fulfilled;
+
+export const productsLoadingSelector = (state, id) =>
+  state.products.status === STATUS.pending;
+
+export const productsLoadedSelector = (state, id) =>
+  state.products.status === STATUS.fulfilled;
+
+export const reviewsLoadingSelector = (state, id) =>
+  state.reviews.status === STATUS.pending;
+
+export const reviewsLoadedSelector = (state, id) =>
+  state.reviews.status === STATUS.fulfilled;
 
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
@@ -47,19 +59,24 @@ export const totalSelector = createSelector(
 export const reviewWitUserSelector = createSelector(
   reviewSelector,
   usersSelector,
-  (review, users) => ({
-    ...review,
-    user: users[review.userId]?.name,
-  })
+  (review, users) =>{
+    debugger
+    return {
+      ...review,
+      user: users[review?.userId]?.name,
+    }
+
+  }
 );
 
 export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
   (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
-    return Math.round(
-      ratings.reduce((acc, rating) => acc + rating) / ratings.length
-    );
+    return 0;
+    // const ratings = restaurant?.reviews?.map((id) => reviews[id]?.rating);
+    // return Math.round(
+    //   ratings.reduce((acc, rating) => acc + rating) / ratings.length
+    // );
   }
 );
