@@ -19,6 +19,12 @@ export const productsLoadingSelector = (state) =>
 export const productsLoadedSelector = (state) =>
   state.restaurants.status === STATUS.fulfilled;
 
+export const usersLoadingSelector = (state) =>
+  state.users.status === STATUS.pending;
+
+export const usersLoadedSelector = (state) =>
+  state.users.status === STATUS.fulfilled;
+
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
   Object.values
