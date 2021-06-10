@@ -17,9 +17,9 @@ const Product = ({ product, amount, increment, decrement, fetchData }) => {
     <div className={styles.product} data-id="product">
       <div className={styles.content}>
         <div>
-          <h4 className={styles.title}>{product.name}</h4>
-          <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>{product.price} $</div>
+          <h4 className={styles.title}>{product?.name}</h4>
+          <p className={styles.description}>{product?.ingredients.join(', ')}</p>
+          <div className={styles.price}>{product?.price} $</div>
         </div>
         <div>
           <div className={styles.counter}>
