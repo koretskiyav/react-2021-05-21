@@ -10,7 +10,21 @@ export const isLoadingProductsSelector = (state) => state.products.status !== ST
 const reviewsSelector = (state) => state.reviews.entities;
 export const isLoadingReviewsSelector = (state) => state.reviews.status !== STATUS.fulfilled;
 
-const usersSelector = (state) => state.users;
+const usersSelector = (state) => {
+  /*
+  TODO: ???
+  if(state.users.status != STATUS.fulfilled) {
+    dispatch({ type: LOAD_USERS + REQUEST, restaurantId });
+  }*/
+  return state.users.entities;
+}
+export const isLoadingUsersSelector = (state) => state.users.status !== STATUS.fulfilled;
+
+export const isLoadingUsersAndReviewsSelector = createSelector(
+  isLoadingUsersSelector,
+  isLoadingReviewsSelector,
+  (isLoadingUsers, isLoadingReviews) => isLoadingUsers || isLoadingReviews
+);
 
 export const restaurantsLoadingSelector = (state) =>
   state.restaurants.status === STATUS.pending;

@@ -4,9 +4,9 @@ import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
-import { loadReviews } from '../../redux/actions';
+import { loadReviews, loadUsers } from '../../redux/actions';
 import { Component } from 'react';
-import { isLoadingReviewsSelector } from '../../redux/selectors';
+import { isLoadingUsersAndReviewsSelector } from '../../redux/selectors';
 import Loader from '../loader';
 
 class Reviews extends Component {
@@ -14,6 +14,7 @@ class Reviews extends Component {
 
   componentDidMount() {
     this.props.loadReviews && this.props.loadReviews({ restaurantId: this.props.restaurantId });
+    this.props.loadUsers && this.props.loadUsers({ restaurantId: this.props.restaurantId });
   }
 
   render() {
@@ -38,7 +39,7 @@ Reviews.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: isLoadingReviewsSelector(state)
+  isLoading: isLoadingUsersAndReviewsSelector(state)
 });
 
-export default connect(mapStateToProps, { loadReviews })(Reviews);
+export default connect(mapStateToProps, { loadReviews, loadUsers })(Reviews);
