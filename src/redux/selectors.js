@@ -3,9 +3,13 @@ import { STATUS } from './constants';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
+
+const productsSelector = (state) => state.products.entities;
+export const isLoadingProductsSelector = (state) => state.products.status !== STATUS.fulfilled;
+
 const reviewsSelector = (state) => state.reviews.entities;
 export const isLoadingReviewsSelector = (state) => state.reviews.status !== STATUS.fulfilled;
+
 const usersSelector = (state) => state.users;
 
 export const restaurantsLoadingSelector = (state) =>

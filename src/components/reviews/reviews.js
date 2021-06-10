@@ -11,6 +11,7 @@ import Loader from '../loader';
 
 class Reviews extends Component {
   state = { reviews: null, restaurantId: null, loadReviews: null, isLoading: true }; // TODO: ': null' is not a default value, it is required to compile code
+
   componentDidMount() {
     this.props.loadReviews && this.props.loadReviews({ restaurantId: this.props.restaurantId });
   }
