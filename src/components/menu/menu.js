@@ -22,7 +22,7 @@ class Menu extends Component {
   componentDidMount() {
     const { restaurantId, loadProducts, loading, loaded } = this.props;
 
-    if (loading || !loaded) {
+    if (!loading && !loaded) {
       loadProducts(restaurantId);
     }
   }

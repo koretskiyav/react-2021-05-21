@@ -23,7 +23,7 @@ export default produce((draft, action) => {
       draft.statuses = data.reduce(
         (accum, restaurant) => ({
           ...accum,
-          [restaurant.id]: STATUS.pending,
+          [restaurant.id]: STATUS.idle,
         }),
         {}
       );
