@@ -1,17 +1,39 @@
 import produce from 'immer';
 import { ADD_REVIEW } from '../constants';
-import { normalizedUsers } from '../../fixtures';
 import { arrToMap } from '../utils';
+import { REQUEST, SUCCESS, FAILURE, STATUS, LOAD_USERS } from '../constants';
 
-export default produce((draft = arrToMap(normalizedUsers), action) => {
-  const { type, review, userId } = action;
+const initialState = {
+  status: STATUS.idle,
+  entities: {},
+  error: null
+};
+
+export default produce((state = initialState, action) => {
+  const { type, review, userId, data, error } = action;
 
   switch (type) {
+    case LOAD_USERS + REQUEST:
+      return produce(state, (draft) => {
+        draft.status = STATUS.pending;
+        draft.error = null;
+      });
+    case LOAD_USERS + SUCCESS:
+      return produce(state, (draft) => {
+        draft.status = STATUS.fulfilled;
+        draft.entities = arrToMap(data);
+      });
+    case LOAD_USERS + FAILURE:
+      return produce(state, (draft) => {
+        draft.status = STATUS.rejected;
+        draft.error = error;
+      });
     case ADD_REVIEW:
       const { name } = review;
-      draft[userId] = { id: userId, name };
-      break;
+      return produce(state, (draft) => {
+        draft.entities[userId] = { id: userId, name };
+      });
     default:
-      return draft;
+      return state;
   }
 });

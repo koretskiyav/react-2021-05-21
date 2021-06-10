@@ -26,11 +26,11 @@ const Review = ({ user, text, rating }) => (
 Review.propTypes = {
   user: PropTypes.string,
   text: PropTypes.string,
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.number
 };
 
 Review.defaultProps = {
-  user: 'Anonymous',
+  user: 'Anonymous'
 };
 
 // const mapStateToProps = (state, props) => ({

@@ -1,25 +1,20 @@
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './product.module.css';
-
 import Button from '../button';
 import { amountSelector, productSelector } from '../../redux/selectors';
-
 import { decrement, increment } from '../../redux/actions';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
-  useEffect(() => {
-    fetchData && fetchData(product.id);
-  }, []); // eslint-disable-line
-
+const Product = ({ product, amount, increment, decrement }) => {
   return (
     <div className={styles.product} data-id="product">
       <div className={styles.content}>
         <div>
-          <h4 className={styles.title}>{product.name}</h4>
-          <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>{product.price} $</div>
+          <h4 className={styles.title}>{product?.name}</h4>
+          <p className={styles.description}>
+            {product?.ingredients.join(', ')}
+          </p>
+          <div className={styles.price}>{product?.price} $</div>
         </div>
         <div>
           <div className={styles.counter}>
@@ -42,7 +37,7 @@ Product.propTypes = {
     name: PropTypes.string,
     price: PropTypes.number,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  }).isRequired,
+  }),
   fetchData: PropTypes.func,
   // from connect
   amount: PropTypes.number,
