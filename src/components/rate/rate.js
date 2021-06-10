@@ -22,7 +22,7 @@ const Rate = ({ value, onChange }) => (
 );
 
 Rate.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
   onChange: PropTypes.func,
 };
 
