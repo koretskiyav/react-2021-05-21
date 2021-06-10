@@ -1,4 +1,3 @@
-import React from 'react';
 import cn from 'classnames';
 import styles from './button.module.css';
 
@@ -22,6 +21,7 @@ const Button = ({
   children,
 }) => {
   const Icon = icons[icon];
+
   return (
     <button
       className={cn(styles.button, {
