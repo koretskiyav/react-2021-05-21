@@ -20,9 +20,20 @@ export const restaurantsListSelector = createSelector(
 
 export const restaurantSelector = (state, { id }) =>
   restaurantsSelector(state)[id];
+export const restaurantProductsLoadingSelector = (state, props) => state.products.loading[props.restaurantId];
+export const restaurantProductsLoadedSelector = (state, props) => state.products.loaded[props.restaurantId];
+
+
+export const restaurantReviewsLoadingSelector = (state, props) => state.reviews.loading[props.restaurantId];
+export const restaurantReviewsLoadedSelector = (state, props) => state.reviews.loaded[props.restaurantId];
+
+export const usersLoadingSelector = (state) => state.users.loading;
+export const usersLoadedSelector = (state) => state.users.loaded;
+
 export const productSelector = (state, { id }) => productsSelector(state)[id];
 export const reviewSelector = (state, { id }) => reviewsSelector(state)[id];
 export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
+
 
 export const orderProductsSelector = createSelector(
   productsSelector,
@@ -33,8 +44,8 @@ export const orderProductsSelector = createSelector(
       .map((productId) => products[productId])
       .map((product) => ({
         product,
-        amount: order[product.id],
-        subtotal: order[product.id] * product.price,
+        amount: order[product?.id],
+        subtotal: order[product?.id] * product?.price,
       }))
 );
 
@@ -57,7 +68,7 @@ export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
   (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
+    const ratings = restaurant.reviews?.map((id) => reviews[id]?.rating);
     return Math.round(
       ratings.reduce((acc, rating) => acc + rating) / ratings.length
     );
