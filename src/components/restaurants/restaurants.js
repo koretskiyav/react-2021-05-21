@@ -15,7 +15,9 @@ const Restaurants = ({ restaurants, loading, loaded, loadRestaurants }) => {
   const [activeId, setActiveId] = useState(restaurants[0]?.id);
 
   useEffect(() => {
-    if (!loading && !loaded) loadRestaurants();
+    if (!loading && !loaded) {
+      loadRestaurants();
+    }
   }, [loading, loaded]); // eslint-disable-line
 
   const restaurantId = activeId || restaurants[0]?.id;
