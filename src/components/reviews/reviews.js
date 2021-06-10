@@ -3,14 +3,45 @@ import { connect } from 'react-redux';
 import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
+import {
+  reviewsLoadingSelector,
+  reviewsLoadedSelector,
+  usersLoadingSelector,
+  usersLoadedSelector,
+} from '../../redux/selectors';
 
-import { loadReviews } from '../../redux/actions';
+import { loadReviews, loadUsers } from '../../redux/actions';
 import { useEffect } from 'react';
+import Loader from '../loader';
 
-const Reviews = ({ reviews, restaurantId, loadReviews }) => {
+const Reviews = ({
+  reviews,
+  restaurantId,
+  loadReviews,
+  loading,
+  loaded,
+  loadingUsers,
+  loadedUsers,
+  loadUsers,
+}) => {
   useEffect(() => {
-    loadReviews(restaurantId);
-  }, [loadReviews, restaurantId]);
+    if (!loading && !loaded) {
+      loadReviews(restaurantId);
+    }
+    if (!loadingUsers && !loadedUsers) {
+      loadUsers();
+    }
+  }, [
+    loadReviews,
+    loadUsers,
+    restaurantId,
+    loading,
+    loaded,
+    loadingUsers,
+    loadedUsers,
+  ]);
+
+  if (loading || !loaded) return <Loader />;
 
   return (
     <div className={styles.reviews}>
@@ -27,4 +58,11 @@ Reviews.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
-export default connect(null, { loadReviews })(Reviews);
+const mapStateToProps = (state, props) => ({
+  loading: reviewsLoadingSelector(state, props),
+  loaded: reviewsLoadedSelector(state, props),
+  loadingUsers: usersLoadingSelector(state),
+  loadedUsers: usersLoadedSelector(state),
+});
+
+export default connect(mapStateToProps, { loadReviews, loadUsers })(Reviews);

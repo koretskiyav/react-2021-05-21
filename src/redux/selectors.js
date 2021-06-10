@@ -3,15 +3,33 @@ import { STATUS } from './constants';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
-const reviewsSelector = (state) => state.reviews;
-const usersSelector = (state) => state.users;
+const productsSelector = (state) => state.products.entities;
+const reviewsSelector = (state) => state.reviews.entities;
+const usersSelector = (state) => state.users.entities;
 
 export const restaurantsLoadingSelector = (state) =>
   state.restaurants.status === STATUS.pending;
 
 export const restaurantsLoadedSelector = (state) =>
   state.restaurants.status === STATUS.fulfilled;
+
+export const productsLoadingSelector = (state, { restaurantId }) =>
+  state.products.statuses[restaurantId] === STATUS.pending;
+
+export const productsLoadedSelector = (state, { restaurantId }) =>
+  state.products.statuses[restaurantId] === STATUS.fulfilled;
+
+export const reviewsLoadingSelector = (state, { restaurantId }) =>
+  state.reviews.statuses[restaurantId] === STATUS.pending;
+
+export const reviewsLoadedSelector = (state, { restaurantId }) =>
+  state.reviews.statuses[restaurantId] === STATUS.fulfilled;
+
+export const usersLoadingSelector = (state) =>
+  state.users.status === STATUS.pending;
+
+export const usersLoadedSelector = (state) =>
+  state.users.status === STATUS.fulfilled;
 
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
@@ -47,7 +65,7 @@ export const totalSelector = createSelector(
 export const reviewWitUserSelector = createSelector(
   reviewSelector,
   usersSelector,
-  (review, users) => ({
+  (review = {}, users) => ({
     ...review,
     user: users[review.userId]?.name,
   })
@@ -56,8 +74,8 @@ export const reviewWitUserSelector = createSelector(
 export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
-  (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
+  (reviews = {}, restaurant) => {
+    const ratings = restaurant.reviews.map((id) => reviews[id]?.rating);
     return Math.round(
       ratings.reduce((acc, rating) => acc + rating) / ratings.length
     );
