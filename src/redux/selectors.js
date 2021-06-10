@@ -3,9 +3,28 @@ import { STATUS } from './constants';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
-const reviewsSelector = (state) => state.reviews;
-const usersSelector = (state) => state.users;
+
+const productsSelector = (state) => state.products.entities;
+export const isLoadingProductsSelector = (state) => state.products.status !== STATUS.fulfilled;
+
+const reviewsSelector = (state) => state.reviews.entities;
+export const isLoadingReviewsSelector = (state) => state.reviews.status !== STATUS.fulfilled;
+
+const usersSelector = (state) => {
+  /*
+  TODO: ???
+  if(state.users.status != STATUS.fulfilled) {
+    dispatch({ type: LOAD_USERS + REQUEST, restaurantId });
+  }*/
+  return state.users.entities;
+}
+export const isLoadingUsersSelector = (state) => state.users.status !== STATUS.fulfilled;
+
+export const isLoadingUsersAndReviewsSelector = createSelector(
+  isLoadingUsersSelector,
+  isLoadingReviewsSelector,
+  (isLoadingUsers, isLoadingReviews) => isLoadingUsers || isLoadingReviews
+);
 
 export const restaurantsLoadingSelector = (state) =>
   state.restaurants.status === STATUS.pending;
@@ -47,17 +66,25 @@ export const totalSelector = createSelector(
 export const reviewWitUserSelector = createSelector(
   reviewSelector,
   usersSelector,
-  (review, users) => ({
-    ...review,
-    user: users[review.userId]?.name,
-  })
+  (review, users) => {
+    if (!review || !users || !review.userId || !users[review.userId]) {
+      return {};
+    }
+
+    return {
+      ...review,
+      user: users[review.userId]?.name,
+    };
+  }
 );
 
 export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
   (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
+    if (!reviews || !restaurant || !restaurant.reviews) return 0;
+
+    const ratings = restaurant.reviews.map((id) => { return reviews[id] ? reviews[id].rating : 0; });
     return Math.round(
       ratings.reduce((acc, rating) => acc + rating) / ratings.length
     );
