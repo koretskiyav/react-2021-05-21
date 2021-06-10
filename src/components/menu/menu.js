@@ -21,7 +21,7 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    this.props.loadProducts && this.props.loadProducts();
+    this.props.loadProducts && this.props.loadProducts(); // TODO: unmount + mount or new Menu will send dublicated request
   }
 
   render() {

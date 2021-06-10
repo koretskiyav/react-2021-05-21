@@ -13,8 +13,9 @@ class Reviews extends Component {
   state = { reviews: null, restaurantId: null, loadReviews: null, isLoading: true }; // TODO: ': null' is not a default value, it is required to compile code
 
   componentDidMount() {
-    this.props.loadReviews && this.props.loadReviews({ restaurantId: this.props.restaurantId });
-    this.props.loadUsers && this.props.loadUsers({ restaurantId: this.props.restaurantId });
+    // TODO: unmount + mount or new Menu will send dublicated request
+    this.props.loadReviews && this.props.loadReviews();
+    this.props.loadUsers && this.props.loadUsers();
   }
 
   render() {
