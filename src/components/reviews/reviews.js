@@ -28,20 +28,16 @@ const Reviews = ({
     if (!loading && !loaded) {
       loadReviews(restaurantId);
     }
+  }, [loadReviews, restaurantId, loading, loaded]);
+
+  useEffect(() => {
     if (!loadingUsers && !loadedUsers) {
       loadUsers();
     }
-  }, [
-    loadReviews,
-    loadUsers,
-    restaurantId,
-    loading,
-    loaded,
-    loadingUsers,
-    loadedUsers,
-  ]);
+  }, [loadingUsers, loadedUsers, loadUsers]);
 
-  if (loading || !loaded) return <Loader />;
+  const isNotReady = loading || !loaded || loadingUsers || !loadedUsers;
+  if (isNotReady) return <Loader />;
 
   return (
     <div className={styles.reviews}>
