@@ -1,14 +1,18 @@
-import { PureComponent } from 'react';
+import { useState } from 'react';
 import Restaurants from '../restaurants';
 import Header from '../header';
 
-export default class App extends PureComponent {
-  render() {
-    return (
-      <div>
+import { UserProvider } from '../../context/user';
+const App = () => {
+  const [name, setName] = useState('Andrey');
+  return (
+    <div>
+      <UserProvider value={{ name, setName }}>
         <Header />
         <Restaurants />
-      </div>
-    );
-  }
-}
+      </UserProvider>
+    </div>
+  );
+};
+
+export default App;
