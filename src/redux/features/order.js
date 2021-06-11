@@ -1,23 +1,25 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
 export const increment = createAction('order/increment');
 export const decrement = createAction('order/decrement');
 export const remove = createAction('order/remove');
 
-// { [productId]: amount }
-export default (state = {}, action) => {
-  const { type, payload: id } = action;
-  switch (type) {
-    case increment.type:
-      return { ...state, [id]: (state[id] || 0) + 1 };
-    case decrement.type:
-      return { ...state, [id]: state[id] > 0 ? (state[id] || 0) - 1 : 0 };
-    case remove.type:
-      return { ...state, [id]: 0 };
-    default:
-      return state;
+const reducer = createReducer(
+  {},
+  {
+    [increment]: (state, { payload: id }) => {
+      state[id] = (state[id] || 0) + 1;
+    },
+    [decrement]: (state, { payload: id }) => {
+      state[id] = state[id] > 0 ? (state[id] || 0) - 1 : 0;
+    },
+    [remove]: (state, { payload: id }) => {
+      state[id] = 0;
+    },
   }
-};
+);
+
+export default reducer;
 
 export const orderSelector = (state) => state.order;
 export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
