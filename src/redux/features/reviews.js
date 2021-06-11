@@ -1,7 +1,7 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import produce from 'immer';
 import api from '../../api';
-import { FAILURE, REQUEST, STATUS, SUCCESS } from '../constants';
+import { STATUS } from '../constants';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
 
 export const LOAD_REVIEWS = 'LOAD_REVIEWS';
@@ -14,19 +14,14 @@ export const addReview = createAction(
   })
 );
 
-export const loadReviews = (restaurantId) => async (dispatch, getState) => {
-  const shouldLoad = shouldLoadReviewsSelector(getState(), { restaurantId });
-
-  if (!shouldLoad) return;
-  dispatch({ type: LOAD_REVIEWS + REQUEST, restaurantId });
-
-  try {
-    const data = await api.loadReviews(restaurantId);
-    dispatch({ type: LOAD_REVIEWS + SUCCESS, restaurantId, data });
-  } catch (error) {
-    dispatch({ type: LOAD_REVIEWS + FAILURE, restaurantId, error });
+export const loadReviews = createAsyncThunk(
+  'reviews/load',
+  (id) => api.loadReviews(id),
+  {
+    condition: (id, { getState }) =>
+      shouldLoadReviewsSelector(getState(), { restaurantId: id }),
   }
-};
+);
 
 const initialState = {
   status: {},
@@ -35,21 +30,21 @@ const initialState = {
 };
 
 export default produce((draft = initialState, action) => {
-  const { type, payload, meta, restaurantId, data, error } = action;
+  const { type, payload, meta, error } = action;
 
   switch (type) {
-    case LOAD_REVIEWS + REQUEST: {
-      draft.status[restaurantId] = STATUS.pending;
+    case loadReviews.pending.type: {
+      draft.status[meta.arg] = STATUS.pending;
       draft.error = null;
       break;
     }
-    case LOAD_REVIEWS + SUCCESS: {
-      draft.status[restaurantId] = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
+    case loadReviews.fulfilled.type: {
+      draft.status[meta.arg] = STATUS.fulfilled;
+      Object.assign(draft.entities, arrToMap(payload));
       break;
     }
-    case LOAD_REVIEWS + FAILURE: {
-      draft.status[restaurantId] = STATUS.rejected;
+    case loadReviews.rejected.type: {
+      draft.status[meta.arg] = STATUS.rejected;
       draft.error = error;
       break;
     }
