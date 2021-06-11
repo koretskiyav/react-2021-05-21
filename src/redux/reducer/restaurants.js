@@ -1,4 +1,5 @@
-import produce from 'immer';
+import { createNextState } from '@reduxjs/toolkit';
+
 import {
   LOAD_RESTAURANTS,
   STATUS,
@@ -26,7 +27,7 @@ export default (state = initialState, action) => {
     case LOAD_RESTAURANTS + FAILURE:
       return { ...state, status: STATUS.rejected, error };
     case addReview.type:
-      return produce(state, (draft) => {
+      return createNextState(state, (draft) => {
         draft.entities[payload.restaurantId].reviews.push(meta.reviewId);
       });
     default:

@@ -1,4 +1,5 @@
-import produce from 'immer';
+import { createNextState } from '@reduxjs/toolkit';
+
 import { LOAD_USERS, STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
 import { addReview } from '../features/reviews';
 import { arrToMap } from '../utils';
@@ -9,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-export default produce((draft = initialState, action) => {
+export default createNextState((draft = initialState, action) => {
   const { type, payload, meta, data, error } = action;
 
   switch (type) {

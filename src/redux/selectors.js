@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 import { orderSelector } from './features/order';
 import { reviewSelector, reviewsSelector } from './features/reviews';
 import { isLoaded, isLoading, shouldLoad } from './utils';
