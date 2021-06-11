@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
-import { arrToMap, isLoaded, shouldLoad } from '../utils';
+import { isLoaded, shouldLoad } from '../utils';
 
 export const LOAD_REVIEWS = 'LOAD_REVIEWS';
 
@@ -61,11 +61,14 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-export const reviewsSelector = (state) => state.reviews.entities;
+const reviewsSelectors = Reviews.getSelectors((state) => state.reviews);
+
+export const reviewsSelector = reviewsSelectors.selectEntities;
 export const reviewsStatusSelector = (state, props) =>
   state.reviews.status[props.restaurantId];
 
 export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
 export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
 
-export const reviewSelector = (state, { id }) => reviewsSelector(state)[id];
+export const reviewSelector = (state, { id }) =>
+  reviewsSelectors.selectById(state, id);
