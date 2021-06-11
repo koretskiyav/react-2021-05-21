@@ -1,16 +1,43 @@
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Review from './review';
 import ReviewForm from './review-form';
+import {
+  reviewsIsLoadingSelector,
+  reviewsIsLoadedSelector,
+  usersIsLoadingSelector,
+  usersIsLoadedSelector,
+} from '../../redux/selectors';
 import styles from './reviews.module.css';
+import { loadReviews, loadUsers } from '../../redux/actions';
+import Loader from '../loader';
 
-import { loadReviews } from '../../redux/actions';
-import { useEffect } from 'react';
-
-const Reviews = ({ reviews, restaurantId, loadReviews }) => {
+const Reviews = ({
+  reviews,
+  restaurantId,
+  loadReviews,
+  isLoadingReviews,
+  isLoadedReviews,
+  isLoadingUsers,
+  isLoadedUsers,
+  loadUsers,
+}) => {
   useEffect(() => {
-    loadReviews(restaurantId);
-  }, [loadReviews, restaurantId]);
+    if (!isLoadingReviews && !isLoadedReviews) {
+      loadReviews(restaurantId);
+    }
+  }, [loadReviews, restaurantId, isLoadingReviews, isLoadedReviews]);
+
+  useEffect(() => {
+    if (!isLoadingUsers && !isLoadedUsers) {
+      loadUsers();
+    }
+  }, [isLoadingUsers, isLoadedUsers, loadUsers]);
+
+  const isNotReady =
+    isLoadingReviews || !isLoadedReviews || isLoadingUsers || !isLoadedUsers;
+
+  if (isNotReady) return <Loader />;
 
   return (
     <div className={styles.reviews}>
@@ -22,9 +49,11 @@ const Reviews = ({ reviews, restaurantId, loadReviews }) => {
   );
 };
 
-Reviews.propTypes = {
-  restaurantId: PropTypes.string,
-  reviews: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-};
+const mapStateToProps = (state, props) => ({
+  isLoadingReviews: reviewsIsLoadingSelector(state, props),
+  isLoadedReviews: reviewsIsLoadedSelector(state, props),
+  isLoadingUsers: usersIsLoadingSelector(state),
+  isLoadedUsers: usersIsLoadedSelector(state),
+});
 
-export default connect(null, { loadReviews })(Reviews);
+export default connect(mapStateToProps, { loadReviews, loadUsers })(Reviews);

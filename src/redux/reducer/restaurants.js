@@ -14,22 +14,26 @@ const initialState = {
   entities: {},
   error: null,
 };
-
-export default (state = initialState, action) => {
+export default produce((draft, action) => {
   const { type, restaurantId, reviewId, data, error } = action;
 
   switch (type) {
     case LOAD_RESTAURANTS + REQUEST:
-      return { ...state, status: STATUS.pending, error: null };
+      draft.status = STATUS.pending;
+      draft.error = null;
+      break;
     case LOAD_RESTAURANTS + SUCCESS:
-      return { ...state, status: STATUS.fulfilled, entities: arrToMap(data) };
+      draft.status = STATUS.fulfilled;
+      draft.entities = arrToMap(data);
+      break;
     case LOAD_RESTAURANTS + FAILURE:
-      return { ...state, status: STATUS.rejected, error };
+      draft.status = STATUS.rejected;
+      draft.error = error;
+      break;
     case ADD_REVIEW:
-      return produce(state, (draft) => {
-        draft.entities[restaurantId].reviews.push(reviewId);
-      });
+      draft.entities[restaurantId].reviews.push(reviewId);
+      break;
     default:
-      return state;
+      return draft;
   }
-};
+}, initialState);
