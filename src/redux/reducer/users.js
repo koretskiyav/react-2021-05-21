@@ -1,12 +1,6 @@
 import produce from 'immer';
-import {
-  ADD_REVIEW,
-  LOAD_USERS,
-  STATUS,
-  REQUEST,
-  SUCCESS,
-  FAILURE,
-} from '../constants';
+import { LOAD_USERS, STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { ADD_REVIEW } from '../features/reviews';
 import { arrToMap } from '../utils';
 
 const initialState = {

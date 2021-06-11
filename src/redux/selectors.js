@@ -1,17 +1,15 @@
 import { createSelector } from 'reselect';
 import { orderSelector } from './features/order';
+import { reviewSelector, reviewsSelector } from './features/reviews';
 import { isLoaded, isLoading, shouldLoad } from './utils';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const productsSelector = (state) => state.products.entities;
-const reviewsSelector = (state) => state.reviews.entities;
 const usersSelector = (state) => state.users.entities;
 
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 const productsStatusSelector = (state, props) =>
   state.products.status[props.restaurantId];
-const reviewsStatusSelector = (state, props) =>
-  state.reviews.status[props.restaurantId];
 const usersStatusSelector = (state) => state.users.status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
@@ -21,9 +19,6 @@ export const shouldLoadRestaurantsSelector = shouldLoad(
 
 export const productsLoadingSelector = isLoading(productsStatusSelector);
 export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
-
-export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
-export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
 
 export const usersLoadedSelector = isLoaded(usersStatusSelector);
 export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
@@ -36,7 +31,6 @@ export const restaurantsListSelector = createSelector(
 export const restaurantSelector = (state, { id }) =>
   restaurantsSelector(state)[id];
 export const productSelector = (state, { id }) => productsSelector(state)[id];
-export const reviewSelector = (state, { id }) => reviewsSelector(state)[id];
 
 export const orderProductsSelector = createSelector(
   productsSelector,

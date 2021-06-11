@@ -1,12 +1,12 @@
 import produce from 'immer';
 import {
-  ADD_REVIEW,
   LOAD_RESTAURANTS,
   STATUS,
   REQUEST,
   SUCCESS,
   FAILURE,
 } from '../constants';
+import { ADD_REVIEW } from '../features/reviews';
 import { arrToMap } from '../utils';
 
 const initialState = {
