@@ -6,7 +6,7 @@ import {
   SUCCESS,
   FAILURE,
 } from '../constants';
-import { ADD_REVIEW } from '../features/reviews';
+import { addReview } from '../features/reviews';
 import { arrToMap } from '../utils';
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { type, restaurantId, reviewId, data, error } = action;
+  const { type, payload, meta, data, error } = action;
 
   switch (type) {
     case LOAD_RESTAURANTS + REQUEST:
@@ -25,9 +25,9 @@ export default (state = initialState, action) => {
       return { ...state, status: STATUS.fulfilled, entities: arrToMap(data) };
     case LOAD_RESTAURANTS + FAILURE:
       return { ...state, status: STATUS.rejected, error };
-    case ADD_REVIEW:
+    case addReview.type:
       return produce(state, (draft) => {
-        draft.entities[restaurantId].reviews.push(reviewId);
+        draft.entities[payload.restaurantId].reviews.push(meta.reviewId);
       });
     default:
       return state;

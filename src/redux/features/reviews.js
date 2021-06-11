@@ -1,17 +1,18 @@
+import { createAction } from '@reduxjs/toolkit';
 import produce from 'immer';
 import api from '../../api';
 import { FAILURE, REQUEST, STATUS, SUCCESS } from '../constants';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
 
-export const ADD_REVIEW = 'ADD_REVIEW';
 export const LOAD_REVIEWS = 'LOAD_REVIEWS';
 
-export const addReview = (review, restaurantId) => ({
-  type: ADD_REVIEW,
-  review,
-  restaurantId,
-  generateId: ['reviewId', 'userId'],
-});
+export const addReview = createAction(
+  'reviews/add',
+  (review, restaurantId) => ({
+    payload: { review, restaurantId },
+    meta: { generateId: ['reviewId', 'userId'] },
+  })
+);
 
 export const loadReviews = (restaurantId) => async (dispatch, getState) => {
   const shouldLoad = shouldLoadReviewsSelector(getState(), { restaurantId });
@@ -34,7 +35,7 @@ const initialState = {
 };
 
 export default produce((draft = initialState, action) => {
-  const { type, review, reviewId, userId, restaurantId, data, error } = action;
+  const { type, payload, meta, restaurantId, data, error } = action;
 
   switch (type) {
     case LOAD_REVIEWS + REQUEST: {
@@ -52,8 +53,9 @@ export default produce((draft = initialState, action) => {
       draft.error = error;
       break;
     }
-    case ADD_REVIEW:
-      const { text, rating } = review;
+    case addReview.type:
+      const { text, rating } = payload.review;
+      const { reviewId, userId } = meta;
       draft.entities[reviewId] = { id: reviewId, userId, text, rating };
       break;
     default:

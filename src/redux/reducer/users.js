@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { LOAD_USERS, STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
-import { ADD_REVIEW } from '../features/reviews';
+import { addReview } from '../features/reviews';
 import { arrToMap } from '../utils';
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export default produce((draft = initialState, action) => {
-  const { type, review, userId, data, error } = action;
+  const { type, payload, meta, data, error } = action;
 
   switch (type) {
     case LOAD_USERS + REQUEST: {
@@ -28,9 +28,9 @@ export default produce((draft = initialState, action) => {
       draft.error = error;
       break;
     }
-    case ADD_REVIEW:
-      const { name } = review;
-      draft.entities[userId] = { id: userId, name };
+    case addReview.type:
+      const { name } = payload.review;
+      draft.entities[meta.userId] = { id: meta.userId, name };
       break;
     default:
       return draft;
