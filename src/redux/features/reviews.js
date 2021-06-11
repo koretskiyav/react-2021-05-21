@@ -1,4 +1,9 @@
-import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
@@ -22,9 +27,11 @@ export const loadReviews = createAsyncThunk(
   }
 );
 
+const Reviews = createEntityAdapter();
+
 const initialState = {
+  ...Reviews.getInitialState(),
   status: {},
-  entities: {},
   error: null,
 };
 
@@ -36,9 +43,9 @@ const { reducer } = createSlice({
       state.status[meta.arg] = STATUS.pending;
       state.error = null;
     },
-    [loadReviews.fulfilled.type]: (state, { meta, payload }) => {
-      state.status[meta.arg] = STATUS.fulfilled;
-      Object.assign(state.entities, arrToMap(payload));
+    [loadReviews.fulfilled.type]: (state, action) => {
+      state.status[action.meta.arg] = STATUS.fulfilled;
+      Reviews.addMany(state, action);
     },
     [loadReviews.rejected.type]: (state, { meta, error }) => {
       state.status[meta.arg] = STATUS.rejected;
@@ -47,7 +54,7 @@ const { reducer } = createSlice({
     [addReview.type]: (state, { meta, payload }) => {
       const { text, rating } = payload.review;
       const { reviewId, userId } = meta;
-      state.entities[reviewId] = { id: reviewId, userId, text, rating };
+      Reviews.addOne(state, { id: reviewId, userId, text, rating });
     },
   },
 });
