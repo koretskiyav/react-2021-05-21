@@ -1,20 +1,18 @@
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-const REMOVE = 'REMOVE';
+import { createAction } from '@reduxjs/toolkit';
 
-export const increment = (id) => ({ type: INCREMENT, id });
-export const decrement = (id) => ({ type: DECREMENT, id });
-export const remove = (id) => ({ type: REMOVE, id });
+export const increment = createAction('order/increment');
+export const decrement = createAction('order/decrement');
+export const remove = createAction('order/remove');
 
 // { [productId]: amount }
 export default (state = {}, action) => {
-  const { type, id } = action;
+  const { type, payload: id } = action;
   switch (type) {
-    case INCREMENT:
+    case increment.type:
       return { ...state, [id]: (state[id] || 0) + 1 };
-    case DECREMENT:
+    case decrement.type:
       return { ...state, [id]: state[id] > 0 ? (state[id] || 0) - 1 : 0 };
-    case REMOVE:
+    case remove.type:
       return { ...state, [id]: 0 };
     default:
       return state;
