@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
+import { orderSelector } from './features/order';
 import { isLoaded, isLoading, shouldLoad } from './utils';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const productsSelector = (state) => state.products.entities;
 const reviewsSelector = (state) => state.reviews.entities;
 const usersSelector = (state) => state.users.entities;
-const orderSelector = (state) => state.order;
 
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 const productsStatusSelector = (state, props) =>
@@ -37,7 +37,6 @@ export const restaurantSelector = (state, { id }) =>
   restaurantsSelector(state)[id];
 export const productSelector = (state, { id }) => productsSelector(state)[id];
 export const reviewSelector = (state, { id }) => reviewsSelector(state)[id];
-export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
 
 export const orderProductsSelector = createSelector(
   productsSelector,

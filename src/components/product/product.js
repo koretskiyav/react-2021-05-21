@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 
 import Button from '../button';
-import { amountSelector, productSelector } from '../../redux/selectors';
+import { amountSelector } from '../../redux/features/order';
+import { productSelector } from '../../redux/selectors';
 
-import { decrement, increment } from '../../redux/actions';
+import { decrement, increment } from '../../redux/features/order';
 
 const Product = ({ product, amount, increment, decrement }) => {
   if (!product) return null;
