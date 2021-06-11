@@ -1,17 +1,32 @@
 import { createSelector } from 'reselect';
-import { STATUS } from './constants';
+import { isLoaded, isLoading, shouldLoad } from './utils';
 
 const restaurantsSelector = (state) => state.restaurants.entities;
+const productsSelector = (state) => state.products.entities;
+const reviewsSelector = (state) => state.reviews.entities;
+const usersSelector = (state) => state.users.entities;
 const orderSelector = (state) => state.order;
-const productsSelector = (state) => state.products;
-const reviewsSelector = (state) => state.reviews;
-const usersSelector = (state) => state.users;
 
-export const restaurantsLoadingSelector = (state) =>
-  state.restaurants.status === STATUS.pending;
+const restaurantsStatusSelector = (state) => state.restaurants.status;
+const productsStatusSelector = (state, props) =>
+  state.products.status[props.restaurantId];
+const reviewsStatusSelector = (state, props) =>
+  state.reviews.status[props.restaurantId];
+const usersStatusSelector = (state) => state.users.status;
 
-export const restaurantsLoadedSelector = (state) =>
-  state.restaurants.status === STATUS.fulfilled;
+export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
+export const shouldLoadRestaurantsSelector = shouldLoad(
+  restaurantsStatusSelector
+);
+
+export const productsLoadingSelector = isLoading(productsStatusSelector);
+export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
+
+export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
+export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
+
+export const usersLoadedSelector = isLoaded(usersStatusSelector);
+export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
 
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
@@ -57,9 +72,9 @@ export const averageRatingSelector = createSelector(
   reviewsSelector,
   restaurantSelector,
   (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id].rating);
+    const ratings = restaurant.reviews.map((id) => reviews[id]?.rating || 0);
     return Math.round(
-      ratings.reduce((acc, rating) => acc + rating) / ratings.length
+      ratings.reduce((acc, rating) => acc + rating, 0) / ratings.length
     );
   }
 );

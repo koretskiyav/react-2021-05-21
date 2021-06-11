@@ -1,11 +1,11 @@
 import produce from 'immer';
 import {
   ADD_REVIEW,
-  FAILURE,
   LOAD_RESTAURANTS,
-  REQUEST,
   STATUS,
+  REQUEST,
   SUCCESS,
+  FAILURE,
 } from '../constants';
 import { arrToMap } from '../utils';
 
