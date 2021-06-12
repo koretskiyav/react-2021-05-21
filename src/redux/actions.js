@@ -1,6 +1,5 @@
 import api from '../api';
 import {
-  LOAD_RESTAURANTS,
   LOAD_PRODUCTS,
   LOAD_USERS,
   REQUEST,
@@ -9,11 +8,6 @@ import {
 } from './constants';
 
 import { shouldLoadUsersSelector } from './selectors';
-
-export const loadRestaurants = () => ({
-  type: LOAD_RESTAURANTS,
-  apiCall: () => api.loadRestaurants(),
-});
 
 export const loadProducts = (restaurantId) => ({
   type: LOAD_PRODUCTS,
