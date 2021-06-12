@@ -1,6 +1,5 @@
 import api from '../api';
 import {
-  LOAD_PRODUCTS,
   LOAD_USERS,
   REQUEST,
   SUCCESS,
@@ -8,12 +7,6 @@ import {
 } from './constants';
 
 import { shouldLoadUsersSelector } from './selectors';
-
-export const loadProducts = (restaurantId) => ({
-  type: LOAD_PRODUCTS,
-  apiCall: () => api.loadProducts(restaurantId),
-  restaurantId,
-});
 
 export const loadUsers = () => async (dispatch, getState) => {
   const shouldLoad = shouldLoadUsersSelector(getState());
