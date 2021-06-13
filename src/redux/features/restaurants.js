@@ -1,4 +1,4 @@
-import { createNextState, createSelector } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createNextState, createSelector, createSlice } from "@reduxjs/toolkit";
 import { FAILURE, REQUEST, STATUS, SUCCESS } from "../constants";
 import api from "../../api";
 import { arrToMap, isLoaded, shouldLoad } from "../utils";
@@ -6,47 +6,55 @@ import { addReview } from "./reviews";
 
 export const LOAD_RESTAURANTS = 'LOAD_RESTAURANTS';
 
-// reducer
-
-const initialState = {
-  status: STATUS.idle,
-  entities: {},
-  error: null,
-};
-
-export default (state = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
-
-  switch (type) {
-    case LOAD_RESTAURANTS + REQUEST:
-      return { ...state, status: STATUS.pending, error: null };
-    case LOAD_RESTAURANTS + SUCCESS:
-      return { ...state, status: STATUS.fulfilled, entities: arrToMap(data) };
-    case LOAD_RESTAURANTS + FAILURE:
-      return { ...state, status: STATUS.rejected, error };
-    case addReview.type:
-      return createNextState(state, (draft) => {
-        draft.entities[payload.restaurantId].reviews.push(meta.reviewId);
-      });
-    default:
-      return state;
-  }
-};
-
 // actions
 
-export const loadRestaurants = () => async (dispatch) => {
-  dispatch({ type: LOAD_RESTAURANTS + REQUEST });
-  try {
-    const data = await api.loadRestaurants();
-    dispatch({ type: LOAD_RESTAURANTS + SUCCESS, data });
-  } catch (error) {
-    dispatch({ type: LOAD_RESTAURANTS + FAILURE, error });
+export const loadRestaurants = createAsyncThunk(
+  'restaurants/load',
+  async () => await api.loadRestaurants()
+);
+
+// reducer
+
+const Restaurants = createEntityAdapter();
+
+const initialState = Restaurants.getInitialState({
+  status: STATUS.idle,
+  error: null,
+});
+
+const { reducer } = createSlice({
+  name: 'restaurants',
+  initialState,
+  extraReducers: {
+    [loadRestaurants.pending]: (state) => {
+      state.status = STATUS.pending;
+      state.error = null;
+    },
+    [loadRestaurants.fulfilled]: (state, action) => {
+      state.status = STATUS.fulfilled;
+      Restaurants.addMany(state, action);
+    },
+    [loadRestaurants.rejected]: (state, { error }) => {
+      state.status = STATUS.rejected;
+      state.error = error;
+    },
+    [addReview.type]: (state, action) => {
+      const reviews = state.entities[action.payload.restaurantId].reviews;
+      Restaurants.updateOne(state, {
+        id: action.payload.restaurantId, changes: {
+          reviews: [...reviews, action.meta.reviewId]
+        }
+      });
+    },
   }
-}
+});
+
+export default reducer;
 
 // selectors 
+// TODO: Restaurants.getSelectors();
 
+// selectEntities
 const restaurantsSelector = (state) => state.restaurants.entities;
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 
@@ -54,10 +62,13 @@ export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
 export const shouldLoadRestaurantsSelector = shouldLoad(
   restaurantsStatusSelector
 );
+
+// TODO: selectAll
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,
   Object.values
 );
 
+// selectById
 export const restaurantSelector = (state, { id }) =>
   restaurantsSelector(state)[id];
