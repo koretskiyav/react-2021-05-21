@@ -24,8 +24,8 @@ const Reviews = ({
 }) => {
   useEffect(() => {
     loadUsers();
-    loadReviews(restaurantId);
-  }, [loadUsers, loadReviews, restaurantId]);
+    loadReviews();
+  }, [loadUsers, loadReviews]);
 
   if (!usersLoaded || !reviewsLoaded) return <Loader />;
 
@@ -49,6 +49,10 @@ const mapStateToProps = (state, props) => ({
   usersLoaded: usersLoadedSelector(state, props),
 });
 
-const mapDispatchToProps = { loadReviews, loadUsers };
+//const mapDispatchToProps = { loadReviews, loadUsers };
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadUsers: () => dispatch(loadUsers()),
+  loadReviews: () => dispatch(loadReviews(ownProps.restaurantId)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

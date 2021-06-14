@@ -63,8 +63,7 @@ export default reducer;
 const reviewsSelectors = Reviews.getSelectors((state) => state.reviews);
 
 export const reviewsSelector = reviewsSelectors.selectEntities;
-export const reviewsStatusSelector = (state, props) =>
-  state.reviews.status[props.restaurantId];
+export const reviewsStatusSelector = (state, props) => state.reviews.status[props.restaurantId];
 
 export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
 export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
