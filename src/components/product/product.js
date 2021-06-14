@@ -1,17 +1,15 @@
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './product.module.css';
 
 import Button from '../button';
-import { amountSelector, productSelector } from '../../redux/selectors';
+import { amountSelector } from '../../redux/features/order';
+import { productSelector } from '../../redux/selectors';
 
-import { decrement, increment } from '../../redux/actions';
+import { decrement, increment } from '../../redux/features/order';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
-  useEffect(() => {
-    fetchData && fetchData(product.id);
-  }, []); // eslint-disable-line
+const Product = ({ product, amount, increment, decrement }) => {
+  if (!product) return null;
 
   return (
     <div className={styles.product} data-id="product">
@@ -42,8 +40,7 @@ Product.propTypes = {
     name: PropTypes.string,
     price: PropTypes.number,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  }).isRequired,
-  fetchData: PropTypes.func,
+  }),
   // from connect
   amount: PropTypes.number,
   increment: PropTypes.func,
