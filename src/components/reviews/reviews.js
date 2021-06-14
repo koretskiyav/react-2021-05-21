@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
-
-import { loadUsers } from '../../redux/actions';
+import { loadUsers } from '../../redux/features/users';
 import {
   loadReviews,
   reviewsLoadedSelector,
 } from '../../redux/features/reviews';
-import { usersLoadedSelector } from '../../redux/selectors';
-
+import { usersLoadedSelector } from '../../redux/features/users';
 import Loader from '../loader';
 
 const Reviews = ({

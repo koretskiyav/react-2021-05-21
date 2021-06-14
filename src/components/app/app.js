@@ -4,7 +4,7 @@ import Header from '../header';
 
 import { UserProvider } from '../../context/user';
 const App = () => {
-  const [name, setName] = useState('Andrey');
+  const [name, setName] = useState('');
   return (
     <div>
       <UserProvider value={{ name, setName }}>

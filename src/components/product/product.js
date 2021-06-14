@@ -4,8 +4,7 @@ import styles from './product.module.css';
 
 import Button from '../button';
 import { amountSelector } from '../../redux/features/order';
-import { productSelector } from '../../redux/selectors';
-
+import { productSelector } from '../../redux/features/products';
 import { decrement, increment } from '../../redux/features/order';
 
 const Product = ({ product, amount, increment, decrement }) => {
@@ -41,7 +40,6 @@ Product.propTypes = {
     price: PropTypes.number,
     ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }),
-  // from connect
   amount: PropTypes.number,
   increment: PropTypes.func,
   decrement: PropTypes.func,

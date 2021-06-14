@@ -1,17 +1,14 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { loadProducts } from '../../redux/actions';
+import { loadProducts } from '../../redux/features/products';
 import {
   productsLoadingSelector,
   shouldLoadProductsSelector,
-} from '../../redux/selectors';
-
+} from '../../redux/features/products';
 import Loader from '../loader';
 import Product from '../product';
 import Basket from '../basket';
-
 import styles from './menu.module.css';
 
 class Menu extends Component {

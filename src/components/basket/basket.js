@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-
 import styles from './basket.module.css';
 import itemStyles from './basket-item/basket-item.module.css';
 import BasketItem from './basket-item';
@@ -8,7 +7,6 @@ import { orderProductsSelector, totalSelector } from '../../redux/selectors';
 import { UserConsumer } from '../../context/user';
 
 function Basket({ title = 'Basket', total, orderProducts }) {
-  console.log('render Basket');
   if (!total) {
     return (
       <div className={styles.basket}>
@@ -19,9 +17,9 @@ function Basket({ title = 'Basket', total, orderProducts }) {
 
   return (
     <div className={styles.basket}>
-      {/* <h4 className={styles.title}>{`${name}'s ${title}`}</h4> */}
+      {/* <h4 className={styles.title}>{`${name} ${title}`}</h4> */}
       <h4 className={styles.title}>
-        <UserConsumer>{({ name }) => `${name}'s ${title}`}</UserConsumer>
+        <UserConsumer>{({ name }) => `${name} ${title}`}</UserConsumer>
       </h4>
       {orderProducts.map(({ product, amount, subtotal }) => (
         <BasketItem
