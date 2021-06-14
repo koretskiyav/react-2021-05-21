@@ -7,7 +7,12 @@ import api from '../../api';
 
 export const loadProducts = createAsyncThunk(
   'products/loadByReastaurant',
-  async (restaurantId) => await api.loadProducts(restaurantId)
+  async (restaurantId) => await api.loadProducts(restaurantId),
+  {
+    condition: (id, { getState }) => {
+      return shouldLoadProductsSelector(getState(), { restaurantId: id });
+    }
+  }
 );
 
 // reducer
@@ -24,11 +29,11 @@ const { reducer } = createSlice({
   initialState,
   extraReducers: {
     [loadProducts.pending]: (state, action) => {
-      state.status[action.arg] = STATUS.pending;
+      state.status[action.meta.arg] = STATUS.pending;
       state.error = null;
     },
     [loadProducts.fulfilled]: (state, action) => {
-      state.status[action.arg] = STATUS.fulfilled;
+      state.status[action.meta.arg] = STATUS.fulfilled;
       Products.addMany(state, action);
     },
     [loadProducts.rejected]: (state, action) => {

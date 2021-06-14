@@ -17,19 +17,12 @@ class Menu extends Component {
 
   state = { error: null };
 
-  loadProductsIfNeeded = () => {
-    const { loadProducts, restaurantId, shouldLoad } = this.props;
-    if (shouldLoad) loadProducts(restaurantId);
-  };
-
   componentDidMount() {
-    this.loadProductsIfNeeded();
+    this.props.loadProducts();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.restaurantId !== this.props.restaurantId) {
-      this.loadProductsIfNeeded();
-    }
+  componentDidUpdate() {
+    this.props.loadProducts();
   }
 
   componentDidCatch(error) {
@@ -67,6 +60,9 @@ const mapStateToProps = (state, props) => ({
   shouldLoad: shouldLoadProductsSelector(state, props),
 });
 
-const mapDispatchToProps = { loadProducts };
+//const mapDispatchToProps = { loadProducts };
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadProducts: () => dispatch(loadProducts(ownProps.restaurantId)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);
