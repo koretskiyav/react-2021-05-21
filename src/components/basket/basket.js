@@ -6,9 +6,9 @@ import BasketItem from './basket-item';
 import Button from '../button';
 import { orderProductsSelector, totalSelector } from '../../redux/selectors';
 import { UserConsumer } from '../../context/user';
+import TransformCurrency from '../transformCurrency';
 
 function Basket({ title = 'Basket', total, orderProducts }) {
-  console.log('render Basket');
   if (!total) {
     return (
       <div className={styles.basket}>
@@ -37,7 +37,9 @@ function Basket({ title = 'Basket', total, orderProducts }) {
           <p>Total</p>
         </div>
         <div className={itemStyles.info}>
-          <p>{`${total} $`}</p>
+          <p>
+            <TransformCurrency value={total} />
+          </p>
         </div>
       </div>
       <Button primary block>
