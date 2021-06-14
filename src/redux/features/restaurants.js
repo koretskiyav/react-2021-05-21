@@ -52,7 +52,10 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-export const restaurantsSelector = (state) => state.restaurants.entities;
+const restaurantsSelectors = Restaurants.getSelectors(
+  (state) => state.restaurants
+);
+export const restaurantsSelector = restaurantsSelectors.selectEntities;
 export const restaurantsStatusSelector = (state) => state.restaurants.status;
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
 export const shouldLoadRestaurantsSelector = shouldLoad(
