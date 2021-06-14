@@ -3,14 +3,7 @@ import { orderSelector } from './features/order';
 import { productsSelector } from './features/products';
 import { restaurantSelector } from './features/restaurants';
 import { reviewSelector, reviewsSelector } from './features/reviews';
-import { isLoaded, shouldLoad } from './utils';
-
-const usersSelector = (state) => state.users.entities;
-
-const usersStatusSelector = (state) => state.users.status;
-
-export const usersLoadedSelector = isLoaded(usersStatusSelector);
-export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
+import { usersSelector } from './features/users';
 
 export const orderProductsSelector = createSelector(
   productsSelector,

@@ -7,6 +7,7 @@ import {
 import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
+import { addReview } from './reviews';
 
 export const LOAD_RESTAURANTS = 'LOAD_RESTAURANTS';
 
@@ -19,6 +20,7 @@ export const loadRestaurants = createAsyncThunk(
 );
 
 const Restaurants = createEntityAdapter();
+
 const initialState = {
   ...Restaurants.getInitialState(),
   status: {},
@@ -39,6 +41,11 @@ const { reducer } = createSlice({
     [loadRestaurants.rejected.type]: (state, { meta, error }) => {
       state.status = STATUS.rejected;
       state.error = error;
+    },
+    [addReview.type]: (state, { meta, payload }) => {
+      const { reviewId } = meta;
+      const { restaurantId } = payload;
+      state.entities[restaurantId].reviews.push(reviewId);
     },
   },
 });
