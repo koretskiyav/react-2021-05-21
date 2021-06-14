@@ -19,7 +19,7 @@ export const loadRestaurants = createAsyncThunk(
 const Restaurants = createEntityAdapter();
 
 const initialState = Restaurants.getInitialState({
-  status: STATUS.idle,
+  status: {},
   error: null,
 });
 

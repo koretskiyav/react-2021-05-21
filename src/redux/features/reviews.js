@@ -31,11 +31,10 @@ export const loadReviews = createAsyncThunk(
 
 const Reviews = createEntityAdapter();
 
-const initialState = {
-  ...Reviews.getInitialState(),
+const initialState = Reviews.getInitialState({
   status: {},
   error: null,
-};
+});
 
 const slice = createSlice({
   name: 'reviews',
