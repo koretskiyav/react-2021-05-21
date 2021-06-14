@@ -8,7 +8,10 @@ import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
 
+// Actions
+
 export const addReview = createAction(
+  // TODO: move to 'AddRestaurantReview reducer'
   'reviews/add',
   (review, restaurantId) => ({
     payload: { review, restaurantId },
@@ -20,10 +23,11 @@ export const loadReviews = createAsyncThunk(
   'reviews/load',
   (id) => api.loadReviews(id),
   {
-    condition: (id, { getState }) =>
-      shouldLoadReviewsSelector(getState(), { restaurantId: id }),
+    condition: (id, { getState }) => shouldLoadReviewsSelector(getState(), { restaurantId: id }),
   }
 );
+
+// Reducers:
 
 const Reviews = createEntityAdapter();
 
@@ -59,6 +63,8 @@ const { reducer } = createSlice({
 });
 
 export default reducer;
+
+// Selectors
 
 const reviewsSelectors = Reviews.getSelectors((state) => state.reviews);
 

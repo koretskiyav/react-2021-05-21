@@ -1,64 +1,53 @@
-import { createNextState } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
-import { STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { STATUS } from '../constants';
 import { addReview } from './reviews';
-import { arrToMap, isLoaded, shouldLoad } from '../utils';
+import { isLoaded, shouldLoad } from '../utils';
 import api from '../../api';
-
-export const LOAD_USERS = 'LOAD_USERS';
-
-// reducers
-
-const initialState = {
-  status: STATUS.idle,
-  entities: {},
-  error: null,
-};
-
-export default createNextState((draft = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
-
-  switch (type) {
-    case LOAD_USERS + REQUEST: {
-      draft.status = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case LOAD_USERS + SUCCESS: {
-      draft.status = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
-      break;
-    }
-    case LOAD_USERS + FAILURE: {
-      draft.status = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    case addReview.type:
-      const { name } = payload.review;
-      draft.entities[meta.userId] = { id: meta.userId, name };
-      break;
-    default:
-      return draft;
-  }
-});
 
 // actions
 
-export const loadUsers = () => async (dispatch, getState) => {
-  const shouldLoad = shouldLoadUsersSelector(getState());
-
-  if (!shouldLoad) return;
-
-  dispatch({ type: LOAD_USERS + REQUEST });
-
-  try {
-    const data = await api.loadUsers();
-    dispatch({ type: LOAD_USERS + SUCCESS, data });
-  } catch (error) {
-    dispatch({ type: LOAD_USERS + FAILURE, error });
+export const loadUsers = createAsyncThunk(
+  'users/load',
+  (id) => api.loadUsers(id),
+  {
+    condition: (id, { getState }) => shouldLoadUsersSelector(getState()),
   }
-};
+);
+
+// reducers
+
+const Users = createEntityAdapter();
+
+const initialState = Users.getInitialState({
+  status: {},
+  error: null,
+});
+
+const { reducer } = createSlice({
+  name: 'users',
+  initialState,
+  extraReducers: {
+    [loadUsers.pending]: (state, { meta }) => {
+      state.status = STATUS.pending;
+      state.error = null;
+    },
+    [loadUsers.fulfilled]: (state, action) => {
+      state.status = STATUS.fulfilled;
+      Users.addMany(state, action);
+    },
+    [loadUsers.rejected]: (state, { meta, error }) => {
+      state.status = STATUS.rejected;
+      state.error = error;
+    },
+    [addReview.type]: (state, action) => {
+      // TODO: move to 'AddRestaurantReview reducer'
+      Users.addOne(state, { id: action.meta.userId, name: action.payload.review.name });
+    },
+  },
+});
+
+export default reducer;
 
 // selectors
 

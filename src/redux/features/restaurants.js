@@ -8,7 +8,7 @@ import { addReview } from "./reviews";
 
 export const loadRestaurants = createAsyncThunk(
   'restaurants/load',
-  async () => await api.loadRestaurants()
+  () => api.loadRestaurants()
 );
 
 // reducer
@@ -40,7 +40,8 @@ const { reducer } = createSlice({
       // TODO: move to 'AddRestaurantReview reducer'
       const reviews = state.entities[action.payload.restaurantId].reviews;
       Restaurants.updateOne(state, {
-        id: action.payload.restaurantId, changes: {
+        id: action.payload.restaurantId,
+        changes: {
           reviews: [...reviews, action.meta.reviewId]
         }
       });

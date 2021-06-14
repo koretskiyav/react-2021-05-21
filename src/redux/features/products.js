@@ -7,11 +7,9 @@ import api from '../../api';
 
 export const loadProducts = createAsyncThunk(
   'products/loadByReastaurant',
-  async (restaurantId) => await api.loadProducts(restaurantId),
+  (restaurantId) => api.loadProducts(restaurantId),
   {
-    condition: (id, { getState }) => {
-      return shouldLoadProductsSelector(getState(), { restaurantId: id });
-    }
+    condition: (id, { getState }) => shouldLoadProductsSelector(getState(), { restaurantId: id })
   }
 );
 
