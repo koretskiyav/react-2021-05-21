@@ -9,7 +9,7 @@ import Tabs from '../tabs';
 import {
   averageRatingSelector,
   restaurantSelector,
-} from '../../redux/selectors';
+} from '../../redux/features/restaurants';
 
 const Restaurant = ({ restaurant, averageRating }) => {
   const { id, name, menu, reviews } = restaurant;

@@ -4,7 +4,7 @@ import styles from './product.module.css';
 
 import Button from '../button';
 import { amountSelector } from '../../redux/features/order';
-import { productSelector } from '../../redux/selectors';
+import { productSelector } from '../../redux/features/products';
 
 import { decrement, increment } from '../../redux/features/order';
 

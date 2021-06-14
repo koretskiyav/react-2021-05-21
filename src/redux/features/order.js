@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
+import {orderSelector, orderProductsSelector} from "../selectors";
 
 const { reducer, actions } = createSlice({
   name: 'order',
@@ -20,5 +21,11 @@ export default reducer;
 const { increment, decrement, remove } = actions;
 export { increment, decrement, remove };
 
-export const orderSelector = (state) => state.order;
 export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
+
+export const totalSelector = createSelector(
+    orderProductsSelector,
+    (orderProducts) =>
+        orderProducts.reduce((acc, { subtotal }) => acc + subtotal, 0)
+);
+

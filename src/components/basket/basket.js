@@ -4,7 +4,8 @@ import styles from './basket.module.css';
 import itemStyles from './basket-item/basket-item.module.css';
 import BasketItem from './basket-item';
 import Button from '../button';
-import { orderProductsSelector, totalSelector } from '../../redux/selectors';
+import { orderProductsSelector } from '../../redux/selectors';
+import { totalSelector } from '../../redux/features/order';
 import { UserConsumer } from '../../context/user';
 
 function Basket({ title = 'Basket', total, orderProducts }) {
