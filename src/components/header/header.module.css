@@ -13,3 +13,9 @@
   right: 20px;
   top: 0;
 }
+
+.priceSwitch {
+  color: var(--white);
+  left: 20px;
+  position: absolute;
+}
