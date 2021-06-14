@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="63daf721-8a3c-467f-9a11-86f729281d49" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/redux/features/restaurants.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/features/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simple_api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/simple_api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simple_api/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/simple_api/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/basket/basket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/basket/basket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/menu/menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menu/menu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/product/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/product/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/restaurant/restaurant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/restaurant/restaurant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/restaurants/restaurants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/restaurants/restaurants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/reviews/reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/reviews/reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/features/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/features/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/features/reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/features/reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/middleware/api.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducer/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducer/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/features/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducer/restaurants.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducer/users.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/selectors.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/selectors.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <list id="b697953a-4e47-485f-b4f4-2f65e74541cc" name="NoCommit" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1suC3co7R2GoIUPaBY4zGAKYExE" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/redux/features" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\projects\HUB\react-2021-05-21\src\redux\features" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\redux\reducer" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\icons" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\components" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\components\reviews" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\projects\HUB\react-2021-05-21\src\old" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\redux" />
+      <recent name="D:\projects\HUB\react-2021-05-21\src\icons" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="react" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="63daf721-8a3c-467f-9a11-86f729281d49" name="Default Changelist" comment="" />
+      <created>1621712889785</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621712889785</updated>
+      <workItem from="1621712893597" duration="147000" />
+      <workItem from="1622120570229" duration="19058000" />
+      <workItem from="1622287017812" duration="43598000" />
+      <workItem from="1622706029330" duration="32034000" />
+      <workItem from="1623664288605" duration="20568000" />
+    </task>
+    <task id="LOCAL-00001" summary="Задание №1">
+      <created>1622139917017</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1622139917017</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Задание №2">
+      <created>1622465634998</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622465634998</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Задание №3">
+      <created>1622742721664</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622742721664</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Задание №1" />
+    <MESSAGE value="Задание №2" />
+    <MESSAGE value="Задание №3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Задание №3" />
+  </component>
+</project>

@@ -8,8 +8,6 @@ import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
 
-export const LOAD_REVIEWS = 'LOAD_REVIEWS';
-
 export const addReview = createAction(
   'reviews/add',
   (review, restaurantId) => ({

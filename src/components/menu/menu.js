@@ -2,11 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadProducts } from '../../redux/actions';
-import {
-  productsLoadingSelector,
-  shouldLoadProductsSelector,
-} from '../../redux/selectors';
+import { loadProducts, productsLoadingSelector, shouldLoadProductsSelector } from '../../redux/features/products';
 
 import Loader from '../loader';
 import Product from '../product';

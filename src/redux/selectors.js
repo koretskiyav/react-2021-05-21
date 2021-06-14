@@ -1,36 +1,9 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { orderSelector } from './features/order';
-import { reviewSelector, reviewsSelector } from './features/reviews';
-import { isLoaded, isLoading, shouldLoad } from './utils';
+import {createSelector} from '@reduxjs/toolkit';
+import {productsSelector} from './features/products';
+import {reviewSelector} from './features/reviews';
+import {usersSelector} from './features/users';
 
-const restaurantsSelector = (state) => state.restaurants.entities;
-const productsSelector = (state) => state.products.entities;
-const usersSelector = (state) => state.users.entities;
-
-const restaurantsStatusSelector = (state) => state.restaurants.status;
-const productsStatusSelector = (state, props) =>
-  state.products.status[props.restaurantId];
-const usersStatusSelector = (state) => state.users.status;
-
-export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
-export const shouldLoadRestaurantsSelector = shouldLoad(
-  restaurantsStatusSelector
-);
-
-export const productsLoadingSelector = isLoading(productsStatusSelector);
-export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
-
-export const usersLoadedSelector = isLoaded(usersStatusSelector);
-export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
-
-export const restaurantsListSelector = createSelector(
-  restaurantsSelector,
-  Object.values
-);
-
-export const restaurantSelector = (state, { id }) =>
-  restaurantsSelector(state)[id];
-export const productSelector = (state, { id }) => productsSelector(state)[id];
+export const orderSelector = (state) => state.order;
 
 export const orderProductsSelector = createSelector(
   productsSelector,
@@ -46,12 +19,6 @@ export const orderProductsSelector = createSelector(
       }))
 );
 
-export const totalSelector = createSelector(
-  orderProductsSelector,
-  (orderProducts) =>
-    orderProducts.reduce((acc, { subtotal }) => acc + subtotal, 0)
-);
-
 export const reviewWitUserSelector = createSelector(
   reviewSelector,
   usersSelector,
@@ -59,15 +26,4 @@ export const reviewWitUserSelector = createSelector(
     ...review,
     user: users[review.userId]?.name,
   })
-);
-
-export const averageRatingSelector = createSelector(
-  reviewsSelector,
-  restaurantSelector,
-  (reviews, restaurant) => {
-    const ratings = restaurant.reviews.map((id) => reviews[id]?.rating || 0);
-    return Math.round(
-      ratings.reduce((acc, rating) => acc + rating, 0) / ratings.length
-    );
-  }
 );
