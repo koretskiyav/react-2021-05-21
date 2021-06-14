@@ -1,16 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
-import { arrToMap } from '../utils';
+import { isLoading, shouldLoad } from '../utils';
 
 export const loadProducts = createAsyncThunk(
   'products/load',
   (id) => api.loadProducts(id),
 );
 
+const Products = createEntityAdapter();
+
 const initialState = {
+  ...Products.getInitialState(),
   status: {},
-  entities: {},
   error: null,
 };
 
@@ -24,8 +26,7 @@ const { reducer } = createSlice({
     },
     [loadProducts.fulfilled.type]: (state, action) => {
       state.status[action.meta.arg] = STATUS.fulfilled;
-      Object.assign(state.entities, arrToMap(action.payload));
-      // Reviews.addMany(state, action);
+      Products.addMany(state, action);
     },
     [loadProducts.rejected.type]: (state, { meta, error }) => {
       state.status[meta.arg] = STATUS.rejected;
@@ -36,5 +37,11 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-export const productsSelector = (state) => state.products.entities;
+const productsSelectors = Products.getSelectors((state) => state.products);
+export const productsSelector = productsSelectors.selectEntities;
 export const productSelector = (state, { id }) => productsSelector(state)[id];
+export const productsStatusSelector = (state, props) =>
+  state.products.status[props.restaurantId];
+
+export const productsLoadingSelector = isLoading(productsStatusSelector);
+export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);

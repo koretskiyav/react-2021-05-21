@@ -1,34 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { restaurantSelector } from './features/restaurants';
 import { reviewSelector, reviewsSelector } from './features/reviews';
 import { orderSelector } from './features/order'
 import { productsSelector } from './features/products'
 import { usersSelector } from './features/users'
-
-import { isLoaded, isLoading, shouldLoad } from './utils';
-
-const restaurantsSelector = (state) => state.restaurants.entities;
-
-const restaurantsStatusSelector = (state) => state.restaurants.status;
-const productsStatusSelector = (state, props) =>
-  state.products.status[props.restaurantId];
-
-export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
-export const shouldLoadRestaurantsSelector = shouldLoad(
-  restaurantsStatusSelector
-);
-
-export const productsLoadingSelector = isLoading(productsStatusSelector);
-export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
-
-
-
-export const restaurantsListSelector = createSelector(
-  restaurantsSelector,
-  Object.values
-);
-
-export const restaurantSelector = (state, { id }) =>
-  restaurantsSelector(state)[id];
 
 export const orderProductsSelector = createSelector(
   productsSelector,

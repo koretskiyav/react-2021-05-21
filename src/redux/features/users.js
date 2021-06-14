@@ -4,11 +4,6 @@ import api from '../../api';
 import { STATUS } from '../constants';
 import { addReview } from './reviews';
 
-export const usersSelector = (state) => state.users.entities;
-export const usersStatusSelector = (state) => state.users.status;
-export const usersLoadedSelector = isLoaded(usersStatusSelector);
-export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
-
 export const loadUsers = createAsyncThunk(
   'users/load',
   () => api.loadUsers(),
@@ -50,32 +45,8 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-/*
-export default createNextState((draft = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
-
-  switch (type) {
-    case LOAD_USERS + REQUEST: {
-      draft.status = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case LOAD_USERS + SUCCESS: {
-      draft.status = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
-      break;
-    }
-    case LOAD_USERS + FAILURE: {
-      draft.status = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    case addReview.type:
-      const { name } = payload.review;
-      draft.entities[meta.userId] = { id: meta.userId, name };
-      break;
-    default:
-      return draft;
-  }
-});
-*/
+const usersSelectors = Users.getSelectors((state) => state.users);
+export const usersSelector = usersSelectors.selectEntities;
+export const usersStatusSelector = (state) => state.users.status;
+export const usersLoadedSelector = isLoaded(usersStatusSelector);
+export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
