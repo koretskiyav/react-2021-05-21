@@ -57,5 +57,5 @@ export const usersSelector = selectEntities;
 const usersStatusSelector = (state) => state[slice.name].status;
 
 export const usersLoadedSelector = isLoaded(usersStatusSelector);
-export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
+const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
 

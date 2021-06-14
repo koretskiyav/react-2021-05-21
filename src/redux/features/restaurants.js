@@ -8,7 +8,10 @@ import { addReview } from "./reviews";
 
 export const loadRestaurants = createAsyncThunk(
   'restaurants/load',
-  () => api.loadRestaurants()
+  () => api.loadRestaurants(),
+  {
+    condition: (id, { getState }) => shouldLoadRestaurantsSelector(getState(), { restaurantId: id })
+  }
 );
 
 // reducer
@@ -57,9 +60,7 @@ const { selectAll, selectById } = Restaurants.getSelectors((state) => state[slic
 const restaurantsStatusSelector = (state) => state[slice.name].status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
-export const shouldLoadRestaurantsSelector = shouldLoad(
-  restaurantsStatusSelector
-);
+const shouldLoadRestaurantsSelector = shouldLoad(restaurantsStatusSelector);
 
 export const restaurantsListSelector = selectAll;
 

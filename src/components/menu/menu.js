@@ -2,7 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadProducts, productsLoadingSelector, shouldLoadProductsSelector } from '../../redux/features/products';
+import { loadProducts, productsLoadedSelector } from '../../redux/features/products';
 
 import Loader from '../loader';
 import Product from '../product';
@@ -30,11 +30,9 @@ class Menu extends Component {
   }
 
   render() {
-    const { menu, loading } = this.props;
+    const { menu, loaded } = this.props;
 
-    if (loading) {
-      return <Loader />;
-    }
+    if (!loaded) return <Loader />;
 
     if (this.state.error) {
       return <p>Сейчас меню этого ресторана недоступно :(</p>;
@@ -56,8 +54,7 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  loading: productsLoadingSelector(state, props),
-  shouldLoad: shouldLoadProductsSelector(state, props),
+  loaded: productsLoadedSelector(state, props),
 });
 
 //const mapDispatchToProps = { loadProducts };

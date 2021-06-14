@@ -69,10 +69,10 @@ export default slice.reducer;
 const reviewsSelectors = Reviews.getSelectors((state) => state[slice.name]);
 
 export const reviewsSelector = reviewsSelectors.selectEntities;
-export const reviewsStatusSelector = (state, props) => state[slice.name].status[props.restaurantId];
+const reviewsStatusSelector = (state, props) => state[slice.name].status[props.restaurantId];
 
 export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
-export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
+const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
 
 export const reviewSelector = (state, { id }) =>
   reviewsSelectors.selectById(state, id);

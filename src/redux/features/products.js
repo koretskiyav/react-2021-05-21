@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { isLoading, shouldLoad } from '../utils';
+import { isLoaded, shouldLoad } from '../utils';
 import { STATUS } from '../constants';
 import api from '../../api';
 
@@ -51,5 +51,5 @@ export const productsSelector = selectEntities;
 export const productSelector = (state, { id }) => selectById(state, id);
 
 const productsStatusSelector = (state, props) => state[slice.name].status[props.restaurantId];
-export const productsLoadingSelector = isLoading(productsStatusSelector);
-export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
+export const productsLoadedSelector = isLoaded(productsStatusSelector);
+const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
