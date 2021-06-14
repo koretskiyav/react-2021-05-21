@@ -1,15 +1,21 @@
-import { createNextState, createSelector } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createNextState,
+  createSelector,
+} from '@reduxjs/toolkit';
 import api from '../../api';
-import { STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
+import produce from 'immer';
 
-const LOAD_RESTAURANTS = 'LOAD_RESTAURANTS';
-
-export const loadRestaurants = () => ({
-  type: LOAD_RESTAURANTS,
-  apiCall: () => api.loadRestaurants(),
-});
+export const loadRestaurants = createAsyncThunk(
+  'restaurants/load',
+  () => api.loadRestaurants(),
+  {
+    condition: (_, { getState }) => shouldLoadRestaurantsSelector(getState()),
+  }
+);
 
 const initialState = {
   status: STATUS.idle,
@@ -17,24 +23,33 @@ const initialState = {
   error: null,
 };
 
-export default (state = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
+export default produce((draft = initialState, action) => {
+  const { type, payload, meta, error } = action;
 
   switch (type) {
-    case LOAD_RESTAURANTS + REQUEST:
-      return { ...state, status: STATUS.pending, error: null };
-    case LOAD_RESTAURANTS + SUCCESS:
-      return { ...state, status: STATUS.fulfilled, entities: arrToMap(data) };
-    case LOAD_RESTAURANTS + FAILURE:
-      return { ...state, status: STATUS.rejected, error };
+    case loadRestaurants.pending.type: {
+      draft.status = STATUS.pending;
+      draft.error = null;
+      break;
+    }
+    case loadRestaurants.fulfilled.type: {
+      draft.status = STATUS.fulfilled;
+      draft.entities = arrToMap(payload);
+      break;
+    }
+    case loadRestaurants.rejected.type: {
+      draft.status = STATUS.rejected;
+      draft.error = error;
+      break;
+    }
     case addReview.type:
-      return createNextState(state, (draft) => {
+      return createNextState(draft, (draft) => {
         draft.entities[payload.restaurantId].reviews.push(meta.reviewId);
       });
     default:
-      return state;
+      return draft;
   }
-};
+});
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const restaurantsStatusSelector = (state) => state.restaurants.status;
