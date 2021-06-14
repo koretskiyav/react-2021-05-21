@@ -23,10 +23,10 @@ const Restaurant = ({ restaurant, averageRating }) => {
   return (
     <div>
       <Banner heading={name}>
-        <Rate value={averageRating} />
+        {!!averageRating && <Rate value={averageRating} />}
       </Banner>
       <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
-      {activeTab === 'menu' && <Menu menu={menu} key={id} />}
+      {activeTab === 'menu' && <Menu menu={menu} key={id} restaurantId={id} />}
       {activeTab === 'reviews' && (
         <Reviews reviews={reviews} restaurantId={id} />
       )}
@@ -36,7 +36,7 @@ const Restaurant = ({ restaurant, averageRating }) => {
 
 Restaurant.propTypes = {
   restaurant: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     name: PropTypes.string,
     menu: PropTypes.array,
     reviews: PropTypes.array,
