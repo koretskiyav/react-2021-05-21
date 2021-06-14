@@ -32,7 +32,7 @@ const { reducer } = createSlice({
     },
     [loadUsers.fulfilled.type]: (state, action) => {
       state.status = STATUS.fulfilled;
-      Users.addMany(state, action.payload);
+      Users.addMany(state, action);
     },
     [loadUsers.rejected.type]: (state, { error }) => {
       state.status = STATUS.rejected;

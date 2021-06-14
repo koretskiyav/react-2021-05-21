@@ -8,7 +8,6 @@ import { orderProductsSelector, totalSelector } from '../../redux/selectors';
 import { UserConsumer } from '../../context/user';
 
 function Basket({ title = 'Basket', total, orderProducts }) {
-  console.log('render Basket');
   if (!total) {
     return (
       <div className={styles.basket}>
