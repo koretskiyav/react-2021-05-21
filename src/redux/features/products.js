@@ -45,7 +45,9 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-export const productsSelector = (state) => state.products.entities;
+const productsSelectors = Products.getSelectors((state) => state.products);
+
+export const productsSelector = productsSelectors.selectEntities;
 
 const productsStatusSelector = (state, props) =>
   state.products.status[props.restaurantId];
@@ -53,4 +55,5 @@ const productsStatusSelector = (state, props) =>
 export const productsLoadingSelector = isLoading(productsStatusSelector);
 export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
 
-export const productSelector = (state, { id }) => productsSelector(state)[id];
+export const productSelector = (state, { id }) =>
+  productsSelectors.selectById(state, id);
