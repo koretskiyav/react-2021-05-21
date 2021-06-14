@@ -1,4 +1,4 @@
-import { createAsyncThunk, createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "../constants";
 import api from "../../api";
 import { isLoaded, shouldLoad } from "../utils";
@@ -54,7 +54,7 @@ export default slice.reducer;
 // selectors 
 const { selectAll, selectById } = Restaurants.getSelectors((state) => state[slice.name]);
 
-const restaurantsStatusSelector = (state) => state.restaurants.status;
+const restaurantsStatusSelector = (state) => state[slice.name].status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
 export const shouldLoadRestaurantsSelector = shouldLoad(
