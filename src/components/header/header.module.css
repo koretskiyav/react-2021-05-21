@@ -13,3 +13,10 @@
   right: 20px;
   top: 0;
 }
+
+.header select {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
