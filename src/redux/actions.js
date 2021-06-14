@@ -1,14 +1,5 @@
 import api from '../api';
-import {
-  LOAD_RESTAURANTS,
-  LOAD_PRODUCTS,
-  LOAD_USERS,
-  REQUEST,
-  SUCCESS,
-  FAILURE,
-} from './constants';
-
-import { shouldLoadUsersSelector } from './selectors';
+import { LOAD_RESTAURANTS, LOAD_PRODUCTS } from './constants';
 
 export const loadRestaurants = () => ({
   type: LOAD_RESTAURANTS,
@@ -20,18 +11,3 @@ export const loadProducts = (restaurantId) => ({
   apiCall: () => api.loadProducts(restaurantId),
   restaurantId,
 });
-
-export const loadUsers = () => async (dispatch, getState) => {
-  const shouldLoad = shouldLoadUsersSelector(getState());
-
-  if (!shouldLoad) return;
-
-  dispatch({ type: LOAD_USERS + REQUEST });
-
-  try {
-    const data = await api.loadUsers();
-    dispatch({ type: LOAD_USERS + SUCCESS, data });
-  } catch (error) {
-    dispatch({ type: LOAD_USERS + FAILURE, error });
-  }
-};
