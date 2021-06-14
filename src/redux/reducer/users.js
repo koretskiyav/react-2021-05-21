@@ -1,12 +1,7 @@
-import produce from 'immer';
-import {
-  ADD_REVIEW,
-  LOAD_USERS,
-  STATUS,
-  REQUEST,
-  SUCCESS,
-  FAILURE,
-} from '../constants';
+import { createNextState } from '@reduxjs/toolkit';
+
+import { LOAD_USERS, STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { addReview } from '../features/reviews';
 import { arrToMap } from '../utils';
 
 const initialState = {
@@ -15,8 +10,8 @@ const initialState = {
   error: null,
 };
 
-export default produce((draft = initialState, action) => {
-  const { type, review, userId, data, error } = action;
+export default createNextState((draft = initialState, action) => {
+  const { type, payload, meta, data, error } = action;
 
   switch (type) {
     case LOAD_USERS + REQUEST: {
@@ -34,9 +29,9 @@ export default produce((draft = initialState, action) => {
       draft.error = error;
       break;
     }
-    case ADD_REVIEW:
-      const { name } = review;
-      draft.entities[userId] = { id: userId, name };
+    case addReview.type:
+      const { name } = payload.review;
+      draft.entities[meta.userId] = { id: meta.userId, name };
       break;
     default:
       return draft;

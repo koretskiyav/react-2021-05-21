@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { createNextState } from '@reduxjs/toolkit';
 import { arrToMap } from '../utils';
 import { LOAD_PRODUCTS, REQUEST, SUCCESS, FAILURE, STATUS } from '../constants';
 
@@ -8,7 +8,7 @@ const initialState = {
   error: null,
 };
 
-export default produce((draft = initialState, action) => {
+export default createNextState((draft = initialState, action) => {
   const { type, restaurantId, data, error } = action;
 
   switch (type) {
