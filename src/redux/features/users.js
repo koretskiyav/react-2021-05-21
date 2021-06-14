@@ -1,16 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
-import { arrToMap, isLoaded, shouldLoad } from '../utils';
+import { isLoaded, shouldLoad } from '../utils';
 
 export const loadUsers = createAsyncThunk('users/load', () => api.loadUsers(), {
   condition: (_, { getState }) => shouldLoadUsersSelector(getState()),
 });
 
+const Users = createEntityAdapter();
+
 const initialState = {
+  ...Users.getInitialState(),
   status: STATUS.idle,
-  entities: {},
   error: null,
 };
 
@@ -22,9 +28,9 @@ const { reducer } = createSlice({
       state.status = STATUS.pending;
       state.error = null;
     },
-    [loadUsers.fulfilled.type]: (state, { meta, payload }) => {
+    [loadUsers.fulfilled.type]: (state, action) => {
       state.status = STATUS.fulfilled;
-      Object.assign(state.entities, arrToMap(payload));
+      Users.addMany(state, action);
     },
     [loadUsers.rejected.type]: (state, { meta, error }) => {
       state.status = STATUS.rejected;
@@ -32,7 +38,7 @@ const { reducer } = createSlice({
     },
     [addReview.type]: (state, { meta, payload }) => {
       const { name } = payload.review;
-      state.entities[meta.userId] = { id: meta.userId, name };
+      Users.addOne(state, { id: meta.userId, name });
     },
   },
 });

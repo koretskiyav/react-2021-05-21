@@ -1,5 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { arrToMap, isLoading, shouldLoad } from '../utils';
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
+import { isLoading, shouldLoad } from '../utils';
 import { STATUS } from '../constants';
 import api from '../../api';
 
@@ -12,9 +16,11 @@ export const loadProducts = createAsyncThunk(
   }
 );
 
+const Products = createEntityAdapter();
+
 const initialState = {
+  ...Products.getInitialState(),
   status: {},
-  entities: {},
   error: null,
 };
 
@@ -26,9 +32,9 @@ const { reducer } = createSlice({
       state.status[meta.arg] = STATUS.pending;
       state.error = null;
     },
-    [loadProducts.fulfilled.type]: (state, { meta, payload }) => {
-      state.status[meta.arg] = STATUS.fulfilled;
-      Object.assign(state.entities, arrToMap(payload));
+    [loadProducts.fulfilled.type]: (state, action) => {
+      state.status[action.meta.arg] = STATUS.fulfilled;
+      Products.addMany(state, action);
     },
     [loadProducts.rejected.type]: (state, { meta, error }) => {
       state.status[meta.arg] = STATUS.rejected;
