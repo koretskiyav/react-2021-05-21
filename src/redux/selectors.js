@@ -8,16 +8,15 @@ import { usersSelector } from './features/users';
 export const orderProductsSelector = createSelector(
   productsSelector,
   orderSelector,
-  (products, order) => {
-    return Object.keys(order)
+  (products, order) =>
+    Object.keys(order)
       .filter((productId) => order[productId] > 0)
       .map((productId) => products[productId])
       .map((product) => ({
         product,
         amount: order[product.id],
         subtotal: order[product.id] * product.price,
-      }));
-  }
+      }))
 );
 
 export const totalSelector = createSelector(
