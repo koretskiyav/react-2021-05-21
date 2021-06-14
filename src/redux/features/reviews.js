@@ -8,8 +8,6 @@ import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
 
-export const LOAD_REVIEWS = 'LOAD_REVIEWS';
-
 export const addReview = createAction(
   'reviews/add',
   (review, restaurantId) => ({
@@ -52,6 +50,7 @@ const { reducer } = createSlice({
       state.error = error;
     },
     [addReview.type]: (state, { meta, payload }) => {
+      // TODO: move to 'AddRestaurantReview reducer'
       const { text, rating } = payload.review;
       const { reviewId, userId } = meta;
       Reviews.addOne(state, { id: reviewId, userId, text, rating });

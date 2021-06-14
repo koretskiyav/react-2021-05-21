@@ -1,56 +1,47 @@
-import { createNextState } from '@reduxjs/toolkit';
-import { arrToMap, isLoading, shouldLoad } from '../utils';
-import { REQUEST, SUCCESS, FAILURE, STATUS } from '../constants';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { isLoading, shouldLoad } from '../utils';
+import { STATUS } from '../constants';
 import api from '../../api';
-
-
-export const LOAD_PRODUCTS = 'LOAD_PRODUCTS';
-
-// reducer
-
-const initialState = {
-  status: {},
-  entities: {},
-  error: null,
-};
-
-export default createNextState((draft = initialState, action) => {
-  const { type, restaurantId, data, error } = action;
-
-  switch (type) {
-    case LOAD_PRODUCTS + REQUEST: {
-      draft.status[restaurantId] = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case LOAD_PRODUCTS + SUCCESS: {
-      draft.status[restaurantId] = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
-      break;
-    }
-    case LOAD_PRODUCTS + FAILURE: {
-      draft.status[restaurantId] = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    default:
-      return draft;
-  }
-});
 
 // actions
 
-export const loadProducts = (restaurantId) => async (dispatch) => {
-  dispatch({ type: LOAD_PRODUCTS + REQUEST });
-  try {
-    const data = await api.loadProducts(restaurantId);
-    dispatch({ type: LOAD_PRODUCTS + SUCCESS, data });
-  } catch (error) {
-    dispatch({ type: LOAD_PRODUCTS + FAILURE, error });
+export const loadProducts = createAsyncThunk(
+  'products/loadByReastaurant',
+  async (restaurantId) => await api.loadProducts(restaurantId)
+);
+
+// reducer
+
+const Products = createEntityAdapter();
+
+const initialState = Products.getInitialState({
+  status: {},
+  error: null,
+});
+
+const { reducer } = createSlice({
+  name: 'products',
+  initialState,
+  extraReducers: {
+    [loadProducts.pending]: (state, action) => {
+      state.status[action.arg] = STATUS.pending;
+      state.error = null;
+    },
+    [loadProducts.fulfilled]: (state, action) => {
+      state.status[action.arg] = STATUS.fulfilled;
+      Products.addMany(state, action);
+    },
+    [loadProducts.rejected]: (state, action) => {
+      state.status[action.arg] = STATUS.rejected;
+      state.error = action.error;
+    },
   }
-}
+});
+
+export default reducer;
 
 // selectors
+// TODO: Products.getSelectors();
 
 export const productsSelector = (state) => state.products.entities;
 export const productSelector = (state, { id }) => productsSelector(state)[id];

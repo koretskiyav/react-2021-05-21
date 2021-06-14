@@ -1,10 +1,8 @@
-import { createAsyncThunk, createEntityAdapter, createNextState, createSelector, createSlice } from "@reduxjs/toolkit";
-import { FAILURE, REQUEST, STATUS, SUCCESS } from "../constants";
+import { createAsyncThunk, createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
+import { STATUS } from "../constants";
 import api from "../../api";
-import { arrToMap, isLoaded, shouldLoad } from "../utils";
+import { isLoaded, shouldLoad } from "../utils";
 import { addReview } from "./reviews";
-
-export const LOAD_RESTAURANTS = 'LOAD_RESTAURANTS';
 
 // actions
 
@@ -39,6 +37,7 @@ const { reducer } = createSlice({
       state.error = error;
     },
     [addReview.type]: (state, action) => {
+      // TODO: move to 'AddRestaurantReview reducer'
       const reviews = state.entities[action.payload.restaurantId].reviews;
       Restaurants.updateOne(state, {
         id: action.payload.restaurantId, changes: {
