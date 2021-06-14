@@ -1,4 +1,4 @@
-import { createAsyncThunk, createNextState } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
@@ -14,33 +14,30 @@ const initialState = {
   error: null,
 };
 
-export default createNextState((draft = initialState, action) => {
-  const { type, payload, meta, error } = action;
-
-  switch (type) {
-    case loadUsers.pending.type: {
-      draft.status = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case loadUsers.fulfilled.type: {
-      draft.status = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(payload));
-      break;
-    }
-    case loadUsers.rejected.type: {
-      draft.status = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    case addReview.type:
+const { reducer } = createSlice({
+  name: 'users',
+  initialState,
+  extraReducers: {
+    [loadUsers.pending.type]: (state, { meta }) => {
+      state.status = STATUS.pending;
+      state.error = null;
+    },
+    [loadUsers.fulfilled.type]: (state, { meta, payload }) => {
+      state.status = STATUS.fulfilled;
+      Object.assign(state.entities, arrToMap(payload));
+    },
+    [loadUsers.rejected.type]: (state, { meta, error }) => {
+      state.status = STATUS.rejected;
+      state.error = error;
+    },
+    [addReview.type]: (state, { meta, payload }) => {
       const { name } = payload.review;
-      draft.entities[meta.userId] = { id: meta.userId, name };
-      break;
-    default:
-      return draft;
-  }
+      state.entities[meta.userId] = { id: meta.userId, name };
+    },
+  },
 });
+
+export default reducer;
 
 export const usersSelector = (state) => state.users.entities;
 

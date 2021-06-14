@@ -1,13 +1,12 @@
 import {
   createAsyncThunk,
-  createNextState,
   createSelector,
+  createSlice,
 } from '@reduxjs/toolkit';
 import api from '../../api';
 import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
-import produce from 'immer';
 
 export const loadRestaurants = createAsyncThunk(
   'restaurants/load',
@@ -23,33 +22,29 @@ const initialState = {
   error: null,
 };
 
-export default produce((draft = initialState, action) => {
-  const { type, payload, meta, error } = action;
-
-  switch (type) {
-    case loadRestaurants.pending.type: {
-      draft.status = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case loadRestaurants.fulfilled.type: {
-      draft.status = STATUS.fulfilled;
-      draft.entities = arrToMap(payload);
-      break;
-    }
-    case loadRestaurants.rejected.type: {
-      draft.status = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    case addReview.type:
-      return createNextState(draft, (draft) => {
-        draft.entities[payload.restaurantId].reviews.push(meta.reviewId);
-      });
-    default:
-      return draft;
-  }
+const { reducer } = createSlice({
+  name: 'restaurants',
+  initialState,
+  extraReducers: {
+    [loadRestaurants.pending.type]: (state, { meta }) => {
+      state.status = STATUS.pending;
+      state.error = null;
+    },
+    [loadRestaurants.fulfilled.type]: (state, { payload }) => {
+      state.status = STATUS.fulfilled;
+      state.entities = arrToMap(payload);
+    },
+    [loadRestaurants.rejected.type]: (state, { error }) => {
+      state.status = STATUS.rejected;
+      state.error = error;
+    },
+    [addReview.type]: (state, { meta, payload }) => {
+      state.entities[payload.restaurantId].reviews.push(meta.reviewId);
+    },
+  },
 });
+
+export default reducer;
 
 const restaurantsSelector = (state) => state.restaurants.entities;
 const restaurantsStatusSelector = (state) => state.restaurants.status;
