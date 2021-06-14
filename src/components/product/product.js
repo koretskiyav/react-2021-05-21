@@ -5,10 +5,12 @@ import styles from './product.module.css';
 import Button from '../button';
 import { amountSelector } from '../../redux/features/order';
 import { productSelector } from '../../redux/features/products';
+import { useCurrency } from '../../hooks/use-currency';
 
 import { decrement, increment } from '../../redux/features/order';
 
 const Product = ({ product, amount, increment, decrement }) => {
+  const price = useCurrency(product && product.price);
   if (!product) return null;
 
   return (
@@ -17,7 +19,7 @@ const Product = ({ product, amount, increment, decrement }) => {
         <div>
           <h4 className={styles.title}>{product.name}</h4>
           <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>{product.price} $</div>
+          <div className={styles.price}>{price}</div>
         </div>
         <div>
           <div className={styles.counter}>
