@@ -20,7 +20,7 @@ const initialState = Restaurants.getInitialState({
   error: null,
 });
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'restaurants',
   initialState,
   extraReducers: {
@@ -49,13 +49,11 @@ const { reducer } = createSlice({
   }
 });
 
-export default reducer;
+export default slice.reducer;
 
 // selectors 
-// TODO: Restaurants.getSelectors();
+const { selectAll, selectById } = Restaurants.getSelectors((state) => state[slice.name]);
 
-// selectEntities
-const restaurantsSelector = (state) => state.restaurants.entities;
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
@@ -63,12 +61,6 @@ export const shouldLoadRestaurantsSelector = shouldLoad(
   restaurantsStatusSelector
 );
 
-// TODO: selectAll
-export const restaurantsListSelector = createSelector(
-  restaurantsSelector,
-  Object.values
-);
+export const restaurantsListSelector = selectAll;
 
-// selectById
-export const restaurantSelector = (state, { id }) =>
-  restaurantsSelector(state)[id];
+export const restaurantSelector = (state, { id }) => selectById(state, id);

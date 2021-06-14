@@ -24,7 +24,7 @@ const initialState = Users.getInitialState({
   error: null,
 });
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'users',
   initialState,
   extraReducers: {
@@ -47,12 +47,14 @@ const { reducer } = createSlice({
   },
 });
 
-export default reducer;
+export default slice.reducer;
 
 // selectors
 
-export const usersSelector = (state) => state.users.entities;
-const usersStatusSelector = (state) => state.users.status;
+const { selectEntities } = Users.getSelectors(state => state[slice.name]);
+
+export const usersSelector = selectEntities;
+const usersStatusSelector = (state) => state[slice.name].status;
 
 export const usersLoadedSelector = isLoaded(usersStatusSelector);
 export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);

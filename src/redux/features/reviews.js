@@ -37,7 +37,7 @@ const initialState = {
   error: null,
 };
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'reviews',
   initialState,
   extraReducers: {
@@ -62,11 +62,11 @@ const { reducer } = createSlice({
   },
 });
 
-export default reducer;
+export default slice.reducer;
 
 // Selectors
 
-const reviewsSelectors = Reviews.getSelectors((state) => state.reviews);
+const reviewsSelectors = Reviews.getSelectors((state) => state[slice.name]);
 
 export const reviewsSelector = reviewsSelectors.selectEntities;
 export const reviewsStatusSelector = (state, props) => state.reviews.status[props.restaurantId];

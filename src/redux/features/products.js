@@ -22,7 +22,7 @@ const initialState = Products.getInitialState({
   error: null,
 });
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'products',
   initialState,
   extraReducers: {
@@ -41,14 +41,15 @@ const { reducer } = createSlice({
   }
 });
 
-export default reducer;
+export default slice.reducer;
 
 // selectors
-// TODO: Products.getSelectors();
 
-export const productsSelector = (state) => state.products.entities;
-export const productSelector = (state, { id }) => productsSelector(state)[id];
+const { selectEntities, selectById } = Products.getSelectors((state) => state[slice.name]);
 
-const productsStatusSelector = (state, props) => state.products.status[props.restaurantId];
+export const productsSelector = selectEntities;
+export const productSelector = (state, { id }) => selectById(state, id);
+
+const productsStatusSelector = (state, props) => state[slice.name].status[props.restaurantId];
 export const productsLoadingSelector = isLoading(productsStatusSelector);
 export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
