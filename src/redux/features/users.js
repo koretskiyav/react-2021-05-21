@@ -1,8 +1,24 @@
 import { createNextState } from '@reduxjs/toolkit';
-
-import { LOAD_USERS, STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import api from '../../api';
+import { STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
 import { addReview } from '../features/reviews';
-import { arrToMap } from '../utils';
+import { arrToMap, isLoaded, shouldLoad } from '../utils';
+const LOAD_USERS = 'LOAD_USERS';
+
+export const loadUsers = () => async (dispatch, getState) => {
+  const shouldLoad = shouldLoadUsersSelector(getState());
+
+  if (!shouldLoad) return;
+
+  dispatch({ type: LOAD_USERS + REQUEST });
+
+  try {
+    const data = await api.loadUsers();
+    dispatch({ type: LOAD_USERS + SUCCESS, data });
+  } catch (error) {
+    dispatch({ type: LOAD_USERS + FAILURE, error });
+  }
+};
 
 const initialState = {
   status: STATUS.idle,
@@ -37,3 +53,10 @@ export default createNextState((draft = initialState, action) => {
       return draft;
   }
 });
+
+export const usersSelector = (state) => state.users.entities;
+
+const usersStatusSelector = (state) => state.users.status;
+
+export const usersLoadedSelector = isLoaded(usersStatusSelector);
+export const shouldLoadUsersSelector = shouldLoad(usersStatusSelector);
