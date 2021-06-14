@@ -47,7 +47,9 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-export const usersSelector = (state) => state.users.entities;
+const usersSelectors = Users.getSelectors((state) => state.users);
+
+export const usersSelector = usersSelectors.selectEntities;
 const usersStatusSelector = (state) => state.users.status;
 
 export const usersLoadedSelector = isLoaded(usersStatusSelector);

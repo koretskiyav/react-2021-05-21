@@ -54,7 +54,11 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-const restaurantsSelector = (state) => state.restaurants.entities;
+const restaurantsSelectors = Restaurants.getSelectors(
+  (state) => state.restaurants
+);
+
+const restaurantsSelector = restaurantsSelectors.selectEntities;
 
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 
@@ -69,4 +73,4 @@ export const restaurantsListSelector = createSelector(
 );
 
 export const restaurantSelector = (state, { id }) =>
-  restaurantsSelector(state)[id];
+  restaurantsSelectors.selectById(state, id);
