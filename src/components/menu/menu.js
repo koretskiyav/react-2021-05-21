@@ -1,12 +1,11 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { loadProducts } from '../../redux/actions';
+import { loadProducts } from '../../redux/features/products';
 import {
   productsLoadingSelector,
   shouldLoadProductsSelector,
-} from '../../redux/selectors';
+} from '../../redux/features/products';
 
 import Loader from '../loader';
 import Product from '../product';
@@ -14,57 +13,28 @@ import Basket from '../basket';
 
 import styles from './menu.module.css';
 
-class Menu extends Component {
-  static propTypes = {
-    menu: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  };
+const Menu = ({ loadProducts, restaurantId, shouldLoad, menu, loading }) => {
+  useEffect(() => {
+    loadProducts(restaurantId);
+  }, [shouldLoad, loadProducts, restaurantId]);
 
-  state = { error: null };
-
-  loadProductsIfNeeded = () => {
-    const { loadProducts, restaurantId, shouldLoad } = this.props;
-    if (shouldLoad) loadProducts(restaurantId);
-  };
-
-  componentDidMount() {
-    this.loadProductsIfNeeded();
+  if (loading) {
+    return <Loader />;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.restaurantId !== this.props.restaurantId) {
-      this.loadProductsIfNeeded();
-    }
-  }
-
-  componentDidCatch(error) {
-    this.setState({ error });
-  }
-
-  render() {
-    const { menu, loading } = this.props;
-
-    if (loading) {
-      return <Loader />;
-    }
-
-    if (this.state.error) {
-      return <p>Сейчас меню этого ресторана недоступно :(</p>;
-    }
-
-    return (
-      <div className={styles.menu}>
-        <div>
-          {menu.map((id) => (
-            <Product key={id} id={id} />
-          ))}
-        </div>
-        <div>
-          <Basket />
-        </div>
+  return (
+    <div className={styles.menu}>
+      <div>
+        {menu.map((id) => (
+          <Product key={id} id={id} />
+        ))}
       </div>
-    );
-  }
-}
+      <div>
+        <Basket />
+      </div>
+    </div>
+  );
+};
 
 const mapStateToProps = (state, props) => ({
   loading: productsLoadingSelector(state, props),
