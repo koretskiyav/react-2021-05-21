@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 
 import App from './components/app';
+import { MoneyProvider } from './contexts/money';
 
 import store from './redux/store';
 
@@ -11,7 +12,9 @@ window.store = store;
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MoneyProvider>
+      <App />
+    </MoneyProvider>
   </Provider>,
   document.getElementById('root')
 );

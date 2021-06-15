@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Restaurants from '../restaurants';
 import Header from '../header';
 
-import { UserProvider } from '../../context/user';
+import { UserProvider } from '../../contexts/user';
 const App = () => {
   const [name, setName] = useState('Andrey');
   return (
