@@ -2,7 +2,6 @@ import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter,
-  createSelector,
 } from '@reduxjs/toolkit';
 import api from '../../api';
 
@@ -48,15 +47,16 @@ const { reducer } = createSlice({
 
 export default reducer;
 
-const restaurantsSelector = (state) => state.restaurants.entities;
+const restaurantsSelectors = Restaurants.getSelectors(
+  (state) => state.restaurants
+);
+
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
 const shouldLoadRestaurantsSelector = shouldLoad(restaurantsStatusSelector);
 
-export const restaurantsListSelector = createSelector(
-  restaurantsSelector,
-  Object.values
-);
+export const restaurantsListSelector = restaurantsSelectors.selectAll;
+
 export const restaurantSelector = (state, { id }) =>
-  restaurantsSelector(state)[id];
+  restaurantsSelectors.selectById(state, id);
