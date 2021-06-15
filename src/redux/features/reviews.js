@@ -8,9 +8,10 @@ import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
 
-export const LOAD_REVIEWS = 'LOAD_REVIEWS';
+// Actions
 
 export const addReview = createAction(
+  // TODO: move to 'AddRestaurantReview reducer'
   'reviews/add',
   (review, restaurantId) => ({
     payload: { review, restaurantId },
@@ -22,20 +23,20 @@ export const loadReviews = createAsyncThunk(
   'reviews/load',
   (id) => api.loadReviews(id),
   {
-    condition: (id, { getState }) =>
-      shouldLoadReviewsSelector(getState(), { restaurantId: id }),
+    condition: (id, { getState }) => shouldLoadReviewsSelector(getState(), { restaurantId: id }),
   }
 );
 
+// Reducers:
+
 const Reviews = createEntityAdapter();
 
-const initialState = {
-  ...Reviews.getInitialState(),
+const initialState = Reviews.getInitialState({
   status: {},
   error: null,
-};
+});
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'reviews',
   initialState,
   extraReducers: {
@@ -52,6 +53,7 @@ const { reducer } = createSlice({
       state.error = error;
     },
     [addReview.type]: (state, { meta, payload }) => {
+      // TODO: move to 'AddRestaurantReview reducer'
       const { text, rating } = payload.review;
       const { reviewId, userId } = meta;
       Reviews.addOne(state, { id: reviewId, userId, text, rating });
@@ -59,16 +61,17 @@ const { reducer } = createSlice({
   },
 });
 
-export default reducer;
+export default slice.reducer;
 
-const reviewsSelectors = Reviews.getSelectors((state) => state.reviews);
+// Selectors
+
+const reviewsSelectors = Reviews.getSelectors((state) => state[slice.name]);
 
 export const reviewsSelector = reviewsSelectors.selectEntities;
-export const reviewsStatusSelector = (state, props) =>
-  state.reviews.status[props.restaurantId];
+const reviewsStatusSelector = (state, props) => state[slice.name].status[props.restaurantId];
 
 export const reviewsLoadedSelector = isLoaded(reviewsStatusSelector);
-export const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
+const shouldLoadReviewsSelector = shouldLoad(reviewsStatusSelector);
 
 export const reviewSelector = (state, { id }) =>
   reviewsSelectors.selectById(state, id);

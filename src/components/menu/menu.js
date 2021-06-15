@@ -2,11 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadProducts } from '../../redux/actions';
-import {
-  productsLoadingSelector,
-  shouldLoadProductsSelector,
-} from '../../redux/selectors';
+import { loadProducts, productsLoadedSelector } from '../../redux/features/products';
 
 import Loader from '../loader';
 import Product from '../product';
@@ -21,19 +17,12 @@ class Menu extends Component {
 
   state = { error: null };
 
-  loadProductsIfNeeded = () => {
-    const { loadProducts, restaurantId, shouldLoad } = this.props;
-    if (shouldLoad) loadProducts(restaurantId);
-  };
-
   componentDidMount() {
-    this.loadProductsIfNeeded();
+    this.props.loadProducts();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.restaurantId !== this.props.restaurantId) {
-      this.loadProductsIfNeeded();
-    }
+  componentDidUpdate() {
+    this.props.loadProducts();
   }
 
   componentDidCatch(error) {
@@ -41,11 +30,9 @@ class Menu extends Component {
   }
 
   render() {
-    const { menu, loading } = this.props;
+    const { menu, loaded } = this.props;
 
-    if (loading) {
-      return <Loader />;
-    }
+    if (!loaded) return <Loader />;
 
     if (this.state.error) {
       return <p>Сейчас меню этого ресторана недоступно :(</p>;
@@ -67,10 +54,12 @@ class Menu extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  loading: productsLoadingSelector(state, props),
-  shouldLoad: shouldLoadProductsSelector(state, props),
+  loaded: productsLoadedSelector(state, props),
 });
 
-const mapDispatchToProps = { loadProducts };
+//const mapDispatchToProps = { loadProducts };
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadProducts: () => dispatch(loadProducts(ownProps.restaurantId)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);

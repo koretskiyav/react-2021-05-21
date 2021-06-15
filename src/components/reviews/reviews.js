@@ -5,12 +5,12 @@ import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
-import { loadUsers } from '../../redux/actions';
+import { loadUsers } from '../../redux/features/users';
 import {
   loadReviews,
   reviewsLoadedSelector,
 } from '../../redux/features/reviews';
-import { usersLoadedSelector } from '../../redux/selectors';
+import { usersLoadedSelector } from '../../redux/features/users';
 
 import Loader from '../loader';
 
@@ -24,8 +24,8 @@ const Reviews = ({
 }) => {
   useEffect(() => {
     loadUsers();
-    loadReviews(restaurantId);
-  }, [loadUsers, loadReviews, restaurantId]);
+    loadReviews();
+  }, [loadUsers, loadReviews]);
 
   if (!usersLoaded || !reviewsLoaded) return <Loader />;
 
@@ -49,6 +49,10 @@ const mapStateToProps = (state, props) => ({
   usersLoaded: usersLoadedSelector(state, props),
 });
 
-const mapDispatchToProps = { loadReviews, loadUsers };
+//const mapDispatchToProps = { loadReviews, loadUsers };
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadUsers: () => dispatch(loadUsers()),
+  loadReviews: () => dispatch(loadReviews(ownProps.restaurantId)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

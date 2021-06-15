@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 
 import Button from '../button';
+import { InternalPricer } from '../internal-price-manager/internal-price-manager';
 import { amountSelector } from '../../redux/features/order';
-import { productSelector } from '../../redux/selectors';
+import { productSelector } from '../../redux/features/products';
 
 import { decrement, increment } from '../../redux/features/order';
 
@@ -17,7 +18,9 @@ const Product = ({ product, amount, increment, decrement }) => {
         <div>
           <h4 className={styles.title}>{product.name}</h4>
           <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>{product.price} $</div>
+          <div >
+            <InternalPricer value={product.price} className={styles.price} />
+          </div>
         </div>
         <div>
           <div className={styles.counter}>
