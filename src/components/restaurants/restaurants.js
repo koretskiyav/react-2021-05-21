@@ -5,11 +5,11 @@ import Restaurant from '../restaurant';
 import Tabs from '../tabs';
 import Loader from '../loader';
 import {
+  loadRestaurants,
   restaurantsListSelector,
   restaurantsLoadedSelector,
   shouldLoadRestaurantsSelector,
-} from '../../redux/selectors';
-import { loadRestaurants } from '../../redux/actions';
+} from '../../redux/features/restaurants';
 
 const Restaurants = ({ restaurants, loaded, shouldLoad, loadRestaurants }) => {
   const [activeId, setActiveId] = useState(restaurants[0]?.id);
