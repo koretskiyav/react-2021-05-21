@@ -1,5 +1,9 @@
-import { createAsyncThunk, createNextState } from '@reduxjs/toolkit';
-import { arrToMap, isLoading, shouldLoad } from '../utils';
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
+import { isLoading, shouldLoad } from '../utils';
 import { STATUS } from '../constants';
 import api from '../../api';
 
@@ -11,36 +15,34 @@ export const loadProducts = createAsyncThunk(
       shouldLoadProductsSelector(getState(), { restaurantId: id }),
   }
 );
+const Products = createEntityAdapter();
 
 const initialState = {
+  ...Products.getInitialState(),
   status: {},
-  entities: {},
   error: null,
 };
 
-export default createNextState((draft = initialState, action) => {
-  const { type, payload, meta, error } = action;
-
-  switch (type) {
-    case loadProducts.pending.type: {
-      draft.status[meta.arg] = STATUS.pending;
-      draft.error = null;
-      break;
-    }
-    case loadProducts.fulfilled.type: {
-      draft.status[meta.arg] = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(payload));
-      break;
-    }
-    case loadProducts.rejected.type: {
-      draft.status[meta.arg] = STATUS.rejected;
-      draft.error = error;
-      break;
-    }
-    default:
-      return draft;
-  }
+const { reducer } = createSlice({
+  name: 'products',
+  initialState,
+  extraReducers: {
+    [loadProducts.pending]: (state, { meta }) => {
+      state.status[meta.arg] = STATUS.pending;
+      state.error = null;
+    },
+    [loadProducts.fulfilled]: (state, action) => {
+      state.status[action.meta.arg] = STATUS.fulfilled;
+      Products.addMany(state, action);
+    },
+    [loadProducts.rejected]: (state, { meta, error }) => {
+      state.status[meta.arg] = STATUS.rejected;
+      state.error = error;
+    },
+  },
 });
+
+export default reducer;
 
 export const productsSelector = (state) => state.products.entities;
 
