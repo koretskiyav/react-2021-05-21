@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Restaurants from '../restaurants';
 import Header from '../header';
@@ -12,8 +12,12 @@ const App = () => {
     <div>
       <UserProvider value={{ name, setName }}>
         <Header />
-        <Route path="/checkout" component={Basket} />
-        <Route path="/restaurants/:restId" component={Restaurants} />
+        <Switch>
+          <Route path="/" exact component={() => <p>Home Page!</p>} />
+          <Route path="/checkout" component={Basket} />
+          <Route path="/restaurants/:restId" component={Restaurants} />
+          <Route path="/" component={() => <p>404 - Not Found :(</p>} />
+        </Switch>
       </UserProvider>
     </div>
   );
