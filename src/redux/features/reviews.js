@@ -4,6 +4,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
+import { push } from 'connected-react-router';
 import api from '../../api';
 import { STATUS } from '../constants';
 import { isLoaded, shouldLoad } from '../utils';
@@ -18,7 +19,11 @@ export const addReview = createAction(
 
 export const loadReviews = createAsyncThunk(
   'reviews/load',
-  (id) => api.loadReviews(id),
+  (id, { dispatch }) =>
+    api.loadReviews(id).catch((err) => {
+      dispatch(push('/error'));
+      throw err;
+    }),
   {
     condition: (id, { getState }) =>
       shouldLoadReviewsSelector(getState(), { restaurantId: id }),

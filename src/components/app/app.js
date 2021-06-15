@@ -16,6 +16,7 @@ const App = () => {
           <Route path="/" exact component={() => <p>Home Page!</p>} />
           <Route path="/checkout" component={Basket} />
           <Route path="/restaurants" component={Restaurants} />
+          <Route path="/error" component={() => <p>Error Page!</p>} />
           <Route path="/" component={() => <p>404 - Not Found :(</p>} />
         </Switch>
       </UserProvider>
