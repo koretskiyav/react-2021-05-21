@@ -18,8 +18,8 @@ const Product = ({ product, amount, increment, decrement }) => {
         <div>
           <h4 className={styles.title}>{product.name}</h4>
           <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>
-            <InternalPricer value={product.price} />
+          <div >
+            <InternalPricer value={product.price} className={styles.price} />
           </div>
         </div>
         <div>

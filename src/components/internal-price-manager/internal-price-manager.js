@@ -16,33 +16,37 @@ const CurrentCurrencyConsumer = currentCurrencyContext.Consumer;
 
 // Components
 
-export const InternalPricer = ({ value }) => {
+export const InternalPricer = ({ value, className }) => {
   return (
-    <CurrentCurrencyConsumer>{
-      (currentCurrency) => {
-        const currency = currencies[currentCurrency.currentCurrency];
-        return (
-          <span>
-            {`${Math.round(value * currency.rate * 100) / 100} ` + currency.caption}
-          </span>
-        )
-      }
-    }</CurrentCurrencyConsumer>
+    <span className={className}>
+      <CurrentCurrencyConsumer>{
+        (currentCurrency) => {
+          const currency = currencies[currentCurrency.currentCurrency];
+          return (
+            <span>
+              {`${Math.round(value * currency.rate * 100) / 100} ` + currency.caption}
+            </span>
+          )
+        }
+      }</CurrentCurrencyConsumer>
+    </span>
   );
 }
 
-export const InternalPriceSwitch = () => {
+export const InternalPriceSwitch = ({ className }) => {
   const { setCurrentCurrency } = useContext(currentCurrencyContext);
 
   return (
-    <span className={styles.currency}>
-      {
-        Object.keys(currencies).map(item => (
-          <Fragment key={item}>
-            <span className={styles.currencyItem} onClick={() => setCurrentCurrency(item)}>{item}</span>
-          </Fragment>
-        ))
-      }
-    </span>
+    <div className={className}>
+      <span className={styles.currency}>
+        {
+          Object.keys(currencies).map(item => (
+            <Fragment key={item}>
+              <span className={styles.currencyItem} onClick={() => setCurrentCurrency(item)}>{item}</span>
+            </Fragment>
+          ))
+        }
+      </span>
+    </div>
   );
 }

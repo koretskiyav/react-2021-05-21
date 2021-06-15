@@ -9,8 +9,8 @@ const Header = () => {
 
   return (
     <header className={styles.header} onClick={() => setName('Igor')}>
-      <div className={styles.priceSwitch}>
-        <InternalPriceSwitch />
+      <div >
+        <InternalPriceSwitch className={styles.priceSwitch} />
       </div>
       <Logo />
       <h2>{name}</h2>
