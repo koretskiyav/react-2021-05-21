@@ -9,7 +9,5 @@ const middleware = [generateId, logger];
 
 export default configureStore({
   reducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: { ignoredActionPaths: ['apiCall'] },
-  }).concat(middleware),
+  middleware: getDefaultMiddleware().concat(middleware),
 });
