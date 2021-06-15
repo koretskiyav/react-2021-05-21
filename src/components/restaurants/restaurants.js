@@ -8,15 +8,14 @@ import {
   loadRestaurants,
   restaurantsListSelector,
   restaurantsLoadedSelector,
-  shouldLoadRestaurantsSelector,
 } from '../../redux/features/restaurants';
 
-const Restaurants = ({ restaurants, loaded, shouldLoad, loadRestaurants }) => {
+const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
   const [activeId, setActiveId] = useState(restaurants[0]?.id);
 
   useEffect(() => {
-    if (shouldLoad) loadRestaurants();
-  }, [shouldLoad]); // eslint-disable-line
+    loadRestaurants();
+  }, []); // eslint-disable-line
 
   const restaurantId = activeId || restaurants[0]?.id;
 
@@ -43,7 +42,6 @@ Restaurants.propTypes = {
 const mapStateToProps = (state) => ({
   restaurants: restaurantsListSelector(state),
   loaded: restaurantsLoadedSelector(state),
-  shouldLoad: shouldLoadRestaurantsSelector(state),
 });
 
 export default connect(mapStateToProps, { loadRestaurants })(Restaurants);

@@ -1,15 +1,16 @@
-import { createNextState } from '@reduxjs/toolkit';
+import { createAsyncThunk, createNextState } from '@reduxjs/toolkit';
 import { arrToMap, isLoading, shouldLoad } from '../utils';
-import { REQUEST, SUCCESS, FAILURE, STATUS } from '../constants';
+import { STATUS } from '../constants';
 import api from '../../api';
 
-const LOAD_PRODUCTS = 'LOAD_PRODUCTS';
-
-export const loadProducts = (restaurantId) => ({
-  type: LOAD_PRODUCTS,
-  apiCall: () => api.loadProducts(restaurantId),
-  restaurantId,
-});
+export const loadProducts = createAsyncThunk(
+  'products/load',
+  (id) => api.loadProducts(id),
+  {
+    condition: (id, { getState }) =>
+      shouldLoadProductsSelector(getState(), { restaurantId: id }),
+  }
+);
 
 const initialState = {
   status: {},
@@ -18,21 +19,21 @@ const initialState = {
 };
 
 export default createNextState((draft = initialState, action) => {
-  const { type, restaurantId, data, error } = action;
+  const { type, payload, meta, error } = action;
 
   switch (type) {
-    case LOAD_PRODUCTS + REQUEST: {
-      draft.status[restaurantId] = STATUS.pending;
+    case loadProducts.pending.type: {
+      draft.status[meta.arg] = STATUS.pending;
       draft.error = null;
       break;
     }
-    case LOAD_PRODUCTS + SUCCESS: {
-      draft.status[restaurantId] = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
+    case loadProducts.fulfilled.type: {
+      draft.status[meta.arg] = STATUS.fulfilled;
+      Object.assign(draft.entities, arrToMap(payload));
       break;
     }
-    case LOAD_PRODUCTS + FAILURE: {
-      draft.status[restaurantId] = STATUS.rejected;
+    case loadProducts.rejected.type: {
+      draft.status[meta.arg] = STATUS.rejected;
       draft.error = error;
       break;
     }
@@ -49,4 +50,4 @@ const productsStatusSelector = (state, props) =>
   state.products.status[props.restaurantId];
 
 export const productsLoadingSelector = isLoading(productsStatusSelector);
-export const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);
+const shouldLoadProductsSelector = shouldLoad(productsStatusSelector);

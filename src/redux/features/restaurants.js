@@ -1,16 +1,19 @@
-import { createNextState, createSelector } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createNextState,
+  createSelector,
+} from '@reduxjs/toolkit';
 import api from '../../api';
 
-import { STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
 
-const LOAD_RESTAURANTS = 'LOAD_RESTAURANTS';
-
-export const loadRestaurants = () => ({
-  type: LOAD_RESTAURANTS,
-  apiCall: () => api.loadRestaurants(),
-});
+export const loadRestaurants = createAsyncThunk(
+  'restaurants/load',
+  () => api.loadRestaurants(),
+  { condition: (_, { getState }) => shouldLoadRestaurantsSelector(getState()) }
+);
 
 const initialState = {
   status: STATUS.idle,
@@ -19,14 +22,18 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
+  const { type, payload, meta, error } = action;
 
   switch (type) {
-    case LOAD_RESTAURANTS + REQUEST:
+    case loadRestaurants.pending.type:
       return { ...state, status: STATUS.pending, error: null };
-    case LOAD_RESTAURANTS + SUCCESS:
-      return { ...state, status: STATUS.fulfilled, entities: arrToMap(data) };
-    case LOAD_RESTAURANTS + FAILURE:
+    case loadRestaurants.fulfilled.type:
+      return {
+        ...state,
+        status: STATUS.fulfilled,
+        entities: arrToMap(payload),
+      };
+    case loadRestaurants.rejected.type:
       return { ...state, status: STATUS.rejected, error };
     case addReview.type:
       return createNextState(state, (draft) => {
@@ -41,9 +48,7 @@ const restaurantsSelector = (state) => state.restaurants.entities;
 const restaurantsStatusSelector = (state) => state.restaurants.status;
 
 export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
-export const shouldLoadRestaurantsSelector = shouldLoad(
-  restaurantsStatusSelector
-);
+const shouldLoadRestaurantsSelector = shouldLoad(restaurantsStatusSelector);
 
 export const restaurantsListSelector = createSelector(
   restaurantsSelector,

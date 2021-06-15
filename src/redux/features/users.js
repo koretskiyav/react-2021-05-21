@@ -1,26 +1,13 @@
-import { createNextState } from '@reduxjs/toolkit';
+import { createAsyncThunk, createNextState } from '@reduxjs/toolkit';
 import api from '../../api';
 
-import { STATUS, REQUEST, SUCCESS, FAILURE } from '../constants';
+import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
 import { arrToMap, isLoaded, shouldLoad } from '../utils';
 
-const LOAD_USERS = 'LOAD_USERS';
-
-export const loadUsers = () => async (dispatch, getState) => {
-  const shouldLoad = shouldLoadUsersSelector(getState());
-
-  if (!shouldLoad) return;
-
-  dispatch({ type: LOAD_USERS + REQUEST });
-
-  try {
-    const data = await api.loadUsers();
-    dispatch({ type: LOAD_USERS + SUCCESS, data });
-  } catch (error) {
-    dispatch({ type: LOAD_USERS + FAILURE, error });
-  }
-};
+export const loadUsers = createAsyncThunk('users/load', () => api.loadUsers(), {
+  condition: (_, { getState }) => shouldLoadUsersSelector(getState()),
+});
 
 const initialState = {
   status: STATUS.idle,
@@ -29,20 +16,20 @@ const initialState = {
 };
 
 export default createNextState((draft = initialState, action) => {
-  const { type, payload, meta, data, error } = action;
+  const { type, payload, meta, error } = action;
 
   switch (type) {
-    case LOAD_USERS + REQUEST: {
+    case loadUsers.pending.type: {
       draft.status = STATUS.pending;
       draft.error = null;
       break;
     }
-    case LOAD_USERS + SUCCESS: {
+    case loadUsers.fulfilled.type: {
       draft.status = STATUS.fulfilled;
-      Object.assign(draft.entities, arrToMap(data));
+      Object.assign(draft.entities, arrToMap(payload));
       break;
     }
-    case LOAD_USERS + FAILURE: {
+    case loadUsers.rejected.type: {
       draft.status = STATUS.rejected;
       draft.error = error;
       break;
