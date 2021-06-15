@@ -1,4 +1,8 @@
 import { connect } from 'react-redux';
+import { useContext } from 'react';
+
+import { PriceContext } from '../../../context/price';
+
 import cn from 'classnames';
 import { increment, decrement, remove } from '../../../redux/features/order';
 import Button from '../../button';
@@ -12,6 +16,9 @@ function BasketItem({
   decrement,
   remove,
 }) {
+
+  const { formatPrice } = useContext(PriceContext);
+
   return (
     <div className={styles.basketItem}>
       <div className={styles.name}>
@@ -23,7 +30,7 @@ function BasketItem({
           <span className={styles.count}>{amount}</span>
           <Button onClick={increment} icon="plus" secondary small />
         </div>
-        <p className={cn(styles.count, styles.price)}>{subtotal} $</p>
+        <p className={cn(styles.count, styles.price)}>{formatPrice(subtotal)}</p>
         <Button onClick={remove} icon="delete" secondary small />
       </div>
     </div>

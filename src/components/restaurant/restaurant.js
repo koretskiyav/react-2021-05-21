@@ -6,10 +6,8 @@ import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
-import {
-  averageRatingSelector,
-  restaurantSelector,
-} from '../../redux/selectors';
+import { restaurantSelector } from '../../redux/features/restaurants'
+import { averageRatingSelector } from '../../redux/selectors';
 
 const Restaurant = ({ restaurant, averageRating }) => {
   const { id, name, menu, reviews } = restaurant;
