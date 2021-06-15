@@ -1,14 +1,17 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './product.module.css';
+import { PriceContext } from '../../context/price';
 
 import Button from '../button';
 import { amountSelector } from '../../redux/features/order';
 import { productSelector } from '../../redux/features/products';
 
 import { decrement, increment } from '../../redux/features/order';
+import { useContext } from 'react';
 
 const Product = ({ product, amount, increment, decrement }) => {
+  const { formatPrice } = useContext(PriceContext);
   if (!product) return null;
 
   return (
@@ -17,7 +20,7 @@ const Product = ({ product, amount, increment, decrement }) => {
         <div>
           <h4 className={styles.title}>{product.name}</h4>
           <p className={styles.description}>{product.ingredients.join(', ')}</p>
-          <div className={styles.price}>{product.price} $</div>
+          <div className={styles.price}>{formatPrice(product.price)}</div>
         </div>
         <div>
           <div className={styles.counter}>

@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { useContext } from 'react';
+import { PriceContext } from '../../context/price';
 
 import styles from './basket.module.css';
 import itemStyles from './basket-item/basket-item.module.css';
@@ -9,6 +11,8 @@ import { UserConsumer } from '../../context/user';
 
 function Basket({ title = 'Basket', total, orderProducts }) {
   console.log('render Basket');
+  const { formatPrice } = useContext(PriceContext);
+
   if (!total) {
     return (
       <div className={styles.basket}>
@@ -37,7 +41,7 @@ function Basket({ title = 'Basket', total, orderProducts }) {
           <p>Total</p>
         </div>
         <div className={itemStyles.info}>
-          <p>{`${total} $`}</p>
+          <p>{`${formatPrice(total)}`}</p>
         </div>
       </div>
       <Button primary block>
