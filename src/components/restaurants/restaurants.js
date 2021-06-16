@@ -19,6 +19,13 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
 
   if (!loaded) return <Loader />;
 
+  function getPath(subPath) {
+    if (subPath) {
+      return "/restaurants/" + subPath;
+    }
+    return "/restaurants";
+  }
+
   return (
     <div>
       <div className={styles.tabs}>
@@ -34,10 +41,16 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
         ))}
       </div>
       <Switch>
-        <Route path="/restaurants/:restId">
-          {({ match }) => <Restaurant id={match.params.restId} />}
+        <Route path={getPath(":restId")}>
+          {({ match }) => {
+            if (match.params.restId && !restaurants.find(item => item.id === match.params.restId)) {
+              return <Redirect to={getPath()} />;
+            } else {
+              return (<Restaurant id={match.params.restId} />);
+            }
+          }}
         </Route>
-        <Redirect to={`/restaurants/${restaurants[0].id}`} />
+        <Redirect to={getPath(restaurants[0].id)} />
       </Switch>
     </div>
   );
