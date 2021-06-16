@@ -7,6 +7,7 @@ import Banner from '../banner';
 import Rate from '../rate';
 import { averageRatingSelector } from '../../redux/selectors';
 import { restaurantSelector } from '../../redux/features/restaurants';
+import { getRestaurantsPath } from '../restaurants/restaurants';
 import styles from './restaurant.module.css';
 
 const Restaurant = ({ restaurant, averageRating }) => {
@@ -16,7 +17,13 @@ const Restaurant = ({ restaurant, averageRating }) => {
     { id: 'menu', title: 'Menu' },
     { id: 'reviews', title: 'Reviews' },
   ];
-  const path = `/restaurants/${restaurant.id}`;
+
+  function getPath(subPath) {
+    if (subPath) {
+      return getRestaurantsPath(restaurant.id) + '/' + subPath;
+    }
+    return getRestaurantsPath(restaurant.id)
+  }
 
   return (
     <div>
@@ -28,7 +35,7 @@ const Restaurant = ({ restaurant, averageRating }) => {
         {tabs.map(({ id, title }) => (
           <NavLink
             key={id}
-            to={`${path}/${id}`}
+            to={getPath(id)}
             className={styles.tab}
             activeClassName={styles.active}
           >
@@ -38,9 +45,9 @@ const Restaurant = ({ restaurant, averageRating }) => {
       </div>
 
       <Switch>
-        <Route path={`${path}/menu`} component={() => <Menu menu={menu} key={id} restaurantId={id} />} />
-        <Route path={`${path}/reviews`} component={() => <Reviews reviews={reviews} restaurantId={id} />} />
-        <Redirect to={`${path}/menu`} />
+        <Route path={getPath('menu')} component={() => <Menu menu={menu} key={id} restaurantId={id} />} />
+        <Route path={getPath('reviews')} component={() => <Reviews reviews={reviews} restaurantId={id} />} />
+        <Redirect to={getPath('menu')} />
       </Switch>
     </div>
   );

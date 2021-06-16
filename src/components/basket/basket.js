@@ -26,9 +26,10 @@ function Basket({ title = 'Basket', total, orderProducts }) {
       <h4 className={styles.title}>
         <UserConsumer>{({ name }) => `${name}'s ${title}`}</UserConsumer>
       </h4>
-      {orderProducts.map(({ product, amount, subtotal }) => (
+      {orderProducts.map(({ product, amount, subtotal, restaurantId }) => (
         <BasketItem
           product={product}
+          restaurantId={restaurantId}
           amount={amount}
           key={product.id}
           subtotal={subtotal}

@@ -2,8 +2,10 @@ import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter,
+  createSelector
 } from '@reduxjs/toolkit';
 import api from '../../api';
+import restaurant from '../../components/restaurant';
 
 import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
@@ -57,6 +59,22 @@ export const restaurantsLoadedSelector = isLoaded(restaurantsStatusSelector);
 const shouldLoadRestaurantsSelector = shouldLoad(restaurantsStatusSelector);
 
 export const restaurantsListSelector = restaurantsSelectors.selectAll;
+
+export const getRestaurantsByProductIdObjectSelector = createSelector(
+  restaurantsListSelector,
+  (restaurantsList) => {
+    const result = restaurantsList.reduce(
+      (allByProduct, restaurant) => {
+        return {
+          ...allByProduct,
+          ...restaurant.menu.reduce((oneByProduct, productId) => {
+            return { ...oneByProduct, ...{ [productId]: restaurant.id } };
+          }, {})
+        }
+      }, {});
+    return result;
+  }
+);
 
 export const restaurantSelector = (state, { id }) =>
   restaurantsSelectors.selectById(state, id);

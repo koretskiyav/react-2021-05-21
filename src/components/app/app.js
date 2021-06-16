@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Restaurants from '../restaurants';
+import { getRestaurantsPath } from '../restaurants/restaurants';
 import Header from '../header';
 import Basket from '../basket';
 
@@ -14,9 +15,9 @@ const App = () => {
         <Header />
         <Switch>
           <Route path="/checkout" component={Basket} />
-          <Route path="/restaurants" component={Restaurants} />
+          <Route path={getRestaurantsPath()} component={Restaurants} />
           <Route path="/error" component={() => <p>Error Page!</p>} />
-          <Redirect to="/restaurants" />
+          <Redirect to={getRestaurantsPath()} />
           <Route path="/" component={() => <p>404 - Not Found :(</p>} />
         </Switch>
       </UserProvider>

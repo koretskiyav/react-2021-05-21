@@ -12,6 +12,13 @@ import {
 
 import styles from './restaurants.module.css';
 
+export function getRestaurantsPath(subPath) {
+  if (subPath) {
+    return "/restaurants/" + subPath;
+  }
+  return "/restaurants";
+}
+
 const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
   useEffect(() => {
     loadRestaurants();
@@ -19,20 +26,13 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
 
   if (!loaded) return <Loader />;
 
-  function getPath(subPath) {
-    if (subPath) {
-      return "/restaurants/" + subPath;
-    }
-    return "/restaurants";
-  }
-
   return (
     <div>
       <div className={styles.tabs}>
         {restaurants.map(({ id, name }) => (
           <NavLink
             key={id}
-            to={`/restaurants/${id}`}
+            to={getRestaurantsPath(id)}
             className={styles.tab}
             activeClassName={styles.active}
           >
@@ -41,16 +41,16 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
         ))}
       </div>
       <Switch>
-        <Route path={getPath(":restId")}>
+        <Route path={getRestaurantsPath(":restId")}>
           {({ match }) => {
             if (match.params.restId && !restaurants.find(item => item.id === match.params.restId)) {
-              return <Redirect to={getPath()} />;
+              return <Redirect to={getRestaurantsPath()} />;
             } else {
               return (<Restaurant id={match.params.restId} />);
             }
           }}
         </Route>
-        <Redirect to={getPath(restaurants[0].id)} />
+        <Redirect to={getRestaurantsPath(restaurants[0].id)} />
       </Switch>
     </div>
   );
