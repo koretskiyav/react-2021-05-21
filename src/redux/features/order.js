@@ -1,11 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { push } from 'connected-react-router';
 import api from '../../api';
 
 export const payOrderAction = createAsyncThunk(
   'order/payOrder',
   (_, thunkApi) => {
     console.log("api.payOrder");
-    const result = api.order();
+    // const { payStatus, error, ...items } = orderSelector(thunkApi.getState());
+    // const orderForApi = Object.keys(items).map(key => ({ id: key, amount: items[key] }));
+    const orderForApi = orderItemsForApiSelector(thunkApi.getState()); // выполняется очень редко, можно и на каждый вызов все мапить
+    const result = api.order(orderForApi);
     result.then(response => {
       console.log("api.payOrder.response - " + response);
       if (response === "ok") {
@@ -13,6 +17,9 @@ export const payOrderAction = createAsyncThunk(
       } else {
         thunkApi.dispatch(setPayFailedAction({ response }));
       }
+    }).catch(error => {
+      thunkApi.dispatch(push('/error'));
+      throw error;
     });
     return result;
   }
@@ -29,6 +36,7 @@ export const setPaySuccessAction = createAsyncThunk(
           resolve();
         },
         1); // incorrect approach based on the sequence of actions: { redux.order = 'SUCCESS' to show "Success" -> payOrderSuccess: true to keep "success" -> redux.order = {} to clear "success"
+      // отказаться от setTimeout и явно запускать новый action?
     });
   }
 );
@@ -44,6 +52,7 @@ export const setPayFailedAction = createAsyncThunk(
           resolve();
         },
         1); // incorrect approach based on the sequence of actions: { redux.order = 'SUCCESS' to show "Success" -> payOrderSuccess: true to keep "success" -> redux.order = {} to clear "success"
+      // отказаться от setTimeout и явно запускать новый action?
     });
   }
 );
@@ -80,11 +89,12 @@ const { reducer, actions } = createSlice({
       state.payStatus = PAY_STATUS.started;
       state.error = null;
     },
-    [payOrderAction.rejected]: (state, { meta, error }) => {
-      // network errors only
-      state.payStatus = PAY_STATUS.failed;
-      state.error = error;
+    [payOrderAction.rejected]: (state, action) => {
+      // network errors handled at 'catch'
+      state.payStatus = null;
+      state.error = null;
     },
+
     [setPaySuccessAction.pending]: (state, { meta }) => {
       state.payStatus = PAY_STATUS.success;
       state.error = null;
@@ -92,6 +102,7 @@ const { reducer, actions } = createSlice({
     [setPaySuccessAction.fulfilled]: (state) => {
       return {};
     },
+
     [setPayFailedAction.pending]: (state, action) => {
       state.payStatus = PAY_STATUS.failed;
       state.error = action.meta.arg.response;
@@ -111,6 +122,14 @@ export { increment, decrement, remove };
 
 export const orderSelector = (state) => state.order;
 export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
+
+export const orderItemsForApiSelector = createSelector(
+  orderSelector,
+  (order) => {
+    const { payStatus, error, ...items } = order;
+    return Object.keys(items).map(key => ({ id: key, amount: items[key] }));
+  }
+);
 
 export const getPayOrderStatusSelector = (state) => {
   const result = orderSelector(state).payStatus;
