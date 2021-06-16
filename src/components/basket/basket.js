@@ -1,17 +1,47 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import styles from './basket.module.css';
 import itemStyles from './basket-item/basket-item.module.css';
 import BasketItem from './basket-item';
 import Button from '../button';
 import { orderProductsSelector, totalSelector } from '../../redux/selectors';
+import { payOrderAction, isPayOrderStartedSelector, isPayOrderSuccessSelector, isPayOrderFailedSelector } from '../../redux/features/order';
 import { UserConsumer } from '../../contexts/user';
 import moneyContext from '../../contexts/money';
+import Loader from '../loader';
 
-function Basket({ title = 'Basket', total, orderProducts }) {
+function Basket({ title = 'Basket', total, orderProducts, payOrder, isPayOrderStarted, isPayOrderSuccess, isPayOrderFailed }) {
   const { m } = useContext(moneyContext);
+  const location = useLocation();
+
+  const [payOrderSuccessState, setPayOrderSuccessState] = useState(false);
+
+  if (payOrderSuccessState || isPayOrderSuccess) {
+    if (!payOrderSuccessState) {
+      setPayOrderSuccessState(true);
+      // clearOrder(); - incorrect at UI level, should be started immediately after 'ok' is received
+    }
+
+    return <Link to="/">
+      <Button primary block>
+        Оплата успешно завершена
+      </Button>
+    </Link>;
+  }
+
+  if (isPayOrderFailed) {
+    return <Link to="/">
+      <Button primary block>
+        Оплата успешно завершена
+      </Button>
+    </Link>;
+  }
+
+  if (isPayOrderStarted) {
+    return <Loader />
+  }
 
   if (!total) {
     return (
@@ -44,11 +74,22 @@ function Basket({ title = 'Basket', total, orderProducts }) {
           <p>{m(total)}</p>
         </div>
       </div>
-      <Link to="/checkout">
-        <Button primary block>
-          checkout
-        </Button>
-      </Link>
+      {
+        (location.pathname === "/checkout") ?
+          (
+            <Button primary block onClick={payOrder}>
+              Purchase
+            </Button>
+          )
+          :
+          (
+            <Link to="/checkout">
+              <Button primary block>
+                checkout
+              </Button>
+            </Link>
+          )
+      }
     </div>
   );
 }
@@ -57,7 +98,14 @@ const mapStateToProps = (state) => {
   return {
     total: totalSelector(state),
     orderProducts: orderProductsSelector(state),
+    isPayOrderStarted: isPayOrderStartedSelector(state),
+    isPayOrderSuccess: isPayOrderSuccessSelector(state),
+    isPayOrderFailed: isPayOrderFailedSelector(state),
   };
 };
 
-export default connect(mapStateToProps)(Basket);
+const mapDispatchToProps = (dispatch) => ({
+  payOrder: () => dispatch(payOrderAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Basket);

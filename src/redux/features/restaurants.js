@@ -5,7 +5,6 @@ import {
   createSelector
 } from '@reduxjs/toolkit';
 import api from '../../api';
-import restaurant from '../../components/restaurant';
 
 import { STATUS } from '../constants';
 import { addReview } from '../features/reviews';
