@@ -7,18 +7,20 @@ import itemStyles from './basket-item/basket-item.module.css';
 import BasketItem from './basket-item';
 import Button from '../button';
 import { orderProductsSelector, totalSelector } from '../../redux/selectors';
-import { payOrderAction, isPayOrderStartedSelector, isPayOrderSuccessSelector, isPayOrderFailedSelector } from '../../redux/features/order';
+import { payOrderAction, getPayOrderStatusSelector, getPayOrderFailureMessageSelector, PAY_STATUS } from '../../redux/features/order';
 import { UserConsumer } from '../../contexts/user';
 import moneyContext from '../../contexts/money';
 import Loader from '../loader';
 
-function Basket({ title = 'Basket', total, orderProducts, payOrder, isPayOrderStarted, isPayOrderSuccess, isPayOrderFailed }) {
+function Basket({ title = 'Basket', total, orderProducts, payOrder, payOrderStatus, payOrderError }) {
   const { m } = useContext(moneyContext);
   const location = useLocation();
 
   const [payOrderSuccessState, setPayOrderSuccessState] = useState(false);
+  const [payOrderFailedState, setPayOrderFailedState] = useState(false);
+  const [payOrderErrorState, setPayOrderErrorState] = useState("");
 
-  if (payOrderSuccessState || isPayOrderSuccess) {
+  if (payOrderSuccessState || (payOrderStatus === PAY_STATUS.success)) {
     if (!payOrderSuccessState) {
       setPayOrderSuccessState(true);
       // clearOrder(); - incorrect at UI level, should be started immediately after 'ok' is received
@@ -31,15 +33,20 @@ function Basket({ title = 'Basket', total, orderProducts, payOrder, isPayOrderSt
     </Link>;
   }
 
-  if (isPayOrderFailed) {
-    return <Link to="/">
-      <Button primary block>
-        Оплата успешно завершена
+  console.log("payOrderFailedState " + payOrderFailedState);
+  if (payOrderStatus === PAY_STATUS.failed || (payOrderFailedState === true)) {
+    if (!payOrderFailedState) {
+      setPayOrderFailedState(true);
+      setPayOrderErrorState(payOrderError);
+    }
+    return (
+      <Button primary block onClick={() => { setPayOrderFailedState(false); }}>
+        Произошла ошибка: {payOrderErrorState}
       </Button>
-    </Link>;
+    );
   }
 
-  if (isPayOrderStarted) {
+  if (payOrderStatus === PAY_STATUS.started) {
     return <Loader />
   }
 
@@ -98,9 +105,8 @@ const mapStateToProps = (state) => {
   return {
     total: totalSelector(state),
     orderProducts: orderProductsSelector(state),
-    isPayOrderStarted: isPayOrderStartedSelector(state),
-    isPayOrderSuccess: isPayOrderSuccessSelector(state),
-    isPayOrderFailed: isPayOrderFailedSelector(state),
+    payOrderStatus: getPayOrderStatusSelector(state),
+    payOrderError: getPayOrderFailureMessageSelector(state)
   };
 };
 
