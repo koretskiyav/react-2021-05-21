@@ -14,8 +14,10 @@ export const payOrderAction = createAsyncThunk(
       console.log("api.payOrder.response - " + response);
       if (response === "ok") {
         thunkApi.dispatch(setPaySuccessAction());
+        //dispatch(push('/pay-success-uri' + args from response (id of item in PurchaseList?)));
       } else {
         thunkApi.dispatch(setPayFailedAction({ response }));
+        //thunkApi.dispatch(push('/error' + args from response));
       }
     }).catch(error => {
       thunkApi.dispatch(push('/error'));
