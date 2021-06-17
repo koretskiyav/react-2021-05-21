@@ -1,33 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Restaurant from '../restaurant';
-import Tabs from '../tabs';
 import Loader from '../loader';
 import {
+  loadRestaurants,
   restaurantsListSelector,
   restaurantsLoadedSelector,
-  shouldLoadRestaurantsSelector,
-} from '../../redux/selectors';
-import { loadRestaurants } from '../../redux/actions';
+} from '../../redux/features/restaurants';
 
-const Restaurants = ({ restaurants, loaded, shouldLoad, loadRestaurants }) => {
-  const [activeId, setActiveId] = useState(restaurants[0]?.id);
+import styles from './restaurants.module.css';
 
+const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
   useEffect(() => {
-    if (shouldLoad) loadRestaurants();
-  }, [shouldLoad]); // eslint-disable-line
-
-  const restaurantId = activeId || restaurants[0]?.id;
+    loadRestaurants();
+  }, []); // eslint-disable-line
 
   if (!loaded) return <Loader />;
 
-  const tabs = restaurants.map(({ id, name }) => ({ id, title: name }));
-
   return (
     <div>
-      <Tabs tabs={tabs} activeId={restaurantId} onChange={setActiveId} />
-      <Restaurant id={restaurantId} />
+      <div className={styles.tabs}>
+        {restaurants.map(({ id, name }) => (
+          <NavLink
+            key={id}
+            to={`/restaurants/${id}`}
+            className={styles.tab}
+            activeClassName={styles.active}
+          >
+            {name}
+          </NavLink>
+        ))}
+      </div>
+      <Switch>
+        <Route path="/restaurants/:restId">
+          {({ match }) => <Restaurant id={match.params.restId} />}
+        </Route>
+        <Redirect to={`/restaurants/${restaurants[0].id}`} />
+      </Switch>
     </div>
   );
 };
@@ -43,7 +54,6 @@ Restaurants.propTypes = {
 const mapStateToProps = (state) => ({
   restaurants: restaurantsListSelector(state),
   loaded: restaurantsLoadedSelector(state),
-  shouldLoad: shouldLoadRestaurantsSelector(state),
 });
 
 export default connect(mapStateToProps, { loadRestaurants })(Restaurants);

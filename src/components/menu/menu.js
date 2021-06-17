@@ -2,11 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadProducts } from '../../redux/actions';
 import {
+  loadProducts,
   productsLoadingSelector,
-  shouldLoadProductsSelector,
-} from '../../redux/selectors';
+} from '../../redux/features/products';
 
 import Loader from '../loader';
 import Product from '../product';
@@ -21,18 +20,13 @@ class Menu extends Component {
 
   state = { error: null };
 
-  loadProductsIfNeeded = () => {
-    const { loadProducts, restaurantId, shouldLoad } = this.props;
-    if (shouldLoad) loadProducts(restaurantId);
-  };
-
   componentDidMount() {
-    this.loadProductsIfNeeded();
+    this.props.loadProducts(this.props.restaurantId);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.restaurantId !== this.props.restaurantId) {
-      this.loadProductsIfNeeded();
+      this.props.loadProducts(this.props.restaurantId);
     }
   }
 
@@ -68,7 +62,6 @@ class Menu extends Component {
 
 const mapStateToProps = (state, props) => ({
   loading: productsLoadingSelector(state, props),
-  shouldLoad: shouldLoadProductsSelector(state, props),
 });
 
 const mapDispatchToProps = { loadProducts };

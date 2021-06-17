@@ -5,12 +5,11 @@ import Review from './review';
 import ReviewForm from './review-form';
 import styles from './reviews.module.css';
 
-import { loadUsers } from '../../redux/actions';
 import {
   loadReviews,
   reviewsLoadedSelector,
 } from '../../redux/features/reviews';
-import { usersLoadedSelector } from '../../redux/selectors';
+import { loadUsers, usersLoadedSelector } from '../../redux/features/users';
 
 import Loader from '../loader';
 

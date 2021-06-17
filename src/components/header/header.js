@@ -1,15 +1,16 @@
-import { useContext } from 'react';
-import { userContext } from '../../context/user';
 import { ReactComponent as Logo } from '../../icons/logo.svg';
+import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 
-const Header = () => {
-  const { name, setName } = useContext(userContext);
+import CurrencySwitcher from '../currency-switcher';
 
+const Header = () => {
   return (
-    <header className={styles.header} onClick={() => setName('Igor')}>
-      <Logo />
-      <h2>{name}</h2>
+    <header className={styles.header}>
+      <Link to="/restaurants">
+        <Logo />
+      </Link>
+      <CurrencySwitcher />
     </header>
   );
 };
