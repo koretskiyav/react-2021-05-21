@@ -34,8 +34,8 @@ router.get('/users', (req, res, next) => {
   reply(res, users);
 });
 
-const min = (m) => `you ordered for $${m}, but the min order amount is $50`;
-const max = (m) => `you ordered for $${m}, but the max order amount is $200`;
+const min = (m) => `You ordered for $${m}, but the min order amount is $50`;
+const max = (m) => `You ordered for $${m}, but the max order amount is $200`;
 
 router.post('/order', function (req, res, next) {
   try {
