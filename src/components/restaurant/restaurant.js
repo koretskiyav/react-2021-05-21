@@ -1,33 +1,54 @@
-import { useState } from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
-import Tabs from '../tabs';
 import { averageRatingSelector } from '../../redux/selectors';
 import { restaurantSelector } from '../../redux/features/restaurants';
+import { getRestaurantsPath } from '../restaurants/restaurants';
+import styles from './restaurant.module.css';
 
 const Restaurant = ({ restaurant, averageRating }) => {
   const { id, name, menu, reviews } = restaurant;
-  const [activeTab, setActiveTab] = useState('menu');
 
   const tabs = [
     { id: 'menu', title: 'Menu' },
     { id: 'reviews', title: 'Reviews' },
   ];
 
+  function getPath(subPath) {
+    if (subPath) {
+      return getRestaurantsPath(restaurant.id) + '/' + subPath;
+    }
+    return getRestaurantsPath(restaurant.id)
+  }
+
   return (
     <div>
       <Banner heading={name}>
         {!!averageRating && <Rate value={averageRating} />}
       </Banner>
-      <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
-      {activeTab === 'menu' && <Menu menu={menu} key={id} restaurantId={id} />}
-      {activeTab === 'reviews' && (
-        <Reviews reviews={reviews} restaurantId={id} />
-      )}
+
+      <div className={styles.tabs}>
+        {tabs.map(({ id, title }) => (
+          <NavLink
+            key={id}
+            to={getPath(id)}
+            className={styles.tab}
+            activeClassName={styles.active}
+          >
+            {title}
+          </NavLink>
+        ))}
+      </div>
+
+      <Switch>
+        <Route path={getPath('menu')} component={() => <Menu menu={menu} key={id} restaurantId={id} />} />
+        <Route path={getPath('reviews')} component={() => <Reviews reviews={reviews} restaurantId={id} />} />
+        <Redirect to={getPath('menu')} />
+      </Switch>
     </div>
   );
 };

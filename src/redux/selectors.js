@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { orderSelector } from './features/order';
-import { restaurantSelector } from './features/restaurants';
+import { restaurantSelector, getRestaurantsByProductIdObjectSelector } from './features/restaurants';
 import { productsSelector } from './features/products';
 import { reviewSelector, reviewsSelector } from './features/reviews';
 import { usersSelector } from './features/users';
@@ -8,15 +8,20 @@ import { usersSelector } from './features/users';
 export const orderProductsSelector = createSelector(
   productsSelector,
   orderSelector,
-  (products, order) =>
-    Object.keys(order)
+  getRestaurantsByProductIdObjectSelector,
+  (products, order, restaurantsByProductIdObject) => {
+    return Object.keys(order)
       .filter((productId) => order[productId] > 0)
       .map((productId) => products[productId])
-      .map((product) => ({
-        product,
-        amount: order[product.id],
-        subtotal: order[product.id] * product.price,
-      }))
+      .map((product) => {
+        return ({
+          product,
+          restaurantId: restaurantsByProductIdObject[product.id],
+          amount: order[product.id],
+          subtotal: order[product.id] * product.price,
+        });
+      });
+  }
 );
 
 export const totalSelector = createSelector(

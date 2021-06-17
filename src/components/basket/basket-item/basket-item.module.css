@@ -61,6 +61,10 @@
   color: var(--black);
 }
 
+.name:hover {
+  background-color: var(--yellow-light);
+}
+
 .info {
   display: flex;
   flex-direction: row;

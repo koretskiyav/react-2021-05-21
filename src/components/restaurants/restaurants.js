@@ -12,6 +12,13 @@ import {
 
 import styles from './restaurants.module.css';
 
+export function getRestaurantsPath(subPath) {
+  if (subPath) {
+    return "/restaurants/" + subPath;
+  }
+  return "/restaurants";
+}
+
 const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
   useEffect(() => {
     loadRestaurants();
@@ -25,7 +32,7 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
         {restaurants.map(({ id, name }) => (
           <NavLink
             key={id}
-            to={`/restaurants/${id}`}
+            to={getRestaurantsPath(id)}
             className={styles.tab}
             activeClassName={styles.active}
           >
@@ -34,10 +41,16 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
         ))}
       </div>
       <Switch>
-        <Route path="/restaurants/:restId">
-          {({ match }) => <Restaurant id={match.params.restId} />}
+        <Route path={getRestaurantsPath(":restId")}>
+          {({ match }) => {
+            if (match.params.restId && !restaurants.find(item => item.id === match.params.restId)) {
+              return <Redirect to={getRestaurantsPath()} />;
+            } else {
+              return (<Restaurant id={match.params.restId} />);
+            }
+          }}
         </Route>
-        <Redirect to={`/restaurants/${restaurants[0].id}`} />
+        <Redirect to={getRestaurantsPath(restaurants[0].id)} />
       </Switch>
     </div>
   );
