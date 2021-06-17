@@ -35,7 +35,13 @@ const Restaurants = ({ restaurants, loaded, loadRestaurants }) => {
       </div>
       <Switch>
         <Route path="/restaurants/:restId">
-          {({ match }) => <Restaurant id={match.params.restId} />}
+          {({ match }) =>
+            restaurants.find(({ id }) => id === match.params.restId) ? (
+              <Restaurant id={match.params.restId} />
+            ) : (
+              <p>Restaurant not found!</p>
+            )
+          }
         </Route>
         <Redirect to={`/restaurants/${restaurants[0].id}`} />
       </Switch>
