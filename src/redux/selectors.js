@@ -1,6 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { orderSelector } from './features/order';
-import { restaurantSelector } from './features/restaurants';
+import {
+  restaurantSelector,
+  restaurantsListSelector,
+} from './features/restaurants';
 import { productsSelector } from './features/products';
 import { reviewSelector, reviewsSelector } from './features/reviews';
 import { usersSelector } from './features/users';
@@ -8,7 +11,8 @@ import { usersSelector } from './features/users';
 export const orderProductsSelector = createSelector(
   productsSelector,
   orderSelector,
-  (products, order) =>
+  restaurantsListSelector,
+  (products, order, restaurants) =>
     Object.keys(order)
       .filter((productId) => order[productId] > 0)
       .map((productId) => products[productId])
@@ -16,6 +20,9 @@ export const orderProductsSelector = createSelector(
         product,
         amount: order[product.id],
         subtotal: order[product.id] * product.price,
+        restaurantId: restaurants.find((restaurant) =>
+          restaurant.menu.some((id) => id === product.id)
+        )?.id,
       }))
 );
 
@@ -44,3 +51,5 @@ export const averageRatingSelector = createSelector(
     );
   }
 );
+
+export const pathNameSelector = (state) => state.router.location.pathname;

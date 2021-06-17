@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-
 import styles from './tabs.module.css';
 
 const Tabs = ({ tabs, activeId, onChange }) => (

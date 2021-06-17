@@ -1,21 +1,20 @@
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
-import Tabs from '../tabs';
 import { averageRatingSelector } from '../../redux/selectors';
 import { restaurantSelector } from '../../redux/features/restaurants';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
+import styles from './restaurant.module.css';
 
 const Restaurant = ({ restaurant, averageRating }) => {
   const { id, name, menu, reviews } = restaurant;
-  const [activeTab, setActiveTab] = useState('menu');
 
   const tabs = [
-    { id: 'menu', title: 'Menu' },
-    { id: 'reviews', title: 'Reviews' },
+    { tabId: 'menu', title: 'Menu' },
+    { tabId: 'reviews', title: 'Reviews' },
   ];
 
   return (
@@ -23,11 +22,36 @@ const Restaurant = ({ restaurant, averageRating }) => {
       <Banner heading={name}>
         {!!averageRating && <Rate value={averageRating} />}
       </Banner>
-      <Tabs tabs={tabs} activeId={activeTab} onChange={setActiveTab} />
-      {activeTab === 'menu' && <Menu menu={menu} key={id} restaurantId={id} />}
-      {activeTab === 'reviews' && (
-        <Reviews reviews={reviews} restaurantId={id} />
-      )}
+
+      <div className={styles.tabs}>
+        {tabs.map(({ tabId, title }) => (
+          <NavLink
+            key={tabId}
+            to={`/restaurants/${id}/${tabId}`}
+            className={styles.tab}
+            activeClassName={styles.active}
+          >
+            {title}
+          </NavLink>
+        ))}
+      </div>
+      <Switch>
+        <Route path="/restaurants/:restId/menu">
+          {({ match }) => (
+            <Menu
+              menu={menu}
+              key={match.params.restId}
+              restaurantId={match.params.restId}
+            />
+          )}
+        </Route>
+        <Route path="/restaurants/:restId/reviews">
+          {({ match }) => (
+            <Reviews reviews={reviews} restaurantId={match.params.restId} />
+          )}
+        </Route>
+        <Redirect to={`/restaurants/:restId/menu`} />
+      </Switch>
     </div>
   );
 };

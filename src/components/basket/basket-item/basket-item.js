@@ -4,11 +4,12 @@ import cn from 'classnames';
 import { increment, decrement, remove } from '../../../redux/features/order';
 import Button from '../../button';
 import styles from './basket-item.module.css';
-
 import moneyContext from '../../../contexts/money';
+import { NavLink } from 'react-router-dom';
 
 function BasketItem({
   product,
+  restaurantId,
   amount,
   subtotal,
   increment,
@@ -18,9 +19,13 @@ function BasketItem({
   const { m } = useContext(moneyContext);
   return (
     <div className={styles.basketItem}>
-      <div className={styles.name}>
-        <span>{product.name}</span>
-      </div>
+      <NavLink
+        key={product.id}
+        to={`/restaurants/${restaurantId}`}
+        className={styles.name}
+      >
+        {product.name}
+      </NavLink>
       <div className={styles.info}>
         <div className={styles.counter}>
           <Button onClick={decrement} icon="minus" secondary small />
