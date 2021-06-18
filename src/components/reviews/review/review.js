@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 import Rate from '../../rate';
 import styles from './review.module.css';
+<<<<<<< HEAD
 import { reviewWitUserSelector } from '../../../redux/selectors';
+=======
+import PropTypes from 'prop-types';
+>>>>>>> origin/master
 
 const Review = ({ user, text, rating }) => (
   <div className={styles.review} data-id="review">
@@ -31,6 +35,14 @@ Review.propTypes = {
 
 Review.defaultProps = {
   user: 'Anonymous',
+  text: 'Text is missing'
+};
+
+Review.propTypes = {
+  user:PropTypes.string,
+  text:PropTypes.string,
+  rating: PropTypes.number.isRequired
+
 };
 
 const mapStateToProps = reviewWitUserSelector;

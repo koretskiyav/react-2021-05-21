@@ -1,10 +1,12 @@
 import { mount } from 'enzyme';
 import Product from './product';
+//import Counter from '../../hocs/counter';
 
 import { restaurants } from '../../fixtures';
 
 const product = restaurants[0].menu[0];
 
+<<<<<<< HEAD
 function render(props) {
   const wrapper = mount(<Product {...props} />);
   const getByDataId = (dataId) => wrapper.find(`[data-id="${dataId}"]`);
@@ -16,6 +18,8 @@ function render(props) {
     decrease: () => getByDataId('product-decrement').simulate('click'),
   };
 }
+=======
+>>>>>>> origin/master
 
 describe('Product', () => {
   it('should render', () => {
@@ -40,6 +44,7 @@ describe('Product', () => {
     expect(fn).toBeCalledWith(product.id);
   });
 
+<<<<<<< HEAD
   it('should init with amount 2', () => {
     const testKit = render({ product, initialCount: 2 });
     expect(testKit.getAmount()).toBe('2');
@@ -56,4 +61,25 @@ describe('Product', () => {
     testKit.decrease();
     expect(testKit.getAmount()).toBe('0');
   });
+=======
+  
+  it('should decrement amount', () => {
+    const wrapper = mount(<Product product={product} />);
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper.find('[data-id="product-increment"]').simulate('click');
+    wrapper.find('[data-id="product-decrement"]').simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('1');
+  });
+
+  /*
+  it('should decrement amount without clicking on increment', () => {
+    const amount = 3;
+    //const wr2=mount(<Counter amount={amount} />);
+    
+    const wrapper = mount(<Product product={product} amount={amount}/>);
+    wrapper.find('[data-id="product-decrement"]').simulate('click');
+    expect(wrapper.find('[data-id="product-amount"]').text()).toBe('2');
+  });
+*/
+>>>>>>> origin/master
 });

@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import styles from './product.module.css';
+=======
+import styles from './product.module.css'; 
+
+import { ReactComponent as Minus } from '../../icons/minus.svg';
+import { ReactComponent as Plus } from '../../icons/plus.svg';
+>>>>>>> origin/master
 
 import Button from '../button';
 import { Money } from '../../contexts/money';
@@ -28,8 +35,24 @@ const Product = ({ product, amount, increment, decrement }) => {
               {amount}
             </div>
             <div className={styles.buttons}>
+<<<<<<< HEAD
               <Button onClick={decrement} icon="minus" />
               <Button onClick={increment} icon="plus" />
+=======
+              <button 
+                className={styles.button} 
+                onClick={decrement}
+                data-id="product-decrement">
+                <Minus />
+              </button>
+              <button
+                className={styles.button}
+                onClick={increment}
+                data-id="product-increment"
+              >
+                <Plus />
+              </button>
+>>>>>>> origin/master
             </div>
           </div>
         </div>
