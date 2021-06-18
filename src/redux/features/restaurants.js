@@ -2,6 +2,7 @@ import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
 } from '@reduxjs/toolkit';
 import api from '../../api';
 
@@ -60,3 +61,16 @@ export const restaurantsListSelector = restaurantsSelectors.selectAll;
 
 export const restaurantSelector = (state, { id }) =>
   restaurantsSelectors.selectById(state, id);
+
+export const restsIdsByProductsSelector = createSelector(
+  restaurantsListSelector,
+  (restaurants) =>
+    restaurants
+      .flatMap((rest) =>
+        rest.menu.map((productId) => ({ productId, restId: rest.id }))
+      )
+      .reduce(
+        (acc, { productId, restId }) => ({ ...acc, [productId]: restId }),
+        {}
+      )
+);
