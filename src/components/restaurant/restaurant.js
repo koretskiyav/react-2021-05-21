@@ -5,17 +5,30 @@ import Menu from '../menu';
 import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
+<<<<<<< HEAD
 import Tabs from '../tabs';
 import { averageRatingSelector } from '../../redux/selectors';
 import { restaurantSelector } from '../../redux/features/restaurants';
+=======
+import styles from './restaurant.module.css';
+import PropTypes from 'prop-types';
+>>>>>>> origin/master
 
 const Restaurant = ({ restaurant, averageRating }) => {
   const { id, name, menu, reviews } = restaurant;
 
+<<<<<<< HEAD
   const tabs = [
     { title: 'Menu', to: `/restaurants/${id}/menu` },
     { title: 'Reviews', to: `/restaurants/${id}/reviews` },
   ];
+=======
+  const averageRating = useMemo(() => {
+  // eslint-disable-next-line
+    const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
+    return Math.round(total / reviews.length);
+  }, [reviews]);
+>>>>>>> origin/master
 
   return (
     <div>
@@ -37,6 +50,7 @@ const Restaurant = ({ restaurant, averageRating }) => {
 };
 
 Restaurant.propTypes = {
+<<<<<<< HEAD
   restaurant: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -52,3 +66,13 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps)(Restaurant);
+=======
+  name:PropTypes.string.isRequired,
+  menu:PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired
+
+};
+
+
+export default Restaurant;
+>>>>>>> origin/master
